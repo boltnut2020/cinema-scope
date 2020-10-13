@@ -1,0 +1,12 @@
+body {
+  background: #343a40;
+  color: #fff;
+}
+
+.canvas {
+  border: none;
+  background: #fff;
+  margin:0;
+  padding: 0;
+  width: 100%;
+}
