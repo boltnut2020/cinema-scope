@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // use https on Heroku
+        if (!\App::environment('local')) {
+            \URL::forceScheme('https');
+        }
     }
 }
