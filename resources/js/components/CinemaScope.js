@@ -165,7 +165,7 @@ class CinemaScope extends React.Component{
 //      let canvasWidth = (this.stageRef.attrs.container.offsetWidth > 600) ? 600 : this.stageRef.attrs.container.offsetWidth;
       // let canvasWidth = this.stageRef.attrs.container.offsetWidth;
 
-      let scaleX = window.screen.width / this.state.canvasWidth * 0.9
+      let scaleX = window.screen.width / this.state.canvasWidth
       console.log(window.screen.width)
       console.log(scaleX)
       let heightTragetValue = this.state.canvasHeight * scaleX
