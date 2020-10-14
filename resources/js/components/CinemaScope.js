@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import { Stage, Layer, Rect, Transformer, Text } from 'react-konva';
 import "./CinemaScope.css"
 
-const canvasWidth = 1960
-const canvasHeight = 1080
+const canvasWidth = 1280
+const canvasHeight = 960
 
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage }) => {
   const shapeRef = React.useRef();
@@ -12,8 +12,8 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage }) => {
   const stageRef = React.useRef();
   const layerRef = React.useRef();
   const [fillPatternImage, setFillPattnerImage] = React.useState(null);
-  const [fillPatternScaleX, setFillPatternScaleX] = React.useState(1);
-  const [fillPatternScaleY, setFillPatternScaleY] = React.useState(1);
+  const [fillPatternScaleX, setFillPatternScaleX] = React.useState(0.3);
+  const [fillPatternScaleY, setFillPatternScaleY] = React.useState(0.3);
   const [lastCenter, setLastCenter] = React.useState(null);
   const [lastDist, setLastDist] = React.useState(0);
   const stageProp = stage
@@ -34,7 +34,6 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage }) => {
       <Rect
         onClick={onSelect}
         onTap={onSelect}
-
         ref={shapeRef}
         {...shapeProps}
         fillPatternImage={image}
@@ -277,8 +276,8 @@ class CinemaScope extends React.Component{
           let newItem = {
             x: 0,
             y: this.state.maskHeight,
-            width:  image.naturalWidth,
-            height: image.naturalHeight,
+            width:  image.naturalWidth * 0.3,
+            height: image.naturalHeight * 0.3,
             imgSrc: reader.result,
             id: 'rect' + (this.state.rectangles.length + 1),
           }

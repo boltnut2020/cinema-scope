@@ -99763,8 +99763,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var canvasWidth = 1960;
-var canvasHeight = 1080;
+var canvasWidth = 1280;
+var canvasHeight = 960;
 
 var Rectangle = function Rectangle(_ref) {
   var shapeProps = _ref.shapeProps,
@@ -99782,12 +99782,12 @@ var Rectangle = function Rectangle(_ref) {
       fillPatternImage = _React$useState2[0],
       setFillPattnerImage = _React$useState2[1];
 
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(1),
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(0.3),
       _React$useState4 = _slicedToArray(_React$useState3, 2),
       fillPatternScaleX = _React$useState4[0],
       setFillPatternScaleX = _React$useState4[1];
 
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(1),
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(0.3),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
       fillPatternScaleY = _React$useState6[0],
       setFillPatternScaleY = _React$useState6[1];
@@ -100086,8 +100086,8 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
             var newItem = {
               x: 0,
               y: _this3.state.maskHeight,
-              width: image.naturalWidth,
-              height: image.naturalHeight,
+              width: image.naturalWidth * 0.3,
+              height: image.naturalHeight * 0.3,
               imgSrc: reader.result,
               id: 'rect' + (_this3.state.rectangles.length + 1)
             };
