@@ -3,6 +3,8 @@ import { render } from 'react-dom';
 import { Stage, Layer, Rect, Transformer, Text } from 'react-konva';
 import "./CinemaScope.css"
 
+const canvasWidth = 1280
+const canvasHeight = 960
 
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage }) => {
   const shapeRef = React.useRef();
@@ -146,8 +148,8 @@ class CinemaScope extends React.Component{
   }
 
   componentDidMount() {
-      this.setState({canvasWidth: 1280})
-      this.setState({canvasHeight: 720})
+    this.setState({canvasWidth: canvasWidth})
+    this.setState({canvasHeight: canvasHeight})
     this.setCanvasSize()
     window.addEventListener('resize', this.setCanvasSize);
   }
@@ -339,7 +341,7 @@ class CinemaScope extends React.Component{
           <div className="input-group-prepend">
             <span className="input-group-text">Text</span>
           </div>
-          <input type="text" className="form-control" name="bottomText" value={this.state.bottomText} onChange={this.handleChange} />
+          <textarea type="text" className="form-control" name="bottomText" value={this.state.bottomText} onChange={this.handleChange} />
         </div>
   
         <div className="input-group mb-3">
@@ -399,18 +401,23 @@ class CinemaScope extends React.Component{
                 />
               );
             })}
-            <Text
-              fontSize={this.state.canvasWidth * 0.036}
-              text={this.state.bottomText}
-              wrap="char"
-              align="center"
-              width={this.state.canvasWidth}
-              height={this.state.maskHeight}
-              y={this.state.bottomBarY + 20}
-              fill="white"
-              draggable={true}
-              style={{ transform: `${ this.state.transform }` }}
-            />
+
+            {this.state.bottomText.split("\n").map((line, i) => {
+            var positionY = i * 60
+            return(
+              <Text
+                fontSize={this.state.canvasWidth * 0.033}
+                text={line}
+                wrap="char"
+                align="center"
+                width={this.state.canvasWidth}
+                height={this.state.maskHeight}
+                y={this.state.bottomBarY + 15 + positionY}
+                fill="white"
+                draggable={true}
+                style={{ transform: `${ this.state.transform }` }}
+              />
+            )})}
           </Layer>
         </Stage>
         </div>

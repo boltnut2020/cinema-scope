@@ -99763,6 +99763,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+var canvasWidth = 1280;
+var canvasHeight = 960;
 
 var Rectangle = function Rectangle(_ref) {
   var shapeProps = _ref.shapeProps,
@@ -99938,10 +99940,10 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setState({
-        canvasWidth: 1280
+        canvasWidth: canvasWidth
       });
       this.setState({
-        canvasHeight: 720
+        canvasHeight: canvasHeight
       });
       this.setCanvasSize();
       window.addEventListener('resize', this.setCanvasSize);
@@ -99961,7 +99963,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
       //    let canvasScale = window.innerWidth / window.parent.screen.width
       //      let canvasWidth = (this.stageRef.attrs.container.offsetWidth > 600) ? 600 : this.stageRef.attrs.container.offsetWidth;
       // let canvasWidth = this.stageRef.attrs.container.offsetWidth;
-      var scaleX = window.screen.width / this.state.canvasWidth * 0.9;
+      var scaleX = window.screen.width / this.state.canvasWidth;
       console.log(window.screen.width);
       console.log(scaleX);
       var heightTragetValue = this.state.canvasHeight * scaleX;
@@ -100166,7 +100168,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         className: "input-group-prepend"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "input-group-text"
-      }, "Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         type: "text",
         className: "form-control",
         name: "bottomText",
@@ -100252,19 +100254,22 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
           },
           stage: _this4.stageRef
         });
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Text"], {
-        fontSize: this.state.canvasWidth * 0.036,
-        text: this.state.bottomText,
-        wrap: "char",
-        align: "center",
-        width: this.state.canvasWidth,
-        height: this.state.maskHeight,
-        y: this.state.bottomBarY + 20,
-        fill: "white",
-        draggable: true,
-        style: {
-          transform: "".concat(this.state.transform)
-        }
+      }), this.state.bottomText.split("\n").map(function (line, i) {
+        var positionY = i * 60;
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+          fontSize: _this4.state.canvasWidth * 0.033,
+          text: line,
+          wrap: "char",
+          align: "center",
+          width: _this4.state.canvasWidth,
+          height: _this4.state.maskHeight,
+          y: _this4.state.bottomBarY + 15 + positionY,
+          fill: "white",
+          draggable: true,
+          style: {
+            transform: "".concat(_this4.state.transform)
+          }
+        });
       }))))));
     }
   }]);
@@ -100294,8 +100299,8 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /mnt/d/git/dock/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /mnt/d/git/dock/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /mnt/d/git/cinema-scope/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /mnt/d/git/cinema-scope/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
