@@ -164,7 +164,7 @@ class CinemaScope extends React.Component{
       if ( window.screen.width > 768 && window.innerWidth > 768) {
         scaleX = 768 / this.state.canvasWidth
       } else {
-        scaleX = window.screen.width / this.state.canvasWidth * 0.9
+        scaleX = window.screen.width / this.state.canvasWidth * 0.93
       }
       // scaleX = window.screen.width / this.state.canvasWidth
       let heightTragetValue = this.state.canvasHeight * scaleX
@@ -424,7 +424,7 @@ class CinemaScope extends React.Component{
               </div>
               <div className="custom-file">
                   <input id="imagefile" ref={this.imageRef} onChange={this.handleChangeFile} type="file" className="custom-file-input" id="inputFile" multiple />
-                  <label htmlFor="imagefile" className="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択(ここにドロップすることもできます)</label>
+                  <label htmlFor="imagefile" className="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択</label>
               </div>
             </div>
             <div>

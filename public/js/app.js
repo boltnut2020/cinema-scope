@@ -99964,7 +99964,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
       if (window.screen.width > 768 && window.innerWidth > 768) {
         scaleX = 768 / this.state.canvasWidth;
       } else {
-        scaleX = window.screen.width / this.state.canvasWidth * 0.9;
+        scaleX = window.screen.width / this.state.canvasWidth * 0.93;
       } // scaleX = window.screen.width / this.state.canvasWidth
 
 
@@ -100296,7 +100296,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         className: "custom-file-label",
         "for": "inputFile",
         "data-browse": "\u53C2\u7167"
-      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E(\u3053\u3053\u306B\u30C9\u30ED\u30C3\u30D7\u3059\u308B\u3053\u3068\u3082\u3067\u304D\u307E\u3059)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "button",
         value: "DownLoad",
         onClick: this.handleExportClick
