@@ -99763,8 +99763,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var canvasWidth = 1280;
-var canvasHeight = 960;
+var canvasWidth = 1960;
+var canvasHeight = 1080;
 
 var Rectangle = function Rectangle(_ref) {
   var shapeProps = _ref.shapeProps,
@@ -99865,7 +99865,7 @@ var Rectangle = function Rectangle(_ref) {
 
 var windowWidth = window.screen.width;
 var windowHeight = window.screen.height;
-var initialRectangles = [{
+var maskRectangles = [{
   x: 0,
   y: 0,
   width: windowWidth,
@@ -99905,7 +99905,8 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
     });
 
     _this.state = {
-      rectangles: initialRectangles,
+      rectangles: [],
+      maskRectangles: [],
       selectedId: '',
       canvasWidth: 0,
       canvasHeight: 0,
@@ -99958,40 +99959,24 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
     value: function setCanvasSize(e) {
       var _this2 = this;
 
-      // this.layerRef.hitCanvas.context.scale(0.5, 0.5);
-      //    let displayAspectRetioY = window.screen.availHeight / window.screen.availWidth
-      //    let canvasScale = window.innerWidth / window.parent.screen.width
-      //      let canvasWidth = (this.stageRef.attrs.container.offsetWidth > 600) ? 600 : this.stageRef.attrs.container.offsetWidth;
-      // let canvasWidth = this.stageRef.attrs.container.offsetWidth;
-      var scaleX = window.screen.width / this.state.canvasWidth;
-      console.log(window.screen.width);
-      console.log(scaleX);
+      var scaleX = 1;
+
+      if (window.screen.width > 768 && window.innerWidth > 768) {
+        scaleX = 768 / this.state.canvasWidth;
+      } else {
+        scaleX = window.screen.width / this.state.canvasWidth * 0.9;
+      } // scaleX = window.screen.width / this.state.canvasWidth
+
+
       var heightTragetValue = this.state.canvasHeight * scaleX;
       var scaleY = heightTragetValue / this.state.canvasHeight;
       this.setState({
         transform: 'scale(' + scaleX + ',' + scaleY + ')'
-      }); //      let retio =  0.75
-      //      let canvasHeight = canvasWidth * retio; 
-
+      });
       var maskHeight = 0;
-      maskHeight = (this.state.canvasHeight - this.state.canvasWidth / 2.39) / 2; //      if ( this.stageRef.current.attrs.container.offsetHeight > this.stageRef.current.attrs.container.offsetWidth ) {
-      //        maskHeight =  (this.stageRef.current.attrs.container.offsetHeight * 0.239) / 2
-      //      } else {
-      //        maskHeight =  (this.stageRef.current.attrs.container.offsetHeight - this.stageRef.current.attrs.container.offsetWidth  / 2.39) / 2
-      //      }
-      //
-      //      // if set file resize canvas again
-      //      if(this.imageRef.current.files.length > 0) {
-      //        if(this.state.firstImageWidth > this.state.firstImageHeight) {
-      //            let retio = this.state.firstImageHeight / this.state.firstImageWidth 
-      //            let canvasHeight = this.stageRef.current.attrs.container.offsetWidth * retio; 
-      //            this.setState({canvasHeight: canvasHeight})
-      //            maskHeight =  (canvasHeight - canvasWidth  / 2.39) / 2
-      //        }
-      //      }
-
-      var newRectangles = [];
-      this.state.rectangles.map(function (rect, i) {
+      maskHeight = (this.state.canvasHeight - this.state.canvasWidth / 2.39) / 2;
+      var newMaskRectangles = [];
+      maskRectangles.map(function (rect, i) {
         if (rect.id == "topbar") {
           rect.width = _this2.state.canvasWidth;
           rect.height = maskHeight;
@@ -100007,10 +99992,10 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
           });
         }
 
-        newRectangles.push(rect);
+        newMaskRectangles.push(rect);
       });
       this.setState({
-        rectangles: newRectangles
+        maskRectangles: newMaskRectangles
       });
     }
   }, {
@@ -100043,8 +100028,6 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
       e.evt.preventDefault(); // let activeShape = this.state.selectedId
 
       var activeShape = e.target;
-      console.log("stagegg");
-      console.log(activeShape.attrs);
 
       if (activeShape.attrs.id == "canvas" || activeShape.attrs.id == "topbar" || activeShape.attrs.id == "bottombar") {
         return false;
@@ -100118,7 +100101,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
             });
 
             var newRectangles = _this3.state.rectangles;
-            newRectangles.unshift(newItem);
+            newRectangles.push(newItem);
 
             _this3.setState({
               rectangles: newRectangles
@@ -100154,48 +100137,16 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _React$createElement,
-          _React$createElement2,
-          _this4 = this;
+      var _this4 = this,
+          _React$createElement;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "m-2"
+        className: "container-fluid"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "text-right"
-      }, "canvas:", this.state.canvasWidth, " x ", this.state.canvasHeight), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "input-group mb-3"
+        className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "input-group-prepend"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "input-group-text"
-      }, "Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
-        type: "text",
-        className: "form-control",
-        name: "bottomText",
-        value: this.state.bottomText,
-        onChange: this.handleChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "input-group-prepend"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "input-group-text"
-      }, "File")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "custom-file"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", (_React$createElement = {
-        id: "imagefile",
-        ref: this.imageRef,
-        onChange: this.handleChangeFile,
-        type: "file",
-        className: "custom-file-input"
-      }, _defineProperty(_React$createElement, "id", "inputFile"), _defineProperty(_React$createElement, "multiple", true), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", (_React$createElement2 = {
-        "for": "imagefile",
-        className: "custom-file-label"
-      }, _defineProperty(_React$createElement2, "for", "inputFile"), _defineProperty(_React$createElement2, "data-browse", "\u53C2\u7167"), _React$createElement2), "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E(\u3053\u3053\u306B\u30C9\u30ED\u30C3\u30D7\u3059\u308B\u3053\u3068\u3082\u3067\u304D\u307E\u3059)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "button",
-        value: "DownLoad",
-        onClick: this.handleExportClick
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Stage"], {
+        className: "col-md-7 order-sm-12 order-12 order-md-12"
+      }, "Canvas", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Stage"], {
         id: "canvas",
         ref: function ref(node) {
           _this4.stageRef = node;
@@ -100220,10 +100171,48 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Layer"], {
         ref: function ref(node) {
           _this4.layerRef = node;
+        },
+        style: {
+          width: "".concat(this.state.canvasWidth),
+          height: "".concat(this.state.canvasHeight),
+          transform: "".concat(this.state.transform)
         }
       }, this.state.rectangles.map(function (rect, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Rectangle, {
-          key: i,
+          key: rect.id,
+          shapeProps: rect,
+          isSelected: rect.id === _this4.state.selectedId,
+          onSelect: function onSelect() {
+            if (rect.id === _this4.state.selectedId) {
+              _this4.setState({
+                selectedId: null
+              });
+            } else {
+              _this4.setState({
+                selectedId: rect.id
+              });
+            }
+
+            if (rect.id == "topbar" || rect.id == "bottombar") {
+              _this4.setState({
+                selectedId: null
+              });
+            }
+          },
+          onChange: function onChange(newAttrs) {
+            var rects = _this4.state.rectangles.slice();
+
+            rects[i] = newAttrs;
+
+            _this4.setState({
+              rectangles: rects
+            });
+          },
+          stage: _this4.stageRef
+        });
+      }), this.state.maskRectangles.map(function (rect, i) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Rectangle, {
+          key: rect.id,
           shapeProps: rect,
           isSelected: rect.id === _this4.state.selectedId,
           onSelect: function onSelect() {
@@ -100256,8 +100245,10 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         });
       }), this.state.bottomText.split("\n").map(function (line, i) {
         var positionY = i * 60;
+        var key = "bottomText" + i;
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Text"], {
-          fontSize: _this4.state.canvasWidth * 0.033,
+          key: key,
+          fontSize: _this4.state.canvasWidth * 0.030,
           text: line,
           wrap: "char",
           align: "center",
@@ -100270,7 +100261,46 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
             transform: "".concat(_this4.state.transform)
           }
         });
-      }))))));
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-5 order-sm-1 order-1 order-md-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "text-right"
+      }, "canvas:", this.state.canvasWidth, " x ", this.state.canvasHeight), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-group mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-group-prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "input-group-text"
+      }, "Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        type: "text",
+        className: "form-control",
+        name: "bottomText",
+        value: this.state.bottomText,
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-group mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-group-prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "input-group-text"
+      }, "File")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "custom-file"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", (_React$createElement = {
+        id: "imagefile",
+        ref: this.imageRef,
+        onChange: this.handleChangeFile,
+        type: "file",
+        className: "custom-file-input"
+      }, _defineProperty(_React$createElement, "id", "inputFile"), _defineProperty(_React$createElement, "multiple", true), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "imagefile",
+        className: "custom-file-label",
+        "for": "inputFile",
+        "data-browse": "\u53C2\u7167"
+      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E(\u3053\u3053\u306B\u30C9\u30ED\u30C3\u30D7\u3059\u308B\u3053\u3068\u3082\u3067\u304D\u307E\u3059)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "button",
+        value: "DownLoad",
+        onClick: this.handleExportClick
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null)))));
     }
   }]);
 

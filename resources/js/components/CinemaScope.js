@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import { Stage, Layer, Rect, Transformer, Text } from 'react-konva';
 import "./CinemaScope.css"
 
-const canvasWidth = 1280
-const canvasHeight = 960
+const canvasWidth = 1960
+const canvasHeight = 1080
 
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage }) => {
   const shapeRef = React.useRef();
@@ -92,7 +92,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage }) => {
 
 const windowWidth = window.screen.width;
 const windowHeight = window.screen.height;
-const initialRectangles = [
+const maskRectangles = [
   {
     x: 0,
     y: 0,
@@ -116,7 +116,8 @@ class CinemaScope extends React.Component{
   constructor(props) {
     super(props)
     this.state = {
-      rectangles: initialRectangles,
+      rectangles: [],
+      maskRectangles: [],
       selectedId: '',
       canvasWidth: 0,
       canvasHeight: 0,
@@ -160,43 +161,21 @@ class CinemaScope extends React.Component{
 
   setCanvasSize(e) {
   
-      // this.layerRef.hitCanvas.context.scale(0.5, 0.5);
-
-//    let displayAspectRetioY = window.screen.availHeight / window.screen.availWidth
-//    let canvasScale = window.innerWidth / window.parent.screen.width
-//      let canvasWidth = (this.stageRef.attrs.container.offsetWidth > 600) ? 600 : this.stageRef.attrs.container.offsetWidth;
-      // let canvasWidth = this.stageRef.attrs.container.offsetWidth;
-
-      let scaleX = window.screen.width / this.state.canvasWidth
-      console.log(window.screen.width)
-      console.log(scaleX)
+      var scaleX = 1
+      if ( window.screen.width > 768 && window.innerWidth > 768) {
+        scaleX = 768 / this.state.canvasWidth
+      } else {
+        scaleX = window.screen.width / this.state.canvasWidth * 0.9
+      }
+      // scaleX = window.screen.width / this.state.canvasWidth
       let heightTragetValue = this.state.canvasHeight * scaleX
       let scaleY =  heightTragetValue / this.state.canvasHeight
       this.setState({transform: 'scale(' + scaleX + ',' + scaleY + ')'})
-//      let retio =  0.75
-//      let canvasHeight = canvasWidth * retio; 
       let maskHeight = 0
       maskHeight =  (this.state.canvasHeight - this.state.canvasWidth  / 2.39) / 2
 
-//      if ( this.stageRef.current.attrs.container.offsetHeight > this.stageRef.current.attrs.container.offsetWidth ) {
-//        maskHeight =  (this.stageRef.current.attrs.container.offsetHeight * 0.239) / 2
-//      } else {
-//        maskHeight =  (this.stageRef.current.attrs.container.offsetHeight - this.stageRef.current.attrs.container.offsetWidth  / 2.39) / 2
-//      }
-//
-//      // if set file resize canvas again
-//      if(this.imageRef.current.files.length > 0) {
-//        if(this.state.firstImageWidth > this.state.firstImageHeight) {
-//            let retio = this.state.firstImageHeight / this.state.firstImageWidth 
-//            let canvasHeight = this.stageRef.current.attrs.container.offsetWidth * retio; 
-//            this.setState({canvasHeight: canvasHeight})
-//            maskHeight =  (canvasHeight - canvasWidth  / 2.39) / 2
-//        }
-//      }
-
-
-      let newRectangles = []
-      this.state.rectangles.map((rect, i) => {
+      let newMaskRectangles = []
+      maskRectangles.map((rect, i) => {
 
         if(rect.id == "topbar") {
             rect.width = this.state.canvasWidth
@@ -209,10 +188,9 @@ class CinemaScope extends React.Component{
             rect.height = maskHeight
             this.setState({bottomBarY: rect.y})
         }
-        newRectangles.push(rect)
+        newMaskRectangles.push(rect)
       })
-      this.setState({rectangles: newRectangles})
-
+      this.setState({maskRectangles: newMaskRectangles})
   }
 
   checkDeselect = (e) => {
@@ -247,8 +225,6 @@ class CinemaScope extends React.Component{
     e.evt.preventDefault()
     // let activeShape = this.state.selectedId
     let activeShape = e.target
-    console.log("stagegg")
-    console.log(activeShape.attrs)
     if ( activeShape.attrs.id == "canvas" || activeShape.attrs.id == "topbar" || activeShape.attrs.id == "bottombar") {
         return false
     }
@@ -310,7 +286,7 @@ class CinemaScope extends React.Component{
           this.setState({firstImageWidth: image.naturalWidth})
           this.setState({firstImageHeight: image.naturalHeight * scaleContainer})
           let newRectangles = this.state.rectangles
-          newRectangles.unshift(newItem);
+          newRectangles.push(newItem);
           this.setState({rectangles: newRectangles})
         }
       }
@@ -333,113 +309,133 @@ class CinemaScope extends React.Component{
   render() {
     return (
       <React.Fragment>
-      <div className="m-2">
-        <div className="text-right">
-            canvas:{this.state.canvasWidth} x {this.state.canvasHeight} 
-        </div>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text">Text</span>
-          </div>
-          <textarea type="text" className="form-control" name="bottomText" value={this.state.bottomText} onChange={this.handleChange} />
-        </div>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-7 order-sm-12 order-12 order-md-12">
+            Canvas
+            <Stage
+              id={"canvas"}
+              ref={node => { this.stageRef = node}}
+              width={this.state.canvasWidth}
+              height={this.state.canvasHeight}
+              onMouseDown={this.checkDeselect}
+              onTouchStart={this.checkDeselect}
+              onTouchMove={this.handleTouchMove}
+              onTouchEnd={() => {
+                this.setState({lastDist: 0})
+              }}
+              className='canvas'
+              draggable={false}
+              style={{width: `${ this.state.canvasWidth }` , height: `${ this.state.canvasHeight }` , transform: `${ this.state.transform }` }}
+            >
+              <Layer 
+                ref={node => {this.layerRef = node}}
+                style={{width: `${ this.state.canvasWidth }` , height: `${ this.state.canvasHeight }` , transform: `${ this.state.transform }` }}
+              >
+                {this.state.rectangles.map((rect, i) => {
+                  return (
+                    <Rectangle
+                      key={rect.id}
+                      shapeProps={rect}
+                      isSelected={rect.id === this.state.selectedId}
+                      onSelect={() => {
+                        if(rect.id === this.state.selectedId) {
+                          this.setState({selectedId: null});
+                        } else {
+                          this.setState({selectedId: rect.id});
+                        }
+      
+                        if (rect.id == "topbar" || rect.id == "bottombar") {
+                          this.setState({selectedId: null});
+                        }
+                      }}
+                      onChange={(newAttrs) => {
+                        const rects = this.state.rectangles.slice();
+                        rects[i] = newAttrs;
+                        this.setState({rectangles: rects});
+                      }}
+                      stage={this.stageRef}
+                    />
+                  );
+                })}
+    
+                {this.state.maskRectangles.map((rect, i) => {
+                  return (
+                    <Rectangle
+                      key={rect.id}
+                      shapeProps={rect}
+                      isSelected={rect.id === this.state.selectedId}
+                      onSelect={() => {
+                        if(rect.id === this.state.selectedId) {
+                          this.setState({selectedId: null});
+                        } else {
+                          this.setState({selectedId: rect.id});
+                        }
+      
+                        if (rect.id == "topbar" || rect.id == "bottombar") {
+                          this.setState({selectedId: null});
+                        }
+                      }}
+                      onChange={(newAttrs) => {
+                        const rects = this.state.rectangles.slice();
+                        rects[i] = newAttrs;
+                        this.setState({rectangles: rects});
+                      }}
+                      stage={this.stageRef}
+                    />
+                  );
+                })}
+    
+                {this.state.bottomText.split("\n").map((line, i) => {
+                var positionY = i * 60
+                var key = "bottomText" + i
+                return(
+                  <Text
+                    key={key}
+                    fontSize={this.state.canvasWidth * 0.030}
+                    text={line}
+                    wrap="char"
+                    align="center"
+                    width={this.state.canvasWidth}
+                    height={this.state.maskHeight}
+                    y={this.state.bottomBarY + 15 + positionY}
+                    fill="white"
+                    draggable={true}
+                    style={{ transform: `${ this.state.transform }` }}
+                  />
+                )})}
+              </Layer>
+            </Stage>
   
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text">File</span>
           </div>
-          <div className="custom-file">
-              <input id="imagefile" ref={this.imageRef} onChange={this.handleChangeFile} type="file" className="custom-file-input" id="inputFile" multiple />
-              <label for="imagefile" className="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択(ここにドロップすることもできます)</label>
-          </div>
-        </div>
-        <div>
-          <input type="button" value="DownLoad" onClick={this.handleExportClick} />
-        </div>
-        <div>
-        <Stage
-          id={"canvas"}
-          ref={node => { this.stageRef = node}}
-          width={this.state.canvasWidth}
-          height={this.state.canvasHeight}
-          onMouseDown={this.checkDeselect}
-          onTouchStart={this.checkDeselect}
-          onTouchMove={this.handleTouchMove}
-          onTouchEnd={() => {
-            this.setState({lastDist: 0})
-          }}
-          className='canvas'
-          draggable={false}
-          style={{width: `${ this.state.canvasWidth }` , height: `${ this.state.canvasHeight }` , transform: `${ this.state.transform }` }}
-        >
-          <Layer 
-            ref={node => {this.layerRef = node}}
-          >
-            {this.state.rectangles.map((rect, i) => {
-              return (
-                <Rectangle
-                  key={i}
-                  shapeProps={rect}
-                  isSelected={rect.id === this.state.selectedId}
-                  onSelect={() => {
-                    if(rect.id === this.state.selectedId) {
-                      this.setState({selectedId: null});
-                    } else {
-                      this.setState({selectedId: rect.id});
-                    }
-  
-                    if (rect.id == "topbar" || rect.id == "bottombar") {
-                      this.setState({selectedId: null});
-                    }
-                  }}
-                  onChange={(newAttrs) => {
-                    const rects = this.state.rectangles.slice();
-                    rects[i] = newAttrs;
-                    this.setState({rectangles: rects});
-                  }}
-                  stage={this.stageRef}
-                />
-              );
-            })}
-
-            {this.state.bottomText.split("\n").map((line, i) => {
-            var positionY = i * 60
-            return(
-              <Text
-                fontSize={this.state.canvasWidth * 0.033}
-                text={line}
-                wrap="char"
-                align="center"
-                width={this.state.canvasWidth}
-                height={this.state.maskHeight}
-                y={this.state.bottomBarY + 15 + positionY}
-                fill="white"
-                draggable={true}
-                style={{ transform: `${ this.state.transform }` }}
-              />
-            )})}
-          </Layer>
-        </Stage>
-        </div>
-        {/*
-        {this.state.rectangles.map((rect, i) => {
-          let fragKey = "frag" + i
-          let widthKey = "width" + i
-          let heightKey = "height" + i
-          return(
-            <React.Fragment key={fragKey}>
-              <div className="input-group mb-3">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">Image</span>
-                </div>
-                <input key={widthKey} type="text" size="4" name="rectWidth" value={rect.width} onChange={this.handleChange} /> 
-                <input key={heightKey} type="text" size="4" name="rectHeight" value={rect.height} onChange={this.handleChange} /> 
+          <div className="col-md-5 order-sm-1 order-1 order-md-1">
+            <div className="text-right">
+                canvas:{this.state.canvasWidth} x {this.state.canvasHeight} 
+            </div>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text">Text</span>
               </div>
-            </React.Fragment>
-          )
-        })}
-        */}
-      </div>
+              <textarea type="text" className="form-control" name="bottomText" value={this.state.bottomText} onChange={this.handleChange} />
+            </div>
+      
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text">File</span>
+              </div>
+              <div className="custom-file">
+                  <input id="imagefile" ref={this.imageRef} onChange={this.handleChangeFile} type="file" className="custom-file-input" id="inputFile" multiple />
+                  <label htmlFor="imagefile" className="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択(ここにドロップすることもできます)</label>
+              </div>
+            </div>
+            <div>
+              <input type="button" value="DownLoad" onClick={this.handleExportClick} />
+            </div>
+            <div>
+            </div>
+          </div>
+        </div>
+        </div>
       </React.Fragment>
     );
   }
