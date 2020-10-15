@@ -12,8 +12,8 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage }) => {
   const stageRef = React.useRef();
   const layerRef = React.useRef();
   const [fillPatternImage, setFillPattnerImage] = React.useState(null);
-  const [fillPatternScaleX, setFillPatternScaleX] = React.useState(0.3);
-  const [fillPatternScaleY, setFillPatternScaleY] = React.useState(0.3);
+  const [fillPatternScaleX, setFillPatternScaleX] = React.useState(0.4);
+  const [fillPatternScaleY, setFillPatternScaleY] = React.useState(0.4);
   const [lastCenter, setLastCenter] = React.useState(null);
   const [lastDist, setLastDist] = React.useState(0);
   const stageProp = stage
