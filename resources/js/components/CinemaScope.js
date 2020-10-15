@@ -171,7 +171,7 @@ class CinemaScope extends React.Component{
       let scaleY =  heightTragetValue / this.state.canvasHeight
       this.setState({transform: 'scale(' + scaleX + ',' + scaleY + ')'})
       let maskHeight = 0
-      maskHeight =  (this.state.canvasHeight - this.state.canvasWidth  / 2.39) / 2
+      maskHeight =  (this.state.canvasHeight - this.state.canvasWidth  / 2.35) / 2
 
       let newMaskRectangles = []
       maskRectangles.map((rect, i) => {
@@ -407,7 +407,24 @@ class CinemaScope extends React.Component{
             </Stage>
   
           </div>
-          <div className="col-md-5 order-sm-1 order-1 order-md-1">
+          <div className="col-md-5 order-sm-2 order-2 order-md-2">
+            <div class="card text-dark">
+              <div class="card-header">
+                Featured
+              </div>
+              <div className="card-body">
+                  <p>
+                  ブラウザ上で簡単にシネマスコープ比率の画像を作成し文字入れするツールです。
+                  <br />
+                  現状はデータの保存機能はありません、またサーバーへのデータ送信もありません。
+                  </p>
+                  <p>
+                    ※  PC, AndroidスマホのGoogle Chromeで動作確認済みi <br />
+                    ※  10MBを超える画像はレンダリングされないケースがあります。(2～3MB上限を推奨)
+                  </p>
+              </div>
+            </div>
+
             <div className="text-right">
                 canvas:{this.state.canvasWidth} x {this.state.canvasHeight} 
             </div>
@@ -418,7 +435,7 @@ class CinemaScope extends React.Component{
               </div>
               <div className="custom-file">
                   <input id="imagefile" ref={this.imageRef} onChange={this.handleChangeFile} type="file" className="custom-file-input" id="inputFile" multiple />
-                  <label htmlFor="imagefile" className="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択</label>
+                  <label htmlFor="imagefile" className="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択(2～3MBを上限)</label>
               </div>
             </div>
             <div className="input-group mb-3">
@@ -431,11 +448,9 @@ class CinemaScope extends React.Component{
             <div>
               <input className="btn btn-light" type="button" value="3. DownLoad" onClick={this.handleExportClick} />
             </div>
-            <div>
-            </div>
           </div>
         </div>
-        </div>
+      </div>
       </React.Fragment>
     );
   }

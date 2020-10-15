@@ -99974,7 +99974,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         transform: 'scale(' + scaleX + ',' + scaleY + ')'
       });
       var maskHeight = 0;
-      maskHeight = (this.state.canvasHeight - this.state.canvasWidth / 2.39) / 2;
+      maskHeight = (this.state.canvasHeight - this.state.canvasWidth / 2.35) / 2;
       var newMaskRectangles = [];
       maskRectangles.map(function (rect, i) {
         if (rect.id == "topbar") {
@@ -100262,8 +100262,14 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
           }
         });
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-5 order-sm-1 order-1 order-md-1"
+        className: "col-md-5 order-sm-2 order-2 order-md-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "card text-dark"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "card-header"
+      }, "Featured"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u30D6\u30E9\u30A6\u30B6\u4E0A\u3067\u7C21\u5358\u306B\u30B7\u30CD\u30DE\u30B9\u30B3\u30FC\u30D7\u6BD4\u7387\u306E\u753B\u50CF\u3092\u4F5C\u6210\u3057\u6587\u5B57\u5165\u308C\u3059\u308B\u30C4\u30FC\u30EB\u3067\u3059\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u73FE\u72B6\u306F\u30C7\u30FC\u30BF\u306E\u4FDD\u5B58\u6A5F\u80FD\u306F\u3042\u308A\u307E\u305B\u3093\u3001\u307E\u305F\u30B5\u30FC\u30D0\u30FC\u3078\u306E\u30C7\u30FC\u30BF\u9001\u4FE1\u3082\u3042\u308A\u307E\u305B\u3093\u3002"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u203B  PC, Android\u30B9\u30DE\u30DB\u306EGoogle Chrome\u3067\u52D5\u4F5C\u78BA\u8A8D\u6E08\u307Fi ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u203B  10MB\u3092\u8D85\u3048\u308B\u753B\u50CF\u306F\u30EC\u30F3\u30C0\u30EA\u30F3\u30B0\u3055\u308C\u306A\u3044\u30B1\u30FC\u30B9\u304C\u3042\u308A\u307E\u3059\u3002(2\uFF5E3MB\u4E0A\u9650\u3092\u63A8\u5968)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "text-right"
       }, "canvas:", this.state.canvasWidth, " x ", this.state.canvasHeight), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group mb-3"
@@ -100284,7 +100290,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         className: "custom-file-label",
         "for": "inputFile",
         "data-browse": "\u53C2\u7167"
-      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E(2\uFF5E3MB\u3092\u4E0A\u9650)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group-prepend"
@@ -100302,7 +100308,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         type: "button",
         value: "3. DownLoad",
         onClick: this.handleExportClick
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null)))));
+      }))))));
     }
   }]);
 
