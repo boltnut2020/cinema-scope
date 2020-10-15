@@ -276,8 +276,8 @@ class CinemaScope extends React.Component{
           let newItem = {
             x: 0,
             y: this.state.maskHeight,
-            width:  image.naturalWidth * 0.3,
-            height: image.naturalHeight * 0.3,
+            width:  image.naturalWidth * 0.4,
+            height: image.naturalHeight * 0.4,
             imgSrc: reader.result,
             id: 'rect' + (this.state.rectangles.length + 1),
           }

@@ -100086,8 +100086,8 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
             var newItem = {
               x: 0,
               y: _this3.state.maskHeight,
-              width: image.naturalWidth * 0.3,
-              height: image.naturalHeight * 0.3,
+              width: image.naturalWidth * 0.4,
+              height: image.naturalHeight * 0.4,
               imgSrc: reader.result,
               id: 'rect' + (_this3.state.rectangles.length + 1)
             };
