@@ -413,14 +413,16 @@ class CinemaScope extends React.Component{
                 Featured
               </div>
               <div className="card-body">
+                  <h5 classNmae="card-title">出来る事</h5>
                   <p>
-                  ブラウザ上で簡単にシネマスコープ比率の画像を作成し文字入れするツールです。
-                  <br />
-                  現状はデータの保存機能はありません、またサーバーへのデータ送信もありません。
+                  ・ブラウザ上で簡単にシネマスコープ比率のマスキング画像を作成。<br />
+                  ・下の黒帯に字入れ。<br />
+                  ・表示されている画像をダウンロード。
                   </p>
                   <p>
-                    ※  PC, AndroidスマホのGoogle Chromeで動作確認済みi <br />
-                    ※  10MBを超える画像はレンダリングされないケースがあります。(2～3MB上限を推奨)
+                    ※  PC, AndroidスマホのGoogle Chromeで動作確認済み<br />
+                    ※  10MBを超える画像はレンダリングされないケースがあります。<br />
+                    (2～3MB上限を推奨)
                   </p>
               </div>
             </div>
