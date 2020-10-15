@@ -411,24 +411,25 @@ class CinemaScope extends React.Component{
             <div className="text-right">
                 canvas:{this.state.canvasWidth} x {this.state.canvasHeight} 
             </div>
-            <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                <span className="input-group-text">Text</span>
-              </div>
-              <textarea type="text" className="form-control" name="bottomText" value={this.state.bottomText} onChange={this.handleChange} />
-            </div>
       
             <div className="input-group mb-3">
               <div className="input-group-prepend">
-                <span className="input-group-text">File</span>
+                <span className="input-group-text">1. File</span>
               </div>
               <div className="custom-file">
                   <input id="imagefile" ref={this.imageRef} onChange={this.handleChangeFile} type="file" className="custom-file-input" id="inputFile" multiple />
                   <label htmlFor="imagefile" className="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択</label>
               </div>
             </div>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text">2. Text</span>
+              </div>
+              <textarea type="text" className="form-control" name="bottomText" value={this.state.bottomText} onChange={this.handleChange} placeholder="下帯に表示させるテキストを入力" />
+            </div>
+
             <div>
-              <input type="button" value="DownLoad" onClick={this.handleExportClick} />
+              <input className="btn btn-light" type="button" value="3. DownLoad" onClick={this.handleExportClick} />
             </div>
             <div>
             </div>

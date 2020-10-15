@@ -100271,19 +100271,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         className: "input-group-prepend"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "input-group-text"
-      }, "Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
-        type: "text",
-        className: "form-control",
-        name: "bottomText",
-        value: this.state.bottomText,
-        onChange: this.handleChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "input-group-prepend"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "input-group-text"
-      }, "File")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "1. File")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "custom-file"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", (_React$createElement = {
         id: "imagefile",
@@ -100296,9 +100284,23 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         className: "custom-file-label",
         "for": "inputFile",
         "data-browse": "\u53C2\u7167"
-      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-group mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-group-prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "input-group-text"
+      }, "2. Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        type: "text",
+        className: "form-control",
+        name: "bottomText",
+        value: this.state.bottomText,
+        onChange: this.handleChange,
+        placeholder: "\u4E0B\u5E2F\u306B\u8868\u793A\u3055\u305B\u308B\u30C6\u30AD\u30B9\u30C8\u3092\u5165\u529B"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "btn btn-light",
         type: "button",
-        value: "DownLoad",
+        value: "3. DownLoad",
         onClick: this.handleExportClick
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null)))));
     }
