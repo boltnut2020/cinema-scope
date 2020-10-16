@@ -5,7 +5,7 @@ import "./CinemaScope.css"
 
 const canvasWidth = 1280
 const canvasHeight = 960
-const limitPixelSize = 2048
+const limitPixelSize = 2500
 const limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 // const canvasWidth = 4000
 // const canvasHeight = 3000
@@ -113,19 +113,47 @@ const maskRectangles = [
   },
 ];
 
+
+const getInitScale = () => {
+  var scaleX = 1
+  if ( window.screen.width > 768 && window.innerWidth > 768) {
+    scaleX = 768 / canvasWidth
+  } else {
+    scaleX = window.screen.width / canvasWidth * 0.93
+  }
+  // scaleX = window.screen.width / this.state.canvasWidth
+  var heightTragetValue = canvasHeight * scaleX
+  var scaleY =  heightTragetValue / canvasHeight
+  return 'scale(' + scaleX + ',' + scaleY + ')'
+}
+
+const initScale = getInitScale()
+
+console.log(initScale)
+const initRectangles = [
+  {
+    x: 0,
+    y: 0,
+    width: canvasWidth,
+    height: canvasHeight,
+    fill: 'black',
+    id: 'initrect',
+  }
+];
+
 class CinemaScope extends React.Component{
 
   constructor(props) {
     super(props)
     this.state = {
-      rectangles: [],
+      rectangles: initRectangles,
       maskRectangles: [],
       selectedId: '',
       canvasWidth: 0,
       canvasHeight: 0,
       scaleX: 1,
       scaleY: 1,
-      transform: 'scale(1,1)',
+      transform: initScale,
       lastCenter: {},
       lastDist: 0,
       maskHeight: 0,
@@ -283,15 +311,14 @@ class CinemaScope extends React.Component{
             return false
           }
  
-          let scaleImageWidth = Number((this.state.canvasWidth /image.naturalWidth).toFixed(2))
-          let scaleImageHeight = Number((this.state.canvasHeight /image.naturalHeight).toFixed(2))
-          this.setState({scaleImageWidth: scaleImageWidth})
-          this.setState({scaleImageHeight: scaleImageHeight})
+          let scaleImage= Number((this.state.canvasWidth /image.naturalWidth).toFixed(2))
+          this.setState({scaleImageWidth: scaleImage})
+          this.setState({scaleImageHeight: scaleImage})
           let newItem = {
             x: 0,
-            y: Number((this.state.canvasHeight / 2 - image.naturalHeight * scaleImageHeight / 2).toFixed()),
-            width: Number((image.naturalWidth * scaleImageWidth).toFixed()),
-            height: Number((image.naturalHeight * scaleImageHeight).toFixed()),
+            y: Number((this.state.canvasHeight / 2 - image.naturalHeight * scaleImage / 2).toFixed()),
+            width: Number((image.naturalWidth * scaleImage).toFixed()),
+            height: Number((image.naturalHeight * scaleImage).toFixed()),
             imgSrc: reader.result,
             id: 'rect' + (this.state.rectangles.length + 1),
           }
@@ -325,7 +352,7 @@ class CinemaScope extends React.Component{
       <React.Fragment>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-7 order-sm-12 order-12 order-md-12">
+          <div className="col-md-7 col-sm-12 order-2 order-lg-2">
             Canvas
             <Stage
               id={"canvas"}
@@ -422,9 +449,9 @@ class CinemaScope extends React.Component{
                 )})}
               </Layer>
             </Stage>
-  
           </div>
-          <div className="col-md-5 order-sm-2 order-2 order-md-2">
+          <div className="col-md-5 col-sm-12 order-1 order-lg-1">
+          
             <div class="card text-dark">
               <div class="card-header">
                 Featured

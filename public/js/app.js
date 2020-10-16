@@ -99765,7 +99765,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var canvasWidth = 1280;
 var canvasHeight = 960;
-var limitPixelSize = 2048;
+var limitPixelSize = 2500;
 var limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"; // const canvasWidth = 4000
 // const canvasHeight = 3000
 
@@ -99886,6 +99886,32 @@ var maskRectangles = [{
   id: 'bottombar'
 }];
 
+var getInitScale = function getInitScale() {
+  var scaleX = 1;
+
+  if (window.screen.width > 768 && window.innerWidth > 768) {
+    scaleX = 768 / canvasWidth;
+  } else {
+    scaleX = window.screen.width / canvasWidth * 0.93;
+  } // scaleX = window.screen.width / this.state.canvasWidth
+
+
+  var heightTragetValue = canvasHeight * scaleX;
+  var scaleY = heightTragetValue / canvasHeight;
+  return 'scale(' + scaleX + ',' + scaleY + ')';
+};
+
+var initScale = getInitScale();
+console.log(initScale);
+var initRectangles = [{
+  x: 0,
+  y: 0,
+  width: canvasWidth,
+  height: canvasHeight,
+  fill: 'black',
+  id: 'initrect'
+}];
+
 var CinemaScope = /*#__PURE__*/function (_React$Component) {
   _inherits(CinemaScope, _React$Component);
 
@@ -99910,14 +99936,14 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
     });
 
     _this.state = {
-      rectangles: [],
+      rectangles: initRectangles,
       maskRectangles: [],
       selectedId: '',
       canvasWidth: 0,
       canvasHeight: 0,
       scaleX: 1,
       scaleY: 1,
-      transform: 'scale(1,1)',
+      transform: initScale,
       lastCenter: {},
       lastDist: 0,
       maskHeight: 0,
@@ -100094,22 +100120,21 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
               return false;
             }
 
-            var scaleImageWidth = Number((_this3.state.canvasWidth / image.naturalWidth).toFixed(2));
-            var scaleImageHeight = Number((_this3.state.canvasHeight / image.naturalHeight).toFixed(2));
+            var scaleImage = Number((_this3.state.canvasWidth / image.naturalWidth).toFixed(2));
 
             _this3.setState({
-              scaleImageWidth: scaleImageWidth
+              scaleImageWidth: scaleImage
             });
 
             _this3.setState({
-              scaleImageHeight: scaleImageHeight
+              scaleImageHeight: scaleImage
             });
 
             var newItem = {
               x: 0,
-              y: Number((_this3.state.canvasHeight / 2 - image.naturalHeight * scaleImageHeight / 2).toFixed()),
-              width: Number((image.naturalWidth * scaleImageWidth).toFixed()),
-              height: Number((image.naturalHeight * scaleImageHeight).toFixed()),
+              y: Number((_this3.state.canvasHeight / 2 - image.naturalHeight * scaleImage / 2).toFixed()),
+              width: Number((image.naturalWidth * scaleImage).toFixed()),
+              height: Number((image.naturalHeight * scaleImage).toFixed()),
               imgSrc: reader.result,
               id: 'rect' + (_this3.state.rectangles.length + 1)
             };
@@ -100161,7 +100186,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-7 order-sm-12 order-12 order-md-12"
+        className: "col-md-7 col-sm-12 order-2 order-lg-2"
       }, "Canvas", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Stage"], {
         id: "canvas",
         ref: function ref(node) {
@@ -100280,7 +100305,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
           }
         });
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-5 order-sm-2 order-2 order-md-2"
+        className: "col-md-5 col-sm-12 order-1 order-lg-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         "class": "card text-dark"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
