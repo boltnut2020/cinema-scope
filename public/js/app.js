@@ -99822,7 +99822,7 @@ var Rectangle = function Rectangle(_ref) {
   }, [isSelected]);
   var image = new window.Image();
   image.src = shapeProps.imgSrc;
-  var isDraggable = shapeProps.id !== "topbar" && shapeProps.id !== "bottombar" ? true : false;
+  var isDraggable = shapeProps.id !== "topbar" && shapeProps.id !== "bottombar" && shapeProps.id !== "initrect" ? true : false;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Rect"], _extends({
     onClick: onSelect,
     onTap: onSelect,
@@ -100239,7 +100239,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
               });
             }
 
-            if (rect.id == "topbar" || rect.id == "bottombar") {
+            if (rect.id == "topbar" || rect.id == "bottombar" || rect.id == "initrect") {
               _this4.setState({
                 selectedId: null
               });

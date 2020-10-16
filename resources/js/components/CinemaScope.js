@@ -35,7 +35,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage, scaleIma
   let image = new window.Image();
   image.src = shapeProps.imgSrc;
 
-  let isDraggable = (shapeProps.id !== "topbar" && shapeProps.id !== "bottombar") ? true:false;
+  let isDraggable = (shapeProps.id !== "topbar" && shapeProps.id !== "bottombar" && shapeProps.id !== "initrect") ? true:false;
   return (
     <React.Fragment>
       <Rect
@@ -390,7 +390,7 @@ class CinemaScope extends React.Component{
                           this.setState({selectedId: rect.id});
                         }
       
-                        if (rect.id == "topbar" || rect.id == "bottombar") {
+                        if (rect.id == "topbar" || rect.id == "bottombar" || rect.id == "initrect") {
                           this.setState({selectedId: null});
                         }
                       }}
