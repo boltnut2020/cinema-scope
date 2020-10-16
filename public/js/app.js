@@ -99764,8 +99764,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var canvasWidth = 1280;
-var canvasHeight = 960;
-var limitPixelSize = 2500;
+var canvasHeight = 720;
+var limitPixelSize = 3008;
+
+if (window.screen.width > 768) {
+  limitPixelSize = 10000;
+}
+
 var limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"; // const canvasWidth = 4000
 // const canvasHeight = 3000
 
@@ -100007,7 +100012,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         transform: 'scale(' + scaleX + ',' + scaleY + ')'
       });
       var maskHeight = 0;
-      maskHeight = (this.state.canvasHeight - this.state.canvasWidth / 2.35) / 2;
+      maskHeight = (this.state.canvasHeight - this.state.canvasWidth / 2.39) / 2;
       var newMaskRectangles = [];
       maskRectangles.map(function (rect, i) {
         if (rect.id == "topbar") {
@@ -100287,11 +100292,11 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
           stage: _this4.stageRef
         });
       }), this.state.bottomText.split("\n").map(function (line, i) {
-        var positionY = i * 60;
+        var positionY = i * 40;
         var key = "bottomText" + i;
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Text"], {
           key: key,
-          fontSize: _this4.state.canvasWidth * 0.030,
+          fontSize: _this4.state.canvasWidth * 0.023,
           text: line,
           wrap: "char",
           align: "center",
@@ -100314,7 +100319,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
         className: "card-body"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
         className: "card-title"
-      }, "\u51FA\u6765\u308B\u4E8B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u30FB\u30D6\u30E9\u30A6\u30B6\u4E0A\u3067\u7C21\u5358\u306B\u30B7\u30CD\u30DE\u30B9\u30B3\u30FC\u30D7\u6BD4\u7387\u306E\u30DE\u30B9\u30AD\u30F3\u30B0\u753B\u50CF\u3092\u4F5C\u6210\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u4E0B\u306E\u9ED2\u5E2F\u306B\u5B57\u5165\u308C\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u8868\u793A\u3055\u308C\u3066\u3044\u308B\u753B\u50CF\u3092\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u3002"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "* PC, Android\u30B9\u30DE\u30DB\u306EGoogle Chrome\u3067\u52D5\u4F5C\u78BA\u8A8D\u6E08\u307F", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "* \u30B9\u30DE\u30DB\u30D6\u30E9\u30A6\u30B6\u5BFE\u7B56\u306B\u30A2\u30C3\u30D7\u53EF\u80FD\u306A\u753B\u50CF\u306E\u9577\u8FBA\u306E\u6700\u5927\u5E45\u30922048px\u306B\u5236\u9650\u3057\u3066\u3044\u307E\u3059", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "(LightRoom\u66F8\u304D\u51FA\u3057\u30B5\u30A4\u30BA\uFF08\u5C0F\uFF09\u306E\u5024\u306B\u306A\u308A\u307E\u3059\u3002)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "\u51FA\u6765\u308B\u4E8B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u30FB\u30D6\u30E9\u30A6\u30B6\u4E0A\u3067\u7C21\u5358\u306B\u30B7\u30CD\u30DE\u30B9\u30B3\u30FC\u30D7\u6BD4\u7387\u306E\u30DE\u30B9\u30AD\u30F3\u30B0\u753B\u50CF\u3092\u4F5C\u6210\u3002(1:2.39\u3092\u9069\u7528)", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u4E0B\u306E\u9ED2\u5E2F\u306B\u5B57\u5165\u308C\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u8868\u793A\u3055\u308C\u3066\u3044\u308B\u753B\u50CF\u3092\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u3002"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "* PC, Android\u30B9\u30DE\u30DB\u306EGoogle Chrome\u3067\u52D5\u4F5C\u78BA\u8A8D\u6E08\u307F", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "* \u30B9\u30DE\u30DB\u30D6\u30E9\u30A6\u30B6\u5BFE\u7B56\u306B\u30A2\u30C3\u30D7\u53EF\u80FD\u306A\u753B\u50CF\u306E\u9577\u8FBA\u306E\u6700\u5927\u5E45\u3092", limitPixelSize, "px\u306B\u5236\u9650\u3057\u3066\u3044\u307E\u3059", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "(LightRoom\u66F8\u304D\u51FA\u3057\u30B5\u30A4\u30BA\uFF08\u5C0F\uFF09\u306F2048px\u3067\u3059\u3002)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "text-right"
       }, "canvas:", this.state.canvasWidth, " x ", this.state.canvasHeight), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group mb-3"

@@ -4,8 +4,12 @@ import { Stage, Layer, Rect, Transformer, Text } from 'react-konva';
 import "./CinemaScope.css"
 
 const canvasWidth = 1280
-const canvasHeight = 960
-const limitPixelSize = 2500
+const canvasHeight = 720
+let limitPixelSize = 3008
+if (window.screen.width > 768 ) {
+    limitPixelSize = 10000
+} 
+
 const limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 // const canvasWidth = 4000
 // const canvasHeight = 3000
@@ -204,7 +208,7 @@ class CinemaScope extends React.Component{
       let scaleY =  heightTragetValue / this.state.canvasHeight
       this.setState({transform: 'scale(' + scaleX + ',' + scaleY + ')'})
       let maskHeight = 0
-      maskHeight =  (this.state.canvasHeight - this.state.canvasWidth  / 2.35) / 2
+      maskHeight =  (this.state.canvasHeight - this.state.canvasWidth  / 2.39) / 2
 
       let newMaskRectangles = []
       maskRectangles.map((rect, i) => {
@@ -430,12 +434,12 @@ class CinemaScope extends React.Component{
                 })}
     
                 {this.state.bottomText.split("\n").map((line, i) => {
-                var positionY = i * 60
+                var positionY = i * 40
                 var key = "bottomText" + i
                 return(
                   <Text
                     key={key}
-                    fontSize={this.state.canvasWidth * 0.030}
+                    fontSize={this.state.canvasWidth * 0.023}
                     text={line}
                     wrap="char"
                     align="center"
@@ -459,14 +463,14 @@ class CinemaScope extends React.Component{
               <div className="card-body">
                   <h5 className="card-title">出来る事</h5>
                   <p>
-                  ・ブラウザ上で簡単にシネマスコープ比率のマスキング画像を作成。<br />
+                  ・ブラウザ上で簡単にシネマスコープ比率のマスキング画像を作成。(1:2.39を適用)<br />
                   ・下の黒帯に字入れ。<br />
                   ・表示されている画像をダウンロード。
                   </p>
                   <p>
                     * PC, AndroidスマホのGoogle Chromeで動作確認済み<br />
-                    * スマホブラウザ対策にアップ可能な画像の長辺の最大幅を2048pxに制限しています<br />
-                    (LightRoom書き出しサイズ（小）の値になります。)
+                    * スマホブラウザ対策にアップ可能な画像の長辺の最大幅を{limitPixelSize}pxに制限しています<br />
+                    (LightRoom書き出しサイズ（小）は2048pxです。)
                   </p>
               </div>
             </div>
