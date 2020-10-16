@@ -99639,7 +99639,7 @@ var App = function App() {
     "aria-expanded": "false",
     "aria-label": "{{ __('Toggle navigation') }}"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    "class": "navbar-toggler-icon"
+    className: "navbar-toggler-icon"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "collapse navbar-collapse",
     id: "navbarSupportedContent"
@@ -99656,7 +99656,7 @@ var App = function App() {
     to: "/about",
     className: "nav-link"
   }, "About")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
-    "class": "py-4"
+    className: "py-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: "/",
     exact: true,
@@ -99765,13 +99765,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var canvasWidth = 1280;
 var canvasHeight = 960;
+var limitPixelSize = 2048;
+var limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"; // const canvasWidth = 4000
+// const canvasHeight = 3000
 
 var Rectangle = function Rectangle(_ref) {
   var shapeProps = _ref.shapeProps,
       isSelected = _ref.isSelected,
       onSelect = _ref.onSelect,
       onChange = _ref.onChange,
-      stage = _ref.stage;
+      stage = _ref.stage,
+      scaleImageWidth = _ref.scaleImageWidth,
+      scaleImageHeight = _ref.scaleImageHeight;
   var shapeRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.useRef();
   var trRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.useRef();
   var stageRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.useRef();
@@ -99782,12 +99787,12 @@ var Rectangle = function Rectangle(_ref) {
       fillPatternImage = _React$useState2[0],
       setFillPattnerImage = _React$useState2[1];
 
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(0.4),
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(scaleImageWidth),
       _React$useState4 = _slicedToArray(_React$useState3, 2),
       fillPatternScaleX = _React$useState4[0],
       setFillPatternScaleX = _React$useState4[1];
 
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(0.4),
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(scaleImageHeight),
       _React$useState6 = _slicedToArray(_React$useState5, 2),
       fillPatternScaleY = _React$useState6[0],
       setFillPatternScaleY = _React$useState6[1];
@@ -99919,6 +99924,8 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
       bottomBarY: 0,
       firstImageWidth: 0,
       firstImageHeight: 0,
+      scaleImageWidth: 0,
+      scaleImageHeight: 0,
       bottomText: ""
     };
     _this.imageRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef(); // this.stageRef = React.createRef();
@@ -100082,23 +100089,32 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
           image.src = reader.result;
 
           image.onload = function () {
-            var scaleContainer = _this3.state.canvasWidth / image.naturalWidth;
+            if (image.naturalWidth > limitPixelSize || image.naturalHeight > limitPixelSize) {
+              alert(limitPixelSizeError + "アップロードされた画像サイズ" + image.naturalWidth + "x" + image.naturalHeight);
+              return false;
+            }
+
+            var scaleImageWidth = Number((_this3.state.canvasWidth / image.naturalWidth).toFixed(2));
+            var scaleImageHeight = Number((_this3.state.canvasHeight / image.naturalHeight).toFixed(2));
+
+            _this3.setState({
+              scaleImageWidth: scaleImageWidth
+            });
+
+            _this3.setState({
+              scaleImageHeight: scaleImageHeight
+            });
+
             var newItem = {
               x: 0,
-              y: _this3.state.maskHeight,
-              width: image.naturalWidth * 0.4,
-              height: image.naturalHeight * 0.4,
+              y: Number((_this3.state.canvasHeight / 2 - image.naturalHeight * scaleImageHeight / 2).toFixed()),
+              width: Number((image.naturalWidth * scaleImageWidth).toFixed()),
+              height: Number((image.naturalHeight * scaleImageHeight).toFixed()),
               imgSrc: reader.result,
               id: 'rect' + (_this3.state.rectangles.length + 1)
             };
-
-            _this3.setState({
-              firstImageWidth: image.naturalWidth
-            });
-
-            _this3.setState({
-              firstImageHeight: image.naturalHeight * scaleContainer
-            });
+            console.log(newItem); // this.setState({firstImageWidth: image.naturalWidth * scaleContainerWidth})
+            // this.setState({firstImageHeight: image.naturalHeight * scaleContainerHeight})
 
             var newRectangles = _this3.state.rectangles;
             newRectangles.push(newItem);
@@ -100208,7 +100224,9 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
               rectangles: rects
             });
           },
-          stage: _this4.stageRef
+          stage: _this4.stageRef,
+          scaleImageWidth: _this4.state.scaleImageWidth,
+          scaleImageHeight: _this4.state.scaleImageHeight
         });
       }), this.state.maskRectangles.map(function (rect, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Rectangle, {
@@ -100255,7 +100273,7 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
           width: _this4.state.canvasWidth,
           height: _this4.state.maskHeight,
           y: _this4.state.bottomBarY + 15 + positionY,
-          fill: "white",
+          fill: "#ccc",
           draggable: true,
           style: {
             transform: "".concat(_this4.state.transform)
@@ -100270,8 +100288,8 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
       }, "Featured"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-        classNmae: "card-title"
-      }, "\u51FA\u6765\u308B\u4E8B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u30FB\u30D6\u30E9\u30A6\u30B6\u4E0A\u3067\u7C21\u5358\u306B\u30B7\u30CD\u30DE\u30B9\u30B3\u30FC\u30D7\u6BD4\u7387\u306E\u30DE\u30B9\u30AD\u30F3\u30B0\u753B\u50CF\u3092\u4F5C\u6210\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u4E0B\u306E\u9ED2\u5E2F\u306B\u5B57\u5165\u308C\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u8868\u793A\u3055\u308C\u3066\u3044\u308B\u753B\u50CF\u3092\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u3002"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u203B  PC, Android\u30B9\u30DE\u30DB\u306EGoogle Chrome\u3067\u52D5\u4F5C\u78BA\u8A8D\u6E08\u307F", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u203B  10MB\u3092\u8D85\u3048\u308B\u753B\u50CF\u306F\u30EC\u30F3\u30C0\u30EA\u30F3\u30B0\u3055\u308C\u306A\u3044\u30B1\u30FC\u30B9\u304C\u3042\u308A\u307E\u3059\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "(2\uFF5E3MB\u4E0A\u9650\u3092\u63A8\u5968)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-title"
+      }, "\u51FA\u6765\u308B\u4E8B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u30FB\u30D6\u30E9\u30A6\u30B6\u4E0A\u3067\u7C21\u5358\u306B\u30B7\u30CD\u30DE\u30B9\u30B3\u30FC\u30D7\u6BD4\u7387\u306E\u30DE\u30B9\u30AD\u30F3\u30B0\u753B\u50CF\u3092\u4F5C\u6210\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u4E0B\u306E\u9ED2\u5E2F\u306B\u5B57\u5165\u308C\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u8868\u793A\u3055\u308C\u3066\u3044\u308B\u753B\u50CF\u3092\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u3002"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "* PC, Android\u30B9\u30DE\u30DB\u306EGoogle Chrome\u3067\u52D5\u4F5C\u78BA\u8A8D\u6E08\u307F", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "* \u30B9\u30DE\u30DB\u30D6\u30E9\u30A6\u30B6\u5BFE\u7B56\u306B\u30A2\u30C3\u30D7\u53EF\u80FD\u306A\u753B\u50CF\u306E\u9577\u8FBA\u306E\u6700\u5927\u5E45\u30922048px\u306B\u5236\u9650\u3057\u3066\u3044\u307E\u3059", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "(LightRoom\u66F8\u304D\u51FA\u3057\u30B5\u30A4\u30BA\uFF08\u5C0F\uFF09\u306E\u5024\u306B\u306A\u308A\u307E\u3059\u3002)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "text-right"
       }, "canvas:", this.state.canvasWidth, " x ", this.state.canvasHeight), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group mb-3"
@@ -100290,9 +100308,8 @@ var CinemaScope = /*#__PURE__*/function (_React$Component) {
       }, _defineProperty(_React$createElement, "id", "inputFile"), _defineProperty(_React$createElement, "multiple", true), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "imagefile",
         className: "custom-file-label",
-        "for": "inputFile",
         "data-browse": "\u53C2\u7167"
-      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E(2\uFF5E3MB\u3092\u4E0A\u9650)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E(\u9577\u8FBA", limitPixelSize, "px 2\uFF5E3MB\u3092\u4E0A\u9650)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group-prepend"

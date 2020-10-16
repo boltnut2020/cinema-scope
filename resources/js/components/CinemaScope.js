@@ -5,15 +5,18 @@ import "./CinemaScope.css"
 
 const canvasWidth = 1280
 const canvasHeight = 960
-
-const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage }) => {
+const limitPixelSize = 2048
+const limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
+// const canvasWidth = 4000
+// const canvasHeight = 3000
+const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage, scaleImageWidth, scaleImageHeight }) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
   const stageRef = React.useRef();
   const layerRef = React.useRef();
   const [fillPatternImage, setFillPattnerImage] = React.useState(null);
-  const [fillPatternScaleX, setFillPatternScaleX] = React.useState(0.4);
-  const [fillPatternScaleY, setFillPatternScaleY] = React.useState(0.4);
+  const [fillPatternScaleX, setFillPatternScaleX] = React.useState(scaleImageWidth);
+  const [fillPatternScaleY, setFillPatternScaleY] = React.useState(scaleImageHeight);
   const [lastCenter, setLastCenter] = React.useState(null);
   const [lastDist, setLastDist] = React.useState(0);
   const stageProp = stage
@@ -129,6 +132,8 @@ class CinemaScope extends React.Component{
       bottomBarY: 0,
       firstImageWidth:0,
       firstImageHeight:0,
+      scaleImageWidth:0,
+      scaleImageHeight:0,
       bottomText: ""
     }
     this.imageRef = React.createRef();
@@ -270,20 +275,30 @@ class CinemaScope extends React.Component{
       let image = new window.Image();
       reader.onloadend = () => {
         image.src = reader.result;
+
+
         image.onload = () => {
-  
-          let scaleContainer = this.state.canvasWidth /image.naturalWidth
+          if ( image.naturalWidth > limitPixelSize || image.naturalHeight > limitPixelSize) {
+            alert(limitPixelSizeError + "アップロードされた画像サイズ" + image.naturalWidth + "x" + image.naturalHeight)
+            return false
+          }
+ 
+          let scaleImageWidth = Number((this.state.canvasWidth /image.naturalWidth).toFixed(2))
+          let scaleImageHeight = Number((this.state.canvasHeight /image.naturalHeight).toFixed(2))
+          this.setState({scaleImageWidth: scaleImageWidth})
+          this.setState({scaleImageHeight: scaleImageHeight})
           let newItem = {
             x: 0,
-            y: this.state.maskHeight,
-            width:  image.naturalWidth * 0.4,
-            height: image.naturalHeight * 0.4,
+            y: Number((this.state.canvasHeight / 2 - image.naturalHeight * scaleImageHeight / 2).toFixed()),
+            width: Number((image.naturalWidth * scaleImageWidth).toFixed()),
+            height: Number((image.naturalHeight * scaleImageHeight).toFixed()),
             imgSrc: reader.result,
             id: 'rect' + (this.state.rectangles.length + 1),
           }
 
-          this.setState({firstImageWidth: image.naturalWidth})
-          this.setState({firstImageHeight: image.naturalHeight * scaleContainer})
+          console.log(newItem)
+          // this.setState({firstImageWidth: image.naturalWidth * scaleContainerWidth})
+          // this.setState({firstImageHeight: image.naturalHeight * scaleContainerHeight})
           let newRectangles = this.state.rectangles
           newRectangles.push(newItem);
           this.setState({rectangles: newRectangles})
@@ -354,6 +369,8 @@ class CinemaScope extends React.Component{
                         this.setState({rectangles: rects});
                       }}
                       stage={this.stageRef}
+                      scaleImageWidth={this.state.scaleImageWidth}
+                      scaleImageHeight={this.state.scaleImageHeight}
                     />
                   );
                 })}
@@ -398,7 +415,7 @@ class CinemaScope extends React.Component{
                     width={this.state.canvasWidth}
                     height={this.state.maskHeight}
                     y={this.state.bottomBarY + 15 + positionY}
-                    fill="white"
+                    fill="#ccc"
                     draggable={true}
                     style={{ transform: `${ this.state.transform }` }}
                   />
@@ -413,16 +430,16 @@ class CinemaScope extends React.Component{
                 Featured
               </div>
               <div className="card-body">
-                  <h5 classNmae="card-title">出来る事</h5>
+                  <h5 className="card-title">出来る事</h5>
                   <p>
                   ・ブラウザ上で簡単にシネマスコープ比率のマスキング画像を作成。<br />
                   ・下の黒帯に字入れ。<br />
                   ・表示されている画像をダウンロード。
                   </p>
                   <p>
-                    ※  PC, AndroidスマホのGoogle Chromeで動作確認済み<br />
-                    ※  10MBを超える画像はレンダリングされないケースがあります。<br />
-                    (2～3MB上限を推奨)
+                    * PC, AndroidスマホのGoogle Chromeで動作確認済み<br />
+                    * スマホブラウザ対策にアップ可能な画像の長辺の最大幅を2048pxに制限しています<br />
+                    (LightRoom書き出しサイズ（小）の値になります。)
                   </p>
               </div>
             </div>
@@ -437,7 +454,7 @@ class CinemaScope extends React.Component{
               </div>
               <div className="custom-file">
                   <input id="imagefile" ref={this.imageRef} onChange={this.handleChangeFile} type="file" className="custom-file-input" id="inputFile" multiple />
-                  <label htmlFor="imagefile" className="custom-file-label" for="inputFile" data-browse="参照">ファイルを選択(2～3MBを上限)</label>
+                  <label htmlFor="imagefile" className="custom-file-label"  data-browse="参照">ファイルを選択(長辺{limitPixelSize}px 2～3MBを上限)</label>
               </div>
             </div>
             <div className="input-group mb-3">
