@@ -161,6 +161,18 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -6390,112 +6402,6 @@ module.exports = {
 
 })));
 //# sourceMappingURL=bootstrap.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./resources/js/components/CinemaScope.css":
-/*!*********************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./resources/js/components/CinemaScope.css ***!
-  \*********************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "body {\n  background: #343a40;\n  color: #fff;\n}\n\n.canvas {\n  border: none;\n  background: #fff;\n  margin:0;\n  padding: 0;\n  width: 100%;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/lib/css-base.js":
-/*!*************************************************!*\
-  !*** ./node_modules/css-loader/lib/css-base.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
 
 
 /***/ }),
@@ -97475,6 +97381,765 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      define(prototype, method, function(arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  define(Gp, toStringTagSymbol, "Generator");
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/resolve-pathname/esm/resolve-pathname.js":
 /*!***************************************************************!*\
   !*** ./node_modules/resolve-pathname/esm/resolve-pathname.js ***!
@@ -98828,515 +99493,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/lib/addStyles.js":
-/*!****************************************************!*\
-  !*** ./node_modules/style-loader/lib/addStyles.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-
-var stylesInDom = {};
-
-var	memoize = function (fn) {
-	var memo;
-
-	return function () {
-		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-		return memo;
-	};
-};
-
-var isOldIE = memoize(function () {
-	// Test for IE <= 9 as proposed by Browserhacks
-	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-	// Tests for existence of standard globals is to allow style-loader
-	// to operate correctly into non-standard environments
-	// @see https://github.com/webpack-contrib/style-loader/issues/177
-	return window && document && document.all && !window.atob;
-});
-
-var getTarget = function (target, parent) {
-  if (parent){
-    return parent.querySelector(target);
-  }
-  return document.querySelector(target);
-};
-
-var getElement = (function (fn) {
-	var memo = {};
-
-	return function(target, parent) {
-                // If passing function in options, then use it for resolve "head" element.
-                // Useful for Shadow Root style i.e
-                // {
-                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
-                // }
-                if (typeof target === 'function') {
-                        return target();
-                }
-                if (typeof memo[target] === "undefined") {
-			var styleTarget = getTarget.call(this, target, parent);
-			// Special case to return head of iframe instead of iframe itself
-			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-				try {
-					// This will throw an exception if access to iframe is blocked
-					// due to cross-origin restrictions
-					styleTarget = styleTarget.contentDocument.head;
-				} catch(e) {
-					styleTarget = null;
-				}
-			}
-			memo[target] = styleTarget;
-		}
-		return memo[target]
-	};
-})();
-
-var singleton = null;
-var	singletonCounter = 0;
-var	stylesInsertedAtTop = [];
-
-var	fixUrls = __webpack_require__(/*! ./urls */ "./node_modules/style-loader/lib/urls.js");
-
-module.exports = function(list, options) {
-	if (typeof DEBUG !== "undefined" && DEBUG) {
-		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-
-	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
-
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the <head> element
-        if (!options.insertInto) options.insertInto = "head";
-
-	// By default, add <style> tags to the bottom of the target
-	if (!options.insertAt) options.insertAt = "bottom";
-
-	var styles = listToStyles(list, options);
-
-	addStylesToDom(styles, options);
-
-	return function update (newList) {
-		var mayRemove = [];
-
-		for (var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-
-		if(newList) {
-			var newStyles = listToStyles(newList, options);
-			addStylesToDom(newStyles, options);
-		}
-
-		for (var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-
-			if(domStyle.refs === 0) {
-				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
-
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-};
-
-function addStylesToDom (styles, options) {
-	for (var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-
-		if(domStyle) {
-			domStyle.refs++;
-
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles (list, options) {
-	var styles = [];
-	var newStyles = {};
-
-	for (var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = options.base ? item[0] + options.base : item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-
-		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
-		else newStyles[id].parts.push(part);
-	}
-
-	return styles;
-}
-
-function insertStyleElement (options, style) {
-	var target = getElement(options.insertInto)
-
-	if (!target) {
-		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
-	}
-
-	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
-
-	if (options.insertAt === "top") {
-		if (!lastStyleElementInsertedAtTop) {
-			target.insertBefore(style, target.firstChild);
-		} else if (lastStyleElementInsertedAtTop.nextSibling) {
-			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			target.appendChild(style);
-		}
-		stylesInsertedAtTop.push(style);
-	} else if (options.insertAt === "bottom") {
-		target.appendChild(style);
-	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
-		var nextSibling = getElement(options.insertAt.before, target);
-		target.insertBefore(style, nextSibling);
-	} else {
-		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
-	}
-}
-
-function removeStyleElement (style) {
-	if (style.parentNode === null) return false;
-	style.parentNode.removeChild(style);
-
-	var idx = stylesInsertedAtTop.indexOf(style);
-	if(idx >= 0) {
-		stylesInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement (options) {
-	var style = document.createElement("style");
-
-	if(options.attrs.type === undefined) {
-		options.attrs.type = "text/css";
-	}
-
-	if(options.attrs.nonce === undefined) {
-		var nonce = getNonce();
-		if (nonce) {
-			options.attrs.nonce = nonce;
-		}
-	}
-
-	addAttrs(style, options.attrs);
-	insertStyleElement(options, style);
-
-	return style;
-}
-
-function createLinkElement (options) {
-	var link = document.createElement("link");
-
-	if(options.attrs.type === undefined) {
-		options.attrs.type = "text/css";
-	}
-	options.attrs.rel = "stylesheet";
-
-	addAttrs(link, options.attrs);
-	insertStyleElement(options, link);
-
-	return link;
-}
-
-function addAttrs (el, attrs) {
-	Object.keys(attrs).forEach(function (key) {
-		el.setAttribute(key, attrs[key]);
-	});
-}
-
-function getNonce() {
-	if (false) {}
-
-	return __webpack_require__.nc;
-}
-
-function addStyle (obj, options) {
-	var style, update, remove, result;
-
-	// If a transform function was defined, run it on the css
-	if (options.transform && obj.css) {
-	    result = typeof options.transform === 'function'
-		 ? options.transform(obj.css) 
-		 : options.transform.default(obj.css);
-
-	    if (result) {
-	    	// If transform returns a value, use that instead of the original css.
-	    	// This allows running runtime transformations on the css.
-	    	obj.css = result;
-	    } else {
-	    	// If the transform function returns a falsy value, don't add this css.
-	    	// This allows conditional loading of css
-	    	return function() {
-	    		// noop
-	    	};
-	    }
-	}
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-
-		style = singleton || (singleton = createStyleElement(options));
-
-		update = applyToSingletonTag.bind(null, style, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
-
-	} else if (
-		obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function"
-	) {
-		style = createLinkElement(options);
-		update = updateLink.bind(null, style, options);
-		remove = function () {
-			removeStyleElement(style);
-
-			if(style.href) URL.revokeObjectURL(style.href);
-		};
-	} else {
-		style = createStyleElement(options);
-		update = applyToTag.bind(null, style);
-		remove = function () {
-			removeStyleElement(style);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle (newObj) {
-		if (newObj) {
-			if (
-				newObj.css === obj.css &&
-				newObj.media === obj.media &&
-				newObj.sourceMap === obj.sourceMap
-			) {
-				return;
-			}
-
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag (style, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (style.styleSheet) {
-		style.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = style.childNodes;
-
-		if (childNodes[index]) style.removeChild(childNodes[index]);
-
-		if (childNodes.length) {
-			style.insertBefore(cssNode, childNodes[index]);
-		} else {
-			style.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag (style, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		style.setAttribute("media", media)
-	}
-
-	if(style.styleSheet) {
-		style.styleSheet.cssText = css;
-	} else {
-		while(style.firstChild) {
-			style.removeChild(style.firstChild);
-		}
-
-		style.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink (link, options, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	/*
-		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
-		and there is no publicPath defined then lets turn convertToAbsoluteUrls
-		on by default.  Otherwise default to the convertToAbsoluteUrls option
-		directly
-	*/
-	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
-
-	if (options.convertToAbsoluteUrls || autoFixUrls) {
-		css = fixUrls(css);
-	}
-
-	if (sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = link.href;
-
-	link.href = URL.createObjectURL(blob);
-
-	if(oldSrc) URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/lib/urls.js":
-/*!***********************************************!*\
-  !*** ./node_modules/style-loader/lib/urls.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-/**
- * When source maps are enabled, `style-loader` uses a link element with a data-uri to
- * embed the css on the page. This breaks all relative urls because now they are relative to a
- * bundle instead of the current page.
- *
- * One solution is to only use full urls, but that may be impossible.
- *
- * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
- *
- * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
- *
- */
-
-module.exports = function (css) {
-  // get current location
-  var location = typeof window !== "undefined" && window.location;
-
-  if (!location) {
-    throw new Error("fixUrls requires window.location");
-  }
-
-	// blank or null?
-	if (!css || typeof css !== "string") {
-	  return css;
-  }
-
-  var baseUrl = location.protocol + "//" + location.host;
-  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
-
-	// convert each url(...)
-	/*
-	This regular expression is just a way to recursively match brackets within
-	a string.
-
-	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-	   (  = Start a capturing group
-	     (?:  = Start a non-capturing group
-	         [^)(]  = Match anything that isn't a parentheses
-	         |  = OR
-	         \(  = Match a start parentheses
-	             (?:  = Start another non-capturing groups
-	                 [^)(]+  = Match anything that isn't a parentheses
-	                 |  = OR
-	                 \(  = Match a start parentheses
-	                     [^)(]*  = Match anything that isn't a parentheses
-	                 \)  = Match a end parentheses
-	             )  = End Group
-              *\) = Match anything and then a close parens
-          )  = Close non-capturing group
-          *  = Match anything
-       )  = Close capturing group
-	 \)  = Match a close parens
-
-	 /gi  = Get all matches, not the first.  Be case insensitive.
-	 */
-	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
-		// strip quotes (if they exist)
-		var unquotedOrigUrl = origUrl
-			.trim()
-			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
-			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
-
-		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
-		  return fullMatch;
-		}
-
-		// convert the url to a full url
-		var newUrl;
-
-		if (unquotedOrigUrl.indexOf("//") === 0) {
-		  	//TODO: should we add protocol?
-			newUrl = unquotedOrigUrl;
-		} else if (unquotedOrigUrl.indexOf("/") === 0) {
-			// path should be relative to the base url
-			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
-		} else {
-			// path should be relative to current directory
-			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
-		}
-
-		// send back the fixed url(...)
-		return "url(" + JSON.stringify(newUrl) + ")";
-	});
-
-	// send back the fixed css
-	return fixedCss;
-};
-
-
-/***/ }),
-
 /***/ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js":
 /*!****************************************************************!*\
   !*** ./node_modules/tiny-invariant/dist/tiny-invariant.esm.js ***!
@@ -99616,6 +99772,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _CinemaScope__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CinemaScope */ "./resources/js/components/CinemaScope.js");
 /* harmony import */ var _About__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./About */ "./resources/js/components/About.js");
+/* harmony import */ var _StageTest__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./StageTest */ "./resources/js/components/StageTest.js");
+
 
 
 
@@ -99661,6 +99819,10 @@ var App = function App() {
     path: "/",
     exact: true,
     component: _CinemaScope__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    path: "/stage-test",
+    exact: true,
+    component: _StageTest__WEBPACK_IMPORTED_MODULE_6__["default"]
   })))));
 };
 
@@ -99670,53 +99832,36 @@ if (document.getElementById('app')) {
 
 /***/ }),
 
-/***/ "./resources/js/components/CinemaScope.css":
-/*!*************************************************!*\
-  !*** ./resources/js/components/CinemaScope.css ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/postcss-loader/src??ref--6-2!./CinemaScope.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./resources/js/components/CinemaScope.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./resources/js/components/CinemaScope.js":
 /*!************************************************!*\
   !*** ./resources/js/components/CinemaScope.js ***!
   \************************************************/
 /*! exports provided: default */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /mnt/d/git/cinema-scope/resources/js/components/CinemaScope.js: Unexpected token, expected \";\" (13:7)\n\n\u001b[0m \u001b[90m 11 | \u001b[39m} \u001b[0m\n\u001b[0m \u001b[90m 12 | \u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 13 | \u001b[39mcconst limitPixelSizeError \u001b[33m=\u001b[39m \u001b[32m\"画像の寸法が\"\u001b[39m \u001b[33m+\u001b[39m limitPixelSize \u001b[33m+\u001b[39m \u001b[32m\"px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。\"\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 14 | \u001b[39m\u001b[90m// const canvasWidth = 4000\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 15 | \u001b[39m\u001b[90m// const canvasHeight = 3000\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 16 | \u001b[39m\u001b[36mconst\u001b[39m \u001b[33mRectangle\u001b[39m \u001b[33m=\u001b[39m ({ shapeProps\u001b[33m,\u001b[39m isSelected\u001b[33m,\u001b[39m onSelect\u001b[33m,\u001b[39m onChange\u001b[33m,\u001b[39m stage\u001b[33m,\u001b[39m scaleImageWidth\u001b[33m,\u001b[39m scaleImageHeight }) \u001b[33m=>\u001b[39m {\u001b[0m\n    at Object._raise (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:766:17)\n    at Object.raiseWithData (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:759:17)\n    at Object.raise (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:753:17)\n    at Object.unexpected (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:8966:16)\n    at Object.semicolon (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:8948:40)\n    at Object.parseExpressionStatement (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:11971:10)\n    at Object.parseStatementContent (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:11567:19)\n    at Object.parseStatement (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:11431:17)\n    at Object.parseBlockOrModuleBlockBody (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:12013:25)\n    at Object.parseBlockBody (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:11999:10)\n    at Object.parseTopLevel (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:11362:10)\n    at Object.parse (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:13045:10)\n    at parse (/mnt/d/git/cinema-scope/node_modules/@babel/parser/lib/index.js:13098:38)\n    at parser (/mnt/d/git/cinema-scope/node_modules/@babel/core/lib/parser/index.js:54:34)\n    at parser.next (<anonymous>)\n    at normalizeFile (/mnt/d/git/cinema-scope/node_modules/@babel/core/lib/transformation/normalize-file.js:99:38)\n    at normalizeFile.next (<anonymous>)\n    at run (/mnt/d/git/cinema-scope/node_modules/@babel/core/lib/transformation/index.js:31:50)\n    at run.next (<anonymous>)\n    at Function.transform (/mnt/d/git/cinema-scope/node_modules/@babel/core/lib/transform.js:27:41)\n    at transform.next (<anonymous>)\n    at step (/mnt/d/git/cinema-scope/node_modules/gensync/index.js:254:32)\n    at gen.next (/mnt/d/git/cinema-scope/node_modules/gensync/index.js:266:13)\n    at async.call.value (/mnt/d/git/cinema-scope/node_modules/gensync/index.js:216:11)");
+
+/***/ }),
+
+/***/ "./resources/js/components/StageTest.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/StageTest.js ***!
+  \**********************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_konva__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-konva */ "./node_modules/react-konva/lib/ReactKonva.js");
-/* harmony import */ var react_konva__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_konva__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _CinemaScope_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CinemaScope.css */ "./resources/js/components/CinemaScope.css");
-/* harmony import */ var _CinemaScope_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_CinemaScope_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_konva__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-konva */ "./node_modules/react-konva/lib/ReactKonva.js");
+/* harmony import */ var react_konva__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_konva__WEBPACK_IMPORTED_MODULE_3__);
+
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -99739,632 +99884,386 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
 
-
-var canvasWidth = 1280;
-var canvasHeight = 720;
-var limitPixelSize = 3008;
-
-if (window.screen.width > 768) {
-  limitPixelSize = 10000;
-}
-
-var limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"; // const canvasWidth = 4000
-// const canvasHeight = 3000
-
-var Rectangle = function Rectangle(_ref) {
-  var shapeProps = _ref.shapeProps,
-      isSelected = _ref.isSelected,
-      onSelect = _ref.onSelect,
-      onChange = _ref.onChange,
-      stage = _ref.stage,
-      scaleImageWidth = _ref.scaleImageWidth,
-      scaleImageHeight = _ref.scaleImageHeight;
-  var shapeRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.useRef();
-  var trRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.useRef();
-  var stageRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.useRef();
-  var layerRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.useRef();
-
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(null),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      fillPatternImage = _React$useState2[0],
-      setFillPattnerImage = _React$useState2[1];
-
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(scaleImageWidth),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      fillPatternScaleX = _React$useState4[0],
-      setFillPatternScaleX = _React$useState4[1];
-
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(scaleImageHeight),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      fillPatternScaleY = _React$useState6[0],
-      setFillPatternScaleY = _React$useState6[1];
-
-  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(null),
-      _React$useState8 = _slicedToArray(_React$useState7, 2),
-      lastCenter = _React$useState8[0],
-      setLastCenter = _React$useState8[1];
-
-  var _React$useState9 = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(0),
-      _React$useState10 = _slicedToArray(_React$useState9, 2),
-      lastDist = _React$useState10[0],
-      setLastDist = _React$useState10[1];
-
-  var stageProp = stage;
-  react__WEBPACK_IMPORTED_MODULE_0___default.a.useEffect(function () {
-    if (isSelected) {
-      // we need to attach transformer manually
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
-    }
-  }, [isSelected]);
-  var image = new window.Image();
-  image.src = shapeProps.imgSrc;
-  var isDraggable = shapeProps.id !== "topbar" && shapeProps.id !== "bottombar" && shapeProps.id !== "initrect" ? true : false;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Rect"], _extends({
-    onClick: onSelect,
-    onTap: onSelect,
-    ref: shapeRef
-  }, shapeProps, {
-    fillPatternImage: image,
-    fillPatternScaleX: fillPatternScaleX,
-    fillPatternScaleY: fillPatternScaleY,
-    fillPatternRepeat: "no-repeat",
-    draggable: isDraggable,
-    onDragEnd: function onDragEnd(e) {
-      onChange(_objectSpread(_objectSpread({}, shapeProps), {}, {
-        x: e.target.x(),
-        y: e.target.y()
-      }));
-    },
-    onTransformEnd: function onTransformEnd(e) {
-      // transformer is changing scale of the node
-      // and NOT its width or height
-      // but in the store we have only width and height
-      // to match the data better we will reset scale on transform end
-      var node = shapeRef.current;
-      var scaleX = node.scaleX();
-      var scaleY = node.scaleY(); // we will reset it back
-
-      node.scaleX(1);
-      node.scaleY(1);
-      setFillPatternScaleX(fillPatternScaleX * scaleX);
-      setFillPatternScaleY(fillPatternScaleY * scaleY);
-      onChange(_objectSpread(_objectSpread({}, shapeProps), {}, {
-        x: node.x(),
-        y: node.y(),
-        // set minimal value
-        width: Math.max(5, node.width() * scaleX),
-        height: Math.max(node.height() * scaleY)
-      }));
-    }
-  })), isSelected && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Transformer"], {
-    ref: trRef,
-    boundBoxFunc: function boundBoxFunc(oldBox, newBox) {
-      // limit resize
-      if (newBox.width < 5 || newBox.height < 5) {
-        return oldBox;
-      }
-
-      return newBox;
-    }
-  }));
-};
-
-var windowWidth = window.screen.width;
-var windowHeight = window.screen.height;
-var maskRectangles = [{
-  x: 0,
-  y: 0,
-  width: windowWidth,
-  height: 100,
-  fill: 'black',
-  id: 'topbar'
+var stageWidth = 1280;
+var stageHeight = 720;
+var thumbnailWidth = 100;
+var defaultFontSize = 50;
+var defaultTextColor = "#000";
+var limitPixelSize = 10008;
+var errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。";
+var errorFileType = "ファイルタイプ";
+var testImages = [{
+  id: "201911-twice_gtmnmcl_l_full.jpg",
+  src: "https://www.cinra.net/uploads/img/column/201911-twice_gtmnmcl_l_full.jpg",
+  textLine: ["text1", "text2"],
+  fontSize: 50
 }, {
-  x: 0,
-  y: 0,
-  width: windowWidth,
-  height: 100,
-  fill: 'black',
-  id: 'bottombar'
+  id: "201911-twice_gtmnmcl_l_full.jpg",
+  src: "https://www.cinra.net/uploads/img/column/201911-twice_gtmnmcl_l_full.jpg",
+  textLine: ["text1", "text2"],
+  textColor: "#ff3366",
+  fontSize: 50
 }];
 
-var getInitScale = function getInitScale() {
-  var scaleX = 1;
+var imagesize = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(file) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            return _context.abrupt("return", new Promise(function (resolve, reject) {
+              var img = new Image();
 
-  if (window.screen.width > 768 && window.innerWidth > 768) {
-    scaleX = 768 / canvasWidth;
-  } else {
-    scaleX = window.screen.width / canvasWidth * 0.93;
-  } // scaleX = window.screen.width / this.state.canvasWidth
+              img.onload = function () {
+                var size = {
+                  width: img.naturalWidth,
+                  height: img.naturalHeight
+                };
+                URL.revokeObjectURL(img.src);
+                resolve(size);
+              };
 
+              img.onerror = function (error) {
+                reject(error);
+              };
 
-  var heightTragetValue = canvasHeight * scaleX;
-  var scaleY = heightTragetValue / canvasHeight;
-  return 'scale(' + scaleX + ',' + scaleY + ')';
-};
+              img.src = window.URL.createObjectURL(file);
+            }));
 
-var initScale = getInitScale();
-console.log(initScale);
-var initRectangles = [{
-  x: 0,
-  y: 0,
-  width: canvasWidth,
-  height: canvasHeight,
-  fill: 'black',
-  id: 'initrect'
-}];
+          case 1:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
 
-var CinemaScope = /*#__PURE__*/function (_React$Component) {
-  _inherits(CinemaScope, _React$Component);
+  return function imagesize(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
-  var _super = _createSuper(CinemaScope);
+var StageTest = /*#__PURE__*/function (_React$Component) {
+  _inherits(StageTest, _React$Component);
 
-  function CinemaScope(props) {
+  var _super = _createSuper(StageTest);
+
+  function StageTest(props) {
     var _this;
 
-    _classCallCheck(this, CinemaScope);
+    _classCallCheck(this, StageTest);
 
     _this = _super.call(this, props);
-
-    _defineProperty(_assertThisInitialized(_this), "checkDeselect", function (e) {
-      // deselect when clicked on empty area
-      var clickedOnEmpty = e.target === e.target.getStage();
-
-      if (clickedOnEmpty) {
-        _this.setState({
-          selectedId: null
-        });
-      }
-    });
-
     _this.state = {
-      rectangles: initRectangles,
-      maskRectangles: [],
-      selectedId: '',
-      canvasWidth: 0,
-      canvasHeight: 0,
-      scaleX: 1,
-      scaleY: 1,
-      transform: initScale,
-      lastCenter: {},
-      lastDist: 0,
-      maskHeight: 0,
-      bottomBarY: 0,
-      firstImageWidth: 0,
-      firstImageHeight: 0,
-      scaleImageWidth: 0,
-      scaleImageHeight: 0,
-      bottomText: ""
+      stageWidth: 0,
+      stageHeight: 0,
+      transform: "scale(0.5)",
+      images: [],
+      currentImage: {
+        textLine: [],
+        textColor: defaultTextColor,
+        fontSize: defaultFontSize
+      },
+      currentImageIndex: 0
     };
-    _this.imageRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef(); // this.stageRef = React.createRef();
-
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
-    _this.handleChangeFile = _this.handleChangeFile.bind(_assertThisInitialized(_this));
-    _this.checkDeselect = _this.checkDeselect.bind(_assertThisInitialized(_this));
-    _this.setCanvasSize = _this.setCanvasSize.bind(_assertThisInitialized(_this));
-    _this.handleTouchMove = _this.handleTouchMove.bind(_assertThisInitialized(_this));
-    _this.getCenter = _this.getCenter.bind(_assertThisInitialized(_this));
-    _this.getDistance = _this.getDistance.bind(_assertThisInitialized(_this));
-    _this.handleExportClick = _this.handleExportClick.bind(_assertThisInitialized(_this));
+    _this.setStageSize = _this.setStageSize.bind(_assertThisInitialized(_this));
+    _this.setImages = _this.setImages.bind(_assertThisInitialized(_this));
+    _this.setText = _this.setText.bind(_assertThisInitialized(_this));
+    _this.setFiles = _this.setFiles.bind(_assertThisInitialized(_this));
+    _this.setCurrentImage = _this.setCurrentImage.bind(_assertThisInitialized(_this));
+    _this.handleDragEnd = _this.handleDragEnd.bind(_assertThisInitialized(_this));
+    _this.setDefaultImageValue = _this.setDefaultImageValue.bind(_assertThisInitialized(_this));
+    _this.imageRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
     return _this;
   }
 
-  _createClass(CinemaScope, [{
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {}
-  }, {
+  _createClass(StageTest, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.setState({
-        canvasWidth: canvasWidth
-      });
-      this.setState({
-        canvasHeight: canvasHeight
-      });
-      this.setCanvasSize();
-      window.addEventListener('resize', this.setCanvasSize);
+      console.log("Did Mount");
+      this.setStageSize();
+      this.setImages();
     }
   }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      window.removeEventListener('resize', this.setCanvasSize);
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      console.log("Did Update");
     }
   }, {
-    key: "setCanvasSize",
-    value: function setCanvasSize(e) {
-      var _this2 = this;
-
-      var scaleX = 1;
-
-      if (window.screen.width > 768 && window.innerWidth > 768) {
-        scaleX = 768 / this.state.canvasWidth;
-      } else {
-        scaleX = window.screen.width / this.state.canvasWidth * 0.93;
-      } // scaleX = window.screen.width / this.state.canvasWidth
-
-
-      var heightTragetValue = this.state.canvasHeight * scaleX;
-      var scaleY = heightTragetValue / this.state.canvasHeight;
+    key: "setStageSize",
+    value: function setStageSize() {
+      console.log("setStageSize");
       this.setState({
-        transform: 'scale(' + scaleX + ',' + scaleY + ')'
-      });
-      var maskHeight = 0;
-      maskHeight = (this.state.canvasHeight - this.state.canvasWidth / 2.39) / 2;
-      var newMaskRectangles = [];
-      maskRectangles.map(function (rect, i) {
-        if (rect.id == "topbar") {
-          rect.width = _this2.state.canvasWidth;
-          rect.height = maskHeight;
-        }
-
-        if (rect.id == "bottombar") {
-          rect.width = _this2.state.canvasWidth;
-          rect.y = _this2.state.canvasHeight - maskHeight;
-          rect.height = maskHeight;
-
-          _this2.setState({
-            bottomBarY: rect.y
-          });
-        }
-
-        newMaskRectangles.push(rect);
+        stageWidth: stageWidth
       });
       this.setState({
-        maskRectangles: newMaskRectangles
+        stageHeight: stageHeight
       });
     }
   }, {
-    key: "handleChange",
-    value: function handleChange(e) {
-      if (event.target.name == "bottomText") {
-        if (this.state.bottomText !== event.target.name) {
-          this.setState({
-            bottomText: event.target.value
-          });
+    key: "setImages",
+    value: function setImages() {
+      console.log("set Images");
+      var newImages = this.state.images;
+      testImages.map(function (testImage) {
+        var image = new window.Image();
+        image.src = testImage.src;
+        testImage.image = image;
+        newImages.push(testImage);
+      });
+      this.setState({
+        images: newImages
+      });
+    }
+  }, {
+    key: "setText",
+    value: function setText() {
+      var currentImage = this.state.currentImage;
+
+      if (event.target.name == "textLine") {
+        if (this.state.textLine !== event.target.name) {
+          currentImage.textLine = event.target.value.split("\n");
         }
       }
-    }
-  }, {
-    key: "getCenter",
-    value: function getCenter(p1, p2) {
-      return {
-        x: (p1.x + p2.x) / 2,
-        y: (p1.y + p2.y) / 2
-      };
-    }
-  }, {
-    key: "getDistance",
-    value: function getDistance(p1, p2) {
-      return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
-    }
-  }, {
-    key: "handleTouchMove",
-    value: function handleTouchMove(e) {
-      e.evt.preventDefault(); // let activeShape = this.state.selectedId
 
-      var activeShape = e.target;
-
-      if (activeShape.attrs.id == "canvas" || activeShape.attrs.id == "topbar" || activeShape.attrs.id == "bottombar") {
-        return false;
+      if (event.target.name == "textColor") {
+        if (this.state.textColor !== event.target.name) {
+          currentImage.textColor = event.target.value;
+        }
       }
 
-      var touch1 = e.evt.touches[0];
-      var touch2 = e.evt.touches[1];
+      if (event.target.name == "fontSize") {
+        if (this.state.fontSize !== event.target.name) {
+          currentImage.fontSize = event.target.value;
+        }
+      }
 
-      if (touch1 && touch2 && activeShape) {
-        this.stageRef.stopDrag();
-        var dist = this.getDistance({
-          x: touch1.clientX,
-          y: touch1.clientY
-        }, {
-          x: touch2.clientX,
-          y: touch2.clientY
-        });
+      this.setState({
+        currentImage: this.setDefaultImageValue(currentImage)
+      });
+    }
+  }, {
+    key: "setCurrentImage",
+    value: function setCurrentImage(index) {
+      console.log("set Current Image"); // save previous item
 
-        if (!this.state.lastDist) {
-          this.setState({
-            lastDist: dist
-          });
+      if (this.state.currentImageIndex) {
+        var images = this.state.images;
+        var updateImage = this.state.images[this.state.currentImageIndex];
+
+        for (var key in this.state.currentImage) {
+          updateImage[key] = this.state.currentImage[key];
         }
 
-        var scale = activeShape.scaleX() * dist / this.state.lastDist;
-        activeShape.scaleX(scale);
-        activeShape.scaleY(scale);
-        this.layerRef.batchDraw();
+        images[this.state.currentImageIndex] = updateImage;
         this.setState({
-          lastDist: dist
+          images: images
         });
       }
+
+      var selectedImage = this.state.images[index];
+      var imageObj = new window.Image();
+      imageObj.src = selectedImage.src;
+      var naturalWidth = 0;
+
+      var size = imageObj.onload = function () {
+        return {
+          width: imageObj.naturalWidth,
+          height: imageObj.naturalHeight
+        };
+      };
+
+      selectedImage.image = imageObj;
+      selectedImage.naturalWidth = size().width;
+      selectedImage.naturalHeight = size().height;
+      selectedImage.scaleX = stageWidth / size().width;
+      selectedImage.scaleY = selectedImage.scaleX;
+      selectedImage.width = selectedImage.naturalWidth * selectedImage.scaleX;
+      selectedImage.height = selectedImage.naturalHeight * selectedImage.scaleY;
+      this.setState({
+        currentImageIndex: index
+      });
+      this.setState({
+        currentImage: this.setDefaultImageValue(selectedImage)
+      });
     }
   }, {
-    key: "handleChangeFile",
-    value: function handleChangeFile(e) {
-      var _this3 = this;
+    key: "setDefaultImageValue",
+    value: function setDefaultImageValue(currentImage) {
+      if (!currentImage.textColor) {
+        currentImage.textColor = defaultTextColor;
+      }
 
+      if (!currentImage.fontSize) {
+        currentImage.fontSize = defaultFontSize;
+      }
+
+      if (!currentImage.textLine) {
+        currentImage.textLine = [];
+      }
+
+      return currentImage;
+    }
+  }, {
+    key: "setFiles",
+    value: function setFiles(e) {
       e.preventDefault();
 
-      var _loop = function _loop() {
-        var reader = new FileReader();
-        var file = e.target.files[i];
-
-        if (!file || file.type != 'image/jpeg' && file.type != 'image/png') {
-          return "continue";
+      for (var i in e.target.files) {
+        if (event.target.files[i].type == undefined) {
+          continue;
         }
 
-        var image = new window.Image();
-
-        reader.onloadend = function () {
-          image.src = reader.result;
-
-          image.onload = function () {
-            if (image.naturalWidth > limitPixelSize || image.naturalHeight > limitPixelSize) {
-              alert(limitPixelSizeError + "アップロードされた画像サイズ" + image.naturalWidth + "x" + image.naturalHeight);
-              return false;
-            }
-
-            var scaleImage = Number((_this3.state.canvasWidth / image.naturalWidth).toFixed(2));
-
-            _this3.setState({
-              scaleImageWidth: scaleImage
-            });
-
-            _this3.setState({
-              scaleImageHeight: scaleImage
-            });
-
-            var newItem = {
-              x: 0,
-              y: Number((_this3.state.canvasHeight / 2 - image.naturalHeight * scaleImage / 2).toFixed()),
-              width: Number((image.naturalWidth * scaleImage).toFixed()),
-              height: Number((image.naturalHeight * scaleImage).toFixed()),
-              imgSrc: reader.result,
-              id: 'rect' + (_this3.state.rectangles.length + 1)
-            };
-            console.log(newItem); // this.setState({firstImageWidth: image.naturalWidth * scaleContainerWidth})
-            // this.setState({firstImageHeight: image.naturalHeight * scaleContainerHeight})
-
-            var newRectangles = _this3.state.rectangles;
-            newRectangles.push(newItem);
-
-            _this3.setState({
-              rectangles: newRectangles
-            });
-          };
+        var url = window.URL.createObjectURL(event.target.files[i]);
+        var newItem = {
+          src: url,
+          id: 'rect' + (this.state.images.length + 1)
         };
-
-        reader.readAsDataURL(file);
-      };
-
-      for (var i in e.target.files) {
-        var _ret = _loop();
-
-        if (_ret === "continue") continue;
+        var newImages = this.state.images;
+        newImages.push(newItem);
+        this.setState({
+          images: newImages
+        });
       }
-
-      this.setCanvasSize();
     }
   }, {
-    key: "handleExportClick",
-    value: function handleExportClick() {
-      var uri = this.stageRef.getStage().toDataURL({
-        mimeType: "image/jpeg",
-        quality: 1
-      });
-      var link = document.createElement('a');
-      link.download = "cinema-scope.jpg";
-      link.href = uri;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link); // delete link;
+    key: "handleDragEnd",
+    value: function handleDragEnd() {// x: e.target.x(),
     }
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this,
-          _React$createElement;
+      var _this2 = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "container-fluid"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-7 col-sm-12 order-2 order-lg-2"
-      }, "Canvas", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Stage"], {
-        id: "canvas",
-        ref: function ref(node) {
-          _this4.stageRef = node;
-        },
-        width: this.state.canvasWidth,
-        height: this.state.canvasHeight,
-        onMouseDown: this.checkDeselect,
-        onTouchStart: this.checkDeselect,
-        onTouchMove: this.handleTouchMove,
-        onTouchEnd: function onTouchEnd() {
-          _this4.setState({
-            lastDist: 0
-          });
-        },
-        className: "canvas",
-        draggable: false,
-        style: {
-          width: "".concat(this.state.canvasWidth),
-          height: "".concat(this.state.canvasHeight),
-          transform: "".concat(this.state.transform)
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Layer"], {
-        ref: function ref(node) {
-          _this4.layerRef = node;
-        },
-        style: {
-          width: "".concat(this.state.canvasWidth),
-          height: "".concat(this.state.canvasHeight),
-          transform: "".concat(this.state.transform)
-        }
-      }, this.state.rectangles.map(function (rect, i) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Rectangle, {
-          key: rect.id,
-          shapeProps: rect,
-          isSelected: rect.id === _this4.state.selectedId,
-          onSelect: function onSelect() {
-            if (rect.id === _this4.state.selectedId) {
-              _this4.setState({
-                selectedId: null
-              });
-            } else {
-              _this4.setState({
-                selectedId: rect.id
-              });
-            }
-
-            if (rect.id == "topbar" || rect.id == "bottombar" || rect.id == "initrect") {
-              _this4.setState({
-                selectedId: null
-              });
-            }
-          },
-          onChange: function onChange(newAttrs) {
-            var rects = _this4.state.rectangles.slice();
-
-            rects[i] = newAttrs;
-
-            _this4.setState({
-              rectangles: rects
-            });
-          },
-          stage: _this4.stageRef,
-          scaleImageWidth: _this4.state.scaleImageWidth,
-          scaleImageHeight: _this4.state.scaleImageHeight
-        });
-      }), this.state.maskRectangles.map(function (rect, i) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Rectangle, {
-          key: rect.id,
-          shapeProps: rect,
-          isSelected: rect.id === _this4.state.selectedId,
-          onSelect: function onSelect() {
-            if (rect.id === _this4.state.selectedId) {
-              _this4.setState({
-                selectedId: null
-              });
-            } else {
-              _this4.setState({
-                selectedId: rect.id
-              });
-            }
-
-            if (rect.id == "topbar" || rect.id == "bottombar") {
-              _this4.setState({
-                selectedId: null
-              });
-            }
-          },
-          onChange: function onChange(newAttrs) {
-            var rects = _this4.state.rectangles.slice();
-
-            rects[i] = newAttrs;
-
-            _this4.setState({
-              rectangles: rects
-            });
-          },
-          stage: _this4.stageRef
-        });
-      }), this.state.bottomText.split("\n").map(function (line, i) {
+      }, this.state.images.map(function (thumbnail, i) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          key: "thumbnail-" + i,
+          className: "col-3 col-lg-1"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+          src: thumbnail.src,
+          width: thumbnailWidth,
+          onClick: function onClick() {
+            return _this2.setCurrentImage(i);
+          }
+        }));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        key: "current-div",
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Stage"], {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        scaleX: 0.5,
+        scaleY: 0.5
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Layer"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
+        key: "currentRect",
+        x: 20,
+        y: 50,
+        width: this.state.currentImage.width,
+        height: this.state.currentImage.height,
+        fillPatternImage: this.state.currentImage.image,
+        fillPatternScaleX: this.state.currentImage.scaleX,
+        fillPatternScaleY: this.state.currentImage.scaleY,
+        shadowBlur: 5
+      }), this.state.currentImage.textLine.map(function (line, i) {
         var positionY = i * 40;
-        var key = "bottomText" + i;
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_2__["Text"], {
-          key: key,
-          fontSize: _this4.state.canvasWidth * 0.023,
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
+          key: "textline" + i,
+          fontSize: Number(_this2.state.currentImage.fontSize),
           text: line,
           wrap: "char",
           align: "center",
-          width: _this4.state.canvasWidth,
-          height: _this4.state.maskHeight,
-          y: _this4.state.bottomBarY + 15 + positionY,
-          fill: "#ccc",
+          width: stageWidth,
+          height: 100,
+          y: 40 * i,
+          fill: _this2.state.currentImage.textColor,
           draggable: true,
+          onDragEnd: _this2.handleDragEnd,
           style: {
-            transform: "".concat(_this4.state.transform)
+            transform: "".concat(_this2.state.transform)
           }
         });
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-5 col-sm-12 order-1 order-lg-1"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        "class": "card text-dark"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        "class": "card-header"
-      }, "Featured"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-body"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-        className: "card-title"
-      }, "\u51FA\u6765\u308B\u4E8B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u30FB\u30D6\u30E9\u30A6\u30B6\u4E0A\u3067\u7C21\u5358\u306B\u30B7\u30CD\u30DE\u30B9\u30B3\u30FC\u30D7\u6BD4\u7387\u306E\u30DE\u30B9\u30AD\u30F3\u30B0\u753B\u50CF\u3092\u4F5C\u6210\u3002(1:2.39\u3092\u9069\u7528)", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u4E0B\u306E\u9ED2\u5E2F\u306B\u5B57\u5165\u308C\u3002", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\u30FB\u8868\u793A\u3055\u308C\u3066\u3044\u308B\u753B\u50CF\u3092\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u3002"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "* PC, Android\u30B9\u30DE\u30DB\u306EGoogle Chrome\u3067\u52D5\u4F5C\u78BA\u8A8D\u6E08\u307F", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "* \u30B9\u30DE\u30DB\u30D6\u30E9\u30A6\u30B6\u5BFE\u7B56\u306B\u30A2\u30C3\u30D7\u53EF\u80FD\u306A\u753B\u50CF\u306E\u9577\u8FBA\u306E\u6700\u5927\u5E45\u3092", limitPixelSize, "px\u306B\u5236\u9650\u3057\u3066\u3044\u307E\u3059", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "(LightRoom\u66F8\u304D\u51FA\u3057\u30B5\u30A4\u30BA\uFF08\u5C0F\uFF09\u306F2048px\u3067\u3059\u3002)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "text-right"
-      }, "canvas:", this.state.canvasWidth, " x ", this.state.canvasHeight), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group-prepend"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "input-group-text"
-      }, "1. File")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "File")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "custom-file"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", (_React$createElement = {
-        id: "imagefile",
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "inputFile",
         ref: this.imageRef,
-        onChange: this.handleChangeFile,
+        onChange: this.setFiles,
         type: "file",
-        className: "custom-file-input"
-      }, _defineProperty(_React$createElement, "id", "inputFile"), _defineProperty(_React$createElement, "multiple", true), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "custom-file-input",
+        multiple: true
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "imagefile",
         className: "custom-file-label",
         "data-browse": "\u53C2\u7167"
-      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E(\u9577\u8FBA", limitPixelSize, "px 2\uFF5E3MB\u3092\u4E0A\u9650)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E(\u9577\u8FBA", limitPixelSize, "px 2\uFF5E3MB\u3092\u4E0A\u9650)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group-prepend"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "input-group-text"
-      }, "2. Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+      }, "Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
+        className: "form-control",
+        name: "textLine",
+        value: this.state.currentImage.textLine.join("\n"),
+        onChange: this.setText,
+        placeholder: "\u4E0B\u5E2F\u306B\u8868\u793A\u3055\u305B\u308B\u30C6\u30AD\u30B9\u30C8\u3092\u5165\u529B"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group-prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "input-group-text"
+      }, "Color")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "text",
         className: "form-control",
-        name: "bottomText",
-        value: this.state.bottomText,
-        onChange: this.handleChange,
-        placeholder: "\u4E0B\u5E2F\u306B\u8868\u793A\u3055\u305B\u308B\u30C6\u30AD\u30B9\u30C8\u3092\u5165\u529B"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "btn btn-light",
-        type: "button",
-        value: "3. DownLoad",
-        onClick: this.handleExportClick
-      }))))));
+        name: "textColor",
+        value: this.state.currentImage.textColor,
+        onChange: this.setText,
+        placeholder: "\u30C6\u30AD\u30B9\u30C8\u30AB\u30E9\u30FC"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group-prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "input-group-text"
+      }, "Size")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        name: "fontSize",
+        value: this.state.currentImage.fontSize,
+        onChange: this.setText,
+        placeholder: "\u30C6\u30AD\u30B9\u30C8\u30B5\u30A4\u30BA"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", null, "btn"))))));
     }
   }]);
 
-  return CinemaScope;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+  return StageTest;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (CinemaScope);
+/* harmony default export */ __webpack_exports__["default"] = (StageTest);
 
 /***/ }),
 

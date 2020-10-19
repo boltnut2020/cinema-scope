@@ -10,7 +10,7 @@ if (window.screen.width > 768 ) {
     limitPixelSize = 10000
 } 
 
-const limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
+cconst limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 // const canvasWidth = 4000
 // const canvasHeight = 3000
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage, scaleImageWidth, scaleImageHeight }) => {
@@ -371,7 +371,7 @@ class CinemaScope extends React.Component{
               }}
               className='canvas'
               draggable={false}
-              style={{width: `${ this.state.canvasWidth }` , height: `${ this.state.canvasHeight }` , transform: `${ this.state.transform }` }}
+              style={{ width: `${ this.state.canvasWidth }` , height: `${ this.state.canvasHeight }` , transform: `${ this.state.transform }` }}
             >
               <Layer 
                 ref={node => {this.layerRef = node}}
@@ -434,28 +434,27 @@ class CinemaScope extends React.Component{
                 })}
     
                 {this.state.bottomText.split("\n").map((line, i) => {
-                var positionY = i * 40
-                var key = "bottomText" + i
-                return(
-                  <Text
-                    key={key}
-                    fontSize={this.state.canvasWidth * 0.023}
-                    text={line}
-                    wrap="char"
-                    align="center"
-                    width={this.state.canvasWidth}
-                    height={this.state.maskHeight}
-                    y={this.state.bottomBarY + 15 + positionY}
-                    fill="#ccc"
-                    draggable={true}
-                    style={{ transform: `${ this.state.transform }` }}
-                  />
-                )})}
+                  var positionY = i * 40
+                  var key = "bottomText" + i
+                  return(
+                    <Text
+                      key={key}
+                      fontSize={this.state.canvasWidth * 0.023}
+                      text={line}
+                      wrap="char"
+                      align="center"
+                      width={this.state.canvasWidth}
+                      height={this.state.maskHeight}
+                      y={this.state.bottomBarY + 15 + positionY}
+                      fill="#ccc"
+                      draggable={true}
+                      style={{ transform: `${ this.state.transform }` }}
+                    />
+                  )})}
               </Layer>
             </Stage>
           </div>
           <div className="col-md-5 col-sm-12 order-1 order-lg-1">
-          
             <div class="card text-dark">
               <div class="card-header">
                 Featured

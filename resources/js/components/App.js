@@ -4,6 +4,7 @@ import {Link, BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import CinemaScope from './CinemaScope'
 import About from './About'
+import StageTest from './StageTest'
 
 const App = () => {
     return (
@@ -39,6 +40,7 @@ const App = () => {
             <main className="py-4">
             <Switch>
                 <Route path="/" exact component={CinemaScope} />
+                <Route path="/stage-test" exact component={StageTest} />
             </Switch>
             </main>
         </React.Fragment>
