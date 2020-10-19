@@ -10,7 +10,7 @@ if (window.screen.width > 768 ) {
     limitPixelSize = 10000
 } 
 
-cconst limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
+const limitPixelSizeError = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 // const canvasWidth = 4000
 // const canvasHeight = 3000
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, stage, scaleImageWidth, scaleImageHeight }) => {
