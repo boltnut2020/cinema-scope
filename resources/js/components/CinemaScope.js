@@ -5,7 +5,7 @@ import "./CinemaScope.css"
 
 const canvasWidth = 1280
 const canvasHeight = 720
-let limitPixelSize = 6240
+let limitPixelSize = 2500
 if (window.screen.width > 768 ) {
     limitPixelSize = 10000
 } 

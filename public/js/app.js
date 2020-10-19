@@ -100542,7 +100542,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var canvasWidth = 1280;
 var canvasHeight = 720;
-var limitPixelSize = 6240;
+var limitPixelSize = 2500;
 
 if (window.screen.width > 768) {
   limitPixelSize = 10000;
