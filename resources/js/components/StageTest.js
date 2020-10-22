@@ -28,10 +28,10 @@ const maskRectangles = [
   },
   {
     x: 0,
-    y: 0,
-    width: windowWidth,
-    height: 100,
-    fill: 'black',
+//    y: 0,
+//    width: windowWidth,
+//    height: 100,
+//    fill: 'black',
     id: 'bottommask',
   },
 ];
@@ -68,7 +68,8 @@ class StageTest extends React.Component {
   componentDidMount() {
     console.log("Did Mount")
     this.setStageSize()
-    this.setImages()
+    this.setCinemaScope()
+    // this.setImages()
 
     console.log(this.stageRef)  
   }
@@ -88,7 +89,7 @@ class StageTest extends React.Component {
     if ( window.screen.width > 768 && window.innerWidth > 768) {
       scaleX = 768 / this.state.stageWidth * 0.9
     } else {
-      scaleX = window.screen.width / this.state.stageWidth * 0.98
+      scaleX = window.screen.width / this.state.stageWidth * 0.9
     }
 
 
@@ -227,6 +228,10 @@ class StageTest extends React.Component {
       await this.setFile(event.target.files[i])
     }
 
+    //if( this.state.images.length > 0 && this.state.currentImage.src == "") {
+    //  console.log(this.state.images)
+    //  this.setCurrentImage(0)
+    //}
   }
 
   setFile(file) {
@@ -417,7 +422,7 @@ class StageTest extends React.Component {
               </div>
               <div className="custom-file">
                   <input id="inputFile" ref={this.imageRef} onChange={this.setFiles} type="file" className="custom-file-input" multiple />
-                  <label htmlFor="imagefile" className="custom-file-label"  data-browse="参照">ファイルを選択(長辺{limitPixelSize}px 2～3MBを上限)</label>
+                  <label htmlFor="imagefile" className="custom-file-label"  data-browse="参照">ファイルを選択</label>
               </div>
             </div>
 

@@ -12,7 +12,7 @@ const App = () => {
         <React.Fragment>
           <nav className="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div className="container">
-              <a className="navbar-brand" href="{{ url('/') }}">
+              <a className="navbar-brand" href="/">
                   CinemaScope
               </a>
 
@@ -39,7 +39,7 @@ const App = () => {
             </nav>
             <main className="py-4">
             <Switch>
-                <Route path="/" exact component={CinemaScope} />
+                <Route path="/" exact component={StageTest} />
                 <Route path="/stage-test" exact component={StageTest} />
             </Switch>
             </main>

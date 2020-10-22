@@ -113968,7 +113968,7 @@ var App = function App() {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "navbar-brand",
-    href: "{{ url('/') }}"
+    href: "/"
   }, "CinemaScope"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "navbar-toggler",
     type: "button",
@@ -113999,7 +113999,7 @@ var App = function App() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: "/",
     exact: true,
-    component: _CinemaScope__WEBPACK_IMPORTED_MODULE_3__["default"]
+    component: _StageTest__WEBPACK_IMPORTED_MODULE_5__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: "/stage-test",
     exact: true,
@@ -114893,10 +114893,10 @@ var maskRectangles = [{
   id: 'topmask'
 }, {
   x: 0,
-  y: 0,
-  width: windowWidth,
-  height: 100,
-  fill: 'black',
+  //    y: 0,
+  //    width: windowWidth,
+  //    height: 100,
+  //    fill: 'black',
   id: 'bottommask'
 }];
 
@@ -114965,7 +114965,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       console.log("Did Mount");
       this.setStageSize();
-      this.setImages();
+      this.setCinemaScope(); // this.setImages()
+
       console.log(this.stageRef);
     }
   }, {
@@ -114985,7 +114986,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       if (window.screen.width > 768 && window.innerWidth > 768) {
         scaleX = 768 / this.state.stageWidth * 0.9;
       } else {
-        scaleX = window.screen.width / this.state.stageWidth * 0.98;
+        scaleX = window.screen.width / this.state.stageWidth * 0.9;
       } //    let heightTragetValue = 1
       //    if (finalCurrentImage) {
       //        console.log(finalCurrentImage.height)
@@ -115381,7 +115382,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         htmlFor: "imagefile",
         className: "custom-file-label",
         "data-browse": "\u53C2\u7167"
-      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E(\u9577\u8FBA", limitPixelSize, "px 2\uFF5E3MB\u3092\u4E0A\u9650)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group-prepend"
