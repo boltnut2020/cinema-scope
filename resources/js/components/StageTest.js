@@ -28,10 +28,10 @@ const maskRectangles = [
   },
   {
     x: 0,
-//    y: 0,
-//    width: windowWidth,
-//    height: 100,
-//    fill: 'black',
+    y: 0,
+    width: windowWidth,
+    height: 100,
+    fill: 'black',
     id: 'bottommask',
   },
 ];
