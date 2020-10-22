@@ -75,15 +75,20 @@ class StageTest extends React.Component {
 
   componentDidUpdate() {
     console.log("Did Update")
+
+   // if( this.state.images.length > 0 && this.state.currentImage.src == "") {
+   //   console.log(this.state.images)
+   //   this.setCurrentImage(0)
+   // }
   }
 
   setStageSize(finalCurrentImage) {
     console.log("setStageSize")
     var scaleX = 1
     if ( window.screen.width > 768 && window.innerWidth > 768) {
-      scaleX = 768 / this.state.stageWidth * 0.8
+      scaleX = 768 / this.state.stageWidth * 0.9
     } else {
-      scaleX = window.screen.width / this.state.stageWidth * 0.93
+      scaleX = window.screen.width / this.state.stageWidth * 0.98
     }
 
 
@@ -151,6 +156,7 @@ class StageTest extends React.Component {
       this.setState({images: images})
     }
 
+    
     var selectedImage = this.state.images[index]
 
     var imageObj = new window.Image();
@@ -221,7 +227,6 @@ class StageTest extends React.Component {
       await this.setFile(event.target.files[i])
     }
 
-    console.log(this.state.images)
   }
 
   setFile(file) {
@@ -264,14 +269,16 @@ class StageTest extends React.Component {
              widthOrigin: imageObj.width,
              heightOrigin: imageObj.height
            }
-         
+           
            var newImages = this.state.images
            newImages.push(newItem)
            this.setState({images: newImages})
+
          }, file.type, 1);
       }
     }
     reader.readAsDataURL(file);
+
   }
 
   setCinemaScope() {
@@ -328,18 +335,18 @@ class StageTest extends React.Component {
         </div>
         <div key="current-div" className="row">
           <div className="col-sm-6 p-0" >
+            {/*
             <div className="col-sm-12 text-right">
               <div className="row">
                 <div className="col-sm-6 text-right">
                 </div>
                 <div className="col-sm-6 text-right">
                     <p>Canvas: {stageWidth} x {stageHeight} Image: {this.state.currentImage.width} x {this.state.currentImage.height}</p>
-                    <InputSlider
-                    onChange={this.handleSliderChange} />
 
                 </div>
               </div>
             </div>
+            */}
             <div 
               className="col-sm-12"
               style={{height: `${this.state.stageDivHeight}`}}
@@ -399,6 +406,7 @@ class StageTest extends React.Component {
               </Stage>
             </div>
             <div className="col-sm-12 text-right">
+              <InputSlider onChange={this.handleSliderChange} />
               <input className="btn btn-light" type="button" value="DownLoad" onClick={this.handleExportClick} />
             </div>
           </div>
@@ -432,9 +440,6 @@ class StageTest extends React.Component {
                 <span className="input-group-text">Size</span>
               </div>
             <input type="text" className="form-control" name="fontSize" value={this.state.currentImage.fontSize} onChange={this.setText} placeholder="テキストサイズ" />
-            </div>
-            <div className="input-group mb-3">
-              <button>btn</button>
             </div>
           </div>
         </div>

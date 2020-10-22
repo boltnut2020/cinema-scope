@@ -114752,7 +114752,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var sizeMax = 100;
 var useStyles = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__["makeStyles"])({
   root: {
-    width: 250
+    position: "relative",
+    right: 0,
+    width: "100%",
+    justifyContent: "flex-end"
   },
   input: {
     width: 42
@@ -114787,16 +114790,11 @@ function InputSlider(props) {
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: classes.root
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    id: "input-slider",
-    gutterBottom: true
-  }, "Volume"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_2__["default"], {
     container: true,
     spacing: 2,
     alignItems: "center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    item: true
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_VolumeUp__WEBPACK_IMPORTED_MODULE_6___default.a, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_2__["default"], {
     item: true,
     xs: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Slider__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -114973,7 +114971,10 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      console.log("Did Update");
+      console.log("Did Update"); // if( this.state.images.length > 0 && this.state.currentImage.src == "") {
+      //   console.log(this.state.images)
+      //   this.setCurrentImage(0)
+      // }
     }
   }, {
     key: "setStageSize",
@@ -114982,9 +114983,9 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       var scaleX = 1;
 
       if (window.screen.width > 768 && window.innerWidth > 768) {
-        scaleX = 768 / this.state.stageWidth * 0.8;
+        scaleX = 768 / this.state.stageWidth * 0.9;
       } else {
-        scaleX = window.screen.width / this.state.stageWidth * 0.93;
+        scaleX = window.screen.width / this.state.stageWidth * 0.98;
       } //    let heightTragetValue = 1
       //    if (finalCurrentImage) {
       //        console.log(finalCurrentImage.height)
@@ -115157,9 +115158,6 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
                 break;
 
               case 11:
-                console.log(this.state.images);
-
-              case 12:
               case "end":
                 return _context.stop();
             }
@@ -115300,16 +115298,6 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-6 p-0"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-12 text-right"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-6 text-right"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-6 text-right"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Canvas: ", stageWidth, " x ", stageHeight, " Image: ", this.state.currentImage.width, " x ", this.state.currentImage.height), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_InputSlider__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        onChange: this.handleSliderChange
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-12",
         style: {
           height: "".concat(this.state.stageDivHeight)
@@ -115365,7 +115353,9 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         });
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-12 text-right"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_InputSlider__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        onChange: this.handleSliderChange
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         className: "btn btn-light",
         type: "button",
         value: "DownLoad",
@@ -115429,9 +115419,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         value: this.state.currentImage.fontSize,
         onChange: this.setText,
         placeholder: "\u30C6\u30AD\u30B9\u30C8\u30B5\u30A4\u30BA"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", null, "btn"))))));
+      }))))));
     }
   }]);
 
