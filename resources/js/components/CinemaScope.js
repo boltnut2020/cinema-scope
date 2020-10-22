@@ -196,7 +196,6 @@ class CinemaScope extends React.Component{
   }
 
   setCanvasSize(e) {
-  
       var scaleX = 1
       if ( window.screen.width > 768 && window.innerWidth > 768) {
         scaleX = 768 / this.state.canvasWidth
@@ -307,8 +306,6 @@ class CinemaScope extends React.Component{
       let image = new window.Image();
       reader.onloadend = () => {
         image.src = reader.result;
-
-
         image.onload = () => {
           if ( image.naturalWidth > limitPixelSize || image.naturalHeight > limitPixelSize) {
             alert(limitPixelSizeError + "アップロードされた画像サイズ" + image.naturalWidth + "x" + image.naturalHeight)
