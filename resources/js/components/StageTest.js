@@ -49,6 +49,7 @@ class StageTest extends React.Component {
     this.state = {
         stageWidth: stageWidth,
         stageHeight: stageHeight,
+        stageDivWidth: stageWidth,
         stageDivHeight: stageHeight,
         transform: defaultScale,
         images: [],
@@ -84,7 +85,7 @@ class StageTest extends React.Component {
 
     if( this.state.images.length > 0 && this.state.currentImage.src == "") {
       console.log(this.state.images)
-      this.setCurrentImage(0)
+      // this.setCurrentImage(0)
     }
   }
 
@@ -105,8 +106,10 @@ class StageTest extends React.Component {
 //    } else {
 //    }
     var heightTragetValue = this.state.stageHeight * scaleX
+    var widthTragetValue = this.state.stageWidth * scaleX
     let scaleY =  heightTragetValue / this.state.stageHeight
     this.setState({transform: 'scale(' + scaleX + ',' + scaleY + ')'})
+    this.setState({stageDivWidth: widthTragetValue + "px"})
     this.setState({stageDivHeight: heightTragetValue + 30 + "px"})
   }
 
@@ -180,8 +183,9 @@ class StageTest extends React.Component {
       }
       selectedImage.scaleX = stageWidth / selectedImage.width
       selectedImage.scaleY = selectedImage.scaleX
-      selectedImage.width = (selectedImage.width * selectedImage.scaleXBase).toFixed()
-      selectedImage.height = (selectedImage.height * selectedImage.scaleYBase).toFixed()
+
+      selectedImage.width = (selectedImage.widthOrigin * selectedImage.scaleX).toFixed()
+      selectedImage.height = (selectedImage.heightOrigin * selectedImage.scaleY).toFixed()
 
       this.setState({currentImageIndex: index})
       var finalCurrentImage = this.setDefaultImageValue(selectedImage)
@@ -334,7 +338,7 @@ class StageTest extends React.Component {
     return(
       <React.Fragment>
       <div className="container-fluid">
-        <div className="row p-0 overflow-x:scroll">
+        <div className="row p-0 overflow-x:scroll" style={{minHeight: "75px", borderBottom: "1px #000 solid"}}>
           {this.state.images.map((thumbnail, i) => {
             return(
               <div key={"thumbnail-" + i} className="col-3 col-lg-1 p-1">
@@ -452,9 +456,10 @@ class StageTest extends React.Component {
             <input type="text" className="form-control" name="fontSize" value={this.state.currentImage.fontSize} onChange={this.setText} placeholder="テキストサイズ" />
             </div>
             <div className="input-group mb-3">
-              <ul>
-                <li>{this.state.stageWidth} x {this.state.stageHeight}</li>
-                <li>{this.state.currentImage.width} x {this.state.currentImage.height}</li>
+              <ul className="list-group text-dark">
+                <li className="list-group-item p-2">Property</li>
+                <li className="list-group-item"><i className="far fa-window-maximize mr-2"></i>{this.state.stageWidth} x {this.state.stageHeight}
+                <i className="far fa-image ml-2 mr-2"></i>{this.state.currentImage.width} x {this.state.currentImage.height}</li>
               </ul>
             </div>
           </div>

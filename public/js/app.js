@@ -114937,6 +114937,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       stageWidth: stageWidth,
       stageHeight: stageHeight,
+      stageDivWidth: stageWidth,
       stageDivHeight: stageHeight,
       transform: defaultScale,
       images: [],
@@ -114981,8 +114982,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       console.log("Did Update");
 
       if (this.state.images.length > 0 && this.state.currentImage.src == "") {
-        console.log(this.state.images);
-        this.setCurrentImage(0);
+        console.log(this.state.images); // this.setCurrentImage(0)
       }
     }
   }, {
@@ -115004,9 +115004,13 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
 
 
       var heightTragetValue = this.state.stageHeight * scaleX;
+      var widthTragetValue = this.state.stageWidth * scaleX;
       var scaleY = heightTragetValue / this.state.stageHeight;
       this.setState({
         transform: 'scale(' + scaleX + ',' + scaleY + ')'
+      });
+      this.setState({
+        stageDivWidth: widthTragetValue + "px"
       });
       this.setState({
         stageDivHeight: heightTragetValue + 30 + "px"
@@ -115105,8 +115109,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
 
                   selectedImage.scaleX = stageWidth / selectedImage.width;
                   selectedImage.scaleY = selectedImage.scaleX;
-                  selectedImage.width = (selectedImage.width * selectedImage.scaleXBase).toFixed();
-                  selectedImage.height = (selectedImage.height * selectedImage.scaleYBase).toFixed();
+                  selectedImage.width = (selectedImage.widthOrigin * selectedImage.scaleX).toFixed();
+                  selectedImage.height = (selectedImage.heightOrigin * selectedImage.scaleY).toFixed();
 
                   _this2.setState({
                     currentImageIndex: index
@@ -115316,7 +115320,11 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "container-fluid"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row p-0 overflow-x:scroll"
+        className: "row p-0 overflow-x:scroll",
+        style: {
+          minHeight: "75px",
+          borderBottom: "1px #000 solid"
+        }
       }, this.state.images.map(function (thumbnail, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           key: "thumbnail-" + i,
@@ -115457,7 +115465,17 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         placeholder: "\u30C6\u30AD\u30B9\u30C8\u30B5\u30A4\u30BA"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, this.state.stageWidth, " x ", this.state.stageHeight), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, this.state.currentImage.width, " x ", this.state.currentImage.height)))))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+        className: "list-group text-dark"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        className: "list-group-item p-2"
+      }, "Property"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        className: "list-group-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "far fa-window-maximize mr-2"
+      }), this.state.stageWidth, " x ", this.state.stageHeight, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "far fa-image ml-2 mr-2"
+      }), this.state.currentImage.width, " x ", this.state.currentImage.height)))))));
     }
   }]);
 
