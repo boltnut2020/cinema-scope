@@ -114980,10 +114980,6 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
       console.log("Did Update");
-
-      if (this.state.images.length > 0 && this.state.currentImage.src == "") {
-        console.log(this.state.images); // this.setCurrentImage(0)
-      }
     }
   }, {
     key: "setStageSize",
@@ -115107,10 +115103,10 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
                     selectedImage.heightBase = selectedImage.height * selectedImage.scaleYBase;
                   }
 
-                  selectedImage.scaleX = stageWidth / selectedImage.width;
-                  selectedImage.scaleY = selectedImage.scaleX;
-                  selectedImage.width = (selectedImage.widthOrigin * selectedImage.scaleX).toFixed();
-                  selectedImage.height = (selectedImage.heightOrigin * selectedImage.scaleY).toFixed();
+                  selectedImage.scaleX = selectedImage.scaleXBase;
+                  selectedImage.scaleY = selectedImage.scaleXBase;
+                  selectedImage.width = selectedImage.widthBase;
+                  selectedImage.height = selectedImage.heightBase;
 
                   _this2.setState({
                     currentImageIndex: index
@@ -115197,6 +115193,12 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
                 break;
 
               case 11:
+                if (this.state.images.length > 0 && this.state.currentImage.src == "") {
+                  console.log(this.state.images);
+                  this.setCurrentImage(0);
+                }
+
+              case 12:
               case "end":
                 return _context2.stop();
             }

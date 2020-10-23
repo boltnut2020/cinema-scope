@@ -82,11 +82,6 @@ class StageTest extends React.Component {
 
   componentDidUpdate() {
     console.log("Did Update")
-
-    if( this.state.images.length > 0 && this.state.currentImage.src == "") {
-      console.log(this.state.images)
-      // this.setCurrentImage(0)
-    }
   }
 
   setStageSize(finalCurrentImage) {
@@ -181,11 +176,12 @@ class StageTest extends React.Component {
         selectedImage.widthBase = selectedImage.width * selectedImage.scaleXBase
         selectedImage.heightBase = selectedImage.height * selectedImage.scaleYBase
       }
-      selectedImage.scaleX = stageWidth / selectedImage.width
-      selectedImage.scaleY = selectedImage.scaleX
 
-      selectedImage.width = (selectedImage.widthOrigin * selectedImage.scaleX).toFixed()
-      selectedImage.height = (selectedImage.heightOrigin * selectedImage.scaleY).toFixed()
+      selectedImage.scaleX = selectedImage.scaleXBase
+      selectedImage.scaleY = selectedImage.scaleXBase
+      selectedImage.width = selectedImage.widthBase
+      selectedImage.height = selectedImage.heightBase
+
 
       this.setState({currentImageIndex: index})
       var finalCurrentImage = this.setDefaultImageValue(selectedImage)
@@ -236,10 +232,10 @@ class StageTest extends React.Component {
       await this.setFile(event.target.files[i])
     }
 
-    //if( this.state.images.length > 0 && this.state.currentImage.src == "") {
-    //  console.log(this.state.images)
-    //  this.setCurrentImage(0)
-    //}
+    if( this.state.images.length > 0 && this.state.currentImage.src == "") {
+      console.log(this.state.images)
+      this.setCurrentImage(0)
+    }
   }
 
   setFile(file) {
