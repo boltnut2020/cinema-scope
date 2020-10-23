@@ -82,10 +82,10 @@ class StageTest extends React.Component {
   componentDidUpdate() {
     console.log("Did Update")
 
-   // if( this.state.images.length > 0 && this.state.currentImage.src == "") {
-   //   console.log(this.state.images)
-   //   this.setCurrentImage(0)
-   // }
+    if( this.state.images.length > 0 && this.state.currentImage.src == "") {
+      console.log(this.state.images)
+      this.setCurrentImage(0)
+    }
   }
 
   setStageSize(finalCurrentImage) {
@@ -145,7 +145,7 @@ class StageTest extends React.Component {
     this.setState({currentImage: this.setDefaultImageValue(currentImage)});
   }
 
-  setCurrentImage(index) {
+  async setCurrentImage(index) {
 
     if(index == undefined) {
         return false
@@ -168,30 +168,28 @@ class StageTest extends React.Component {
     var imageObj = new window.Image();
     imageObj.src = selectedImage.src;
     var naturalWidth = 0;
-    var size = imageObj.onload = () => {
-      return {width: imageObj.naturalWidth, height: imageObj.naturalHeight}
-    }
-    selectedImage.image = imageObj
-    selectedImage.naturalWidth = size().width
-    selectedImage.naturalHeight = size().height
+    imageObj.onload = () => {
+      selectedImage.image = imageObj
 
-    // need initial size for zooming calcurate
-    if (!selectedImage.scaleXBase) {
-      selectedImage.scaleXBase = stageWidth / size().width
-      selectedImage.scaleYBase = selectedImage.scaleXBase
-      selectedImage.widthBase = selectedImage.naturalWidth * selectedImage.scaleXBase
-      selectedImage.heightBase = selectedImage.naturalHeight * selectedImage.scaleYBase
-    }
-    selectedImage.scaleX = stageWidth / size().width
-    selectedImage.scaleY = selectedImage.scaleX
-    selectedImage.width = (selectedImage.naturalWidth * selectedImage.scaleXBase).toFixed()
-    selectedImage.height = (selectedImage.naturalHeight * selectedImage.scaleYBase).toFixed()
+      // need initial size for zooming calcurate
+      if (!selectedImage.scaleXBase) {
+        selectedImage.scaleXBase = stageWidth / selectedImage.width
+        selectedImage.scaleYBase = selectedImage.scaleXBase
+        selectedImage.widthBase = selectedImage.width * selectedImage.scaleXBase
+        selectedImage.heightBase = selectedImage.height * selectedImage.scaleYBase
+      }
+      selectedImage.scaleX = stageWidth / selectedImage.width
+      selectedImage.scaleY = selectedImage.scaleX
+      selectedImage.width = (selectedImage.width * selectedImage.scaleXBase).toFixed()
+      selectedImage.height = (selectedImage.height * selectedImage.scaleYBase).toFixed()
 
-    this.setState({currentImageIndex: index})
-    var finalCurrentImage = this.setDefaultImageValue(selectedImage)
-    this.setState({currentImage: finalCurrentImage})
-    this.setStageSize(finalCurrentImage)
-    this.setCinemaScope()
+      this.setState({currentImageIndex: index})
+      var finalCurrentImage = this.setDefaultImageValue(selectedImage)
+      console.log(finalCurrentImage)
+      this.setState({currentImage: finalCurrentImage})
+      this.setStageSize(finalCurrentImage)
+      this.setCinemaScope()
+    }
   }
 
   handleSliderChange = (e, newValue) => {
@@ -374,8 +372,8 @@ class StageTest extends React.Component {
                     key={"currentRect"}
                     x={ (stageWidth - this.state.currentImage.width) / 2}
                     y={ (stageHeight - this.state.currentImage.height) / 2}
-                    width={this.state.currentImage.width}
-                    height={this.state.currentImage.height}
+                    width={Number(this.state.currentImage.width)}
+                    height={Number(this.state.currentImage.height)}
                     fillPatternImage={this.state.currentImage.image}
                     fillPatternScaleX={this.state.currentImage.scaleX}
                     fillPatternScaleY={this.state.currentImage.scaleY}

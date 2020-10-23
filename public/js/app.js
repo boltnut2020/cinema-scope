@@ -114978,10 +114978,12 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      console.log("Did Update"); // if( this.state.images.length > 0 && this.state.currentImage.src == "") {
-      //   console.log(this.state.images)
-      //   this.setCurrentImage(0)
-      // }
+      console.log("Did Update");
+
+      if (this.state.images.length > 0 && this.state.currentImage.src == "") {
+        console.log(this.state.images);
+        this.setCurrentImage(0);
+      }
     }
   }, {
     key: "setStageSize",
@@ -115053,64 +115055,90 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "setCurrentImage",
-    value: function setCurrentImage(index) {
-      if (index == undefined) {
-        return false;
+    value: function () {
+      var _setCurrentImage = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(index) {
+        var _this2 = this;
+
+        var images, updateImage, key, selectedImage, imageObj, naturalWidth;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(index == undefined)) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 2:
+                console.log("set Current Image"); // save previous item
+
+                if (this.state.currentImageIndex) {
+                  images = this.state.images;
+                  updateImage = this.state.images[this.state.currentImageIndex];
+
+                  for (key in this.state.currentImage) {
+                    updateImage[key] = this.state.currentImage[key];
+                  }
+
+                  images[this.state.currentImageIndex] = updateImage;
+                  this.setState({
+                    images: images
+                  });
+                }
+
+                selectedImage = this.state.images[index];
+                imageObj = new window.Image();
+                imageObj.src = selectedImage.src;
+                naturalWidth = 0;
+
+                imageObj.onload = function () {
+                  selectedImage.image = imageObj; // need initial size for zooming calcurate
+
+                  if (!selectedImage.scaleXBase) {
+                    selectedImage.scaleXBase = stageWidth / selectedImage.width;
+                    selectedImage.scaleYBase = selectedImage.scaleXBase;
+                    selectedImage.widthBase = selectedImage.width * selectedImage.scaleXBase;
+                    selectedImage.heightBase = selectedImage.height * selectedImage.scaleYBase;
+                  }
+
+                  selectedImage.scaleX = stageWidth / selectedImage.width;
+                  selectedImage.scaleY = selectedImage.scaleX;
+                  selectedImage.width = (selectedImage.width * selectedImage.scaleXBase).toFixed();
+                  selectedImage.height = (selectedImage.height * selectedImage.scaleYBase).toFixed();
+
+                  _this2.setState({
+                    currentImageIndex: index
+                  });
+
+                  var finalCurrentImage = _this2.setDefaultImageValue(selectedImage);
+
+                  console.log(finalCurrentImage);
+
+                  _this2.setState({
+                    currentImage: finalCurrentImage
+                  });
+
+                  _this2.setStageSize(finalCurrentImage);
+
+                  _this2.setCinemaScope();
+                };
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function setCurrentImage(_x) {
+        return _setCurrentImage.apply(this, arguments);
       }
 
-      console.log("set Current Image"); // save previous item
-
-      if (this.state.currentImageIndex) {
-        var images = this.state.images;
-        var updateImage = this.state.images[this.state.currentImageIndex];
-
-        for (var key in this.state.currentImage) {
-          updateImage[key] = this.state.currentImage[key];
-        }
-
-        images[this.state.currentImageIndex] = updateImage;
-        this.setState({
-          images: images
-        });
-      }
-
-      var selectedImage = this.state.images[index];
-      var imageObj = new window.Image();
-      imageObj.src = selectedImage.src;
-      var naturalWidth = 0;
-
-      var size = imageObj.onload = function () {
-        return {
-          width: imageObj.naturalWidth,
-          height: imageObj.naturalHeight
-        };
-      };
-
-      selectedImage.image = imageObj;
-      selectedImage.naturalWidth = size().width;
-      selectedImage.naturalHeight = size().height; // need initial size for zooming calcurate
-
-      if (!selectedImage.scaleXBase) {
-        selectedImage.scaleXBase = stageWidth / size().width;
-        selectedImage.scaleYBase = selectedImage.scaleXBase;
-        selectedImage.widthBase = selectedImage.naturalWidth * selectedImage.scaleXBase;
-        selectedImage.heightBase = selectedImage.naturalHeight * selectedImage.scaleYBase;
-      }
-
-      selectedImage.scaleX = stageWidth / size().width;
-      selectedImage.scaleY = selectedImage.scaleX;
-      selectedImage.width = (selectedImage.naturalWidth * selectedImage.scaleXBase).toFixed();
-      selectedImage.height = (selectedImage.naturalHeight * selectedImage.scaleYBase).toFixed();
-      this.setState({
-        currentImageIndex: index
-      });
-      var finalCurrentImage = this.setDefaultImageValue(selectedImage);
-      this.setState({
-        currentImage: finalCurrentImage
-      });
-      this.setStageSize(finalCurrentImage);
-      this.setCinemaScope();
-    }
+      return setCurrentImage;
+    }()
   }, {
     key: "setDefaultImageValue",
     value: function setDefaultImageValue(currentImage) {
@@ -115131,48 +115159,48 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setFiles",
     value: function () {
-      var _setFiles = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e) {
+      var _setFiles = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(e) {
         var i;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 console.log("set files");
                 e.preventDefault();
-                _context.t0 = _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.keys(e.target.files);
+                _context2.t0 = _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.keys(e.target.files);
 
               case 3:
-                if ((_context.t1 = _context.t0()).done) {
-                  _context.next = 11;
+                if ((_context2.t1 = _context2.t0()).done) {
+                  _context2.next = 11;
                   break;
                 }
 
-                i = _context.t1.value;
+                i = _context2.t1.value;
 
                 if (!(event.target.files[i].type == undefined)) {
-                  _context.next = 7;
+                  _context2.next = 7;
                   break;
                 }
 
-                return _context.abrupt("continue", 3);
+                return _context2.abrupt("continue", 3);
 
               case 7:
-                _context.next = 9;
+                _context2.next = 9;
                 return this.setFile(event.target.files[i]);
 
               case 9:
-                _context.next = 3;
+                _context2.next = 3;
                 break;
 
               case 11:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
-      function setFiles(_x) {
+      function setFiles(_x2) {
         return _setFiles.apply(this, arguments);
       }
 
@@ -115181,7 +115209,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setFile",
     value: function setFile(file) {
-      var _this2 = this;
+      var _this3 = this;
 
       console.log("set file");
       var reader = new FileReader();
@@ -115213,17 +115241,17 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
             url = window.URL.createObjectURL(imageFile);
             var newItem = {
               src: url,
-              id: 'rect' + (_this2.state.images.length + 1),
+              id: 'rect' + (_this3.state.images.length + 1),
               width: width.toFixed(),
               height: height.toFixed(),
               widthOrigin: imageObj.width,
               heightOrigin: imageObj.height
             };
-            var newImages = _this2.state.images;
+            var newImages = _this3.state.images;
             console.log(newImages);
             newImages.push(newItem);
 
-            _this2.setState({
+            _this3.setState({
               images: newImages
             });
           }, file.type, 1);
@@ -115235,7 +115263,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setCinemaScope",
     value: function setCinemaScope() {
-      var _this3 = this;
+      var _this4 = this;
 
       console.log("set cinema scope");
       var maskHeight = 0;
@@ -115246,13 +115274,13 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       var newMaskRectangles = [];
       maskRectangles.map(function (rect, i) {
         if (rect.id == "topmask") {
-          rect.width = _this3.state.stageWidth;
+          rect.width = _this4.state.stageWidth;
           rect.height = maskHeight;
         }
 
         if (rect.id == "bottommask") {
-          rect.width = _this3.state.stageWidth;
-          rect.y = _this3.state.stageHeight - maskHeight;
+          rect.width = _this4.state.stageWidth;
+          rect.y = _this4.state.stageHeight - maskHeight;
           rect.height = maskHeight;
         }
 
@@ -115283,7 +115311,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "container-fluid"
@@ -115297,7 +115325,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           src: thumbnail.src,
           width: thumbnailWidth,
           onClick: function onClick() {
-            return _this4.setCurrentImage(i);
+            return _this5.setCurrentImage(i);
           }
         }));
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -115312,7 +115340,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Stage"], {
         ref: function ref(node) {
-          _this4.stageRef = node;
+          _this5.stageRef = node;
         },
         width: this.state.stageWidth,
         height: this.state.stageHeight,
@@ -115325,8 +115353,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         key: "currentRect",
         x: (stageWidth - this.state.currentImage.width) / 2,
         y: (stageHeight - this.state.currentImage.height) / 2,
-        width: this.state.currentImage.width,
-        height: this.state.currentImage.height,
+        width: Number(this.state.currentImage.width),
+        height: Number(this.state.currentImage.height),
         fillPatternImage: this.state.currentImage.image,
         fillPatternScaleX: this.state.currentImage.scaleX,
         fillPatternScaleY: this.state.currentImage.scaleY,
@@ -115345,18 +115373,18 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         var positionY = i * 40;
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
           key: "textline" + i,
-          fontSize: Number(_this4.state.currentImage.fontSize),
+          fontSize: Number(_this5.state.currentImage.fontSize),
           text: line,
           wrap: "char",
           align: "center",
           width: stageWidth,
           height: stageHeight,
-          y: _this4.state.stageHeight - _this4.state.maskHeight + 40 * i + 15,
-          fill: _this4.state.currentImage.textColor,
+          y: _this5.state.stageHeight - _this5.state.maskHeight + 40 * i + 15,
+          fill: _this5.state.currentImage.textColor,
           draggable: true,
-          onDragEnd: _this4.handleDragEnd,
+          onDragEnd: _this5.handleDragEnd,
           style: {
-            transform: "".concat(_this4.state.transform)
+            transform: "".concat(_this5.state.transform)
           }
         });
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
