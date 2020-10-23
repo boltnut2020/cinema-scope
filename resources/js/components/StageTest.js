@@ -4,8 +4,13 @@ import { Stage, Layer, Rect, Transformer, Text } from 'react-konva';
 import InputSlider from './InputSlider';
 
 const windowWidth = window.screen.width;
-const stageWidth = 1280
-const stageHeight = 720
+
+let stageWidth = 1280
+let stageHeight = 720
+if ( window.screen.width > 768 && window.innerWidth > 768) {
+  stageWidth = 2048
+  stageHeight = 1152
+}
 const thumbnailWidth = 90
 const defaultFontSize = 30
 const defaultTextColor = "#fff"
@@ -170,6 +175,7 @@ class StageTest extends React.Component {
     selectedImage.naturalWidth = size().width
     selectedImage.naturalHeight = size().height
 
+    // need initial size for zooming calcurate
     if (!selectedImage.scaleXBase) {
       selectedImage.scaleXBase = stageWidth / size().width
       selectedImage.scaleYBase = selectedImage.scaleXBase
@@ -276,6 +282,7 @@ class StageTest extends React.Component {
            }
            
            var newImages = this.state.images
+           console.log(newImages)
            newImages.push(newItem)
            this.setState({images: newImages})
 
@@ -445,6 +452,12 @@ class StageTest extends React.Component {
                 <span className="input-group-text">Size</span>
               </div>
             <input type="text" className="form-control" name="fontSize" value={this.state.currentImage.fontSize} onChange={this.setText} placeholder="テキストサイズ" />
+            </div>
+            <div className="input-group mb-3">
+              <ul>
+                <li>{this.state.stageWidth} x {this.state.stageHeight}</li>
+                <li>{this.state.currentImage.width} x {this.state.currentImage.height}</li>
+              </ul>
             </div>
           </div>
         </div>

@@ -114876,6 +114876,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var windowWidth = window.screen.width;
 var stageWidth = 1280;
 var stageHeight = 720;
+
+if (window.screen.width > 768 && window.innerWidth > 768) {
+  stageWidth = 2048;
+  stageHeight = 1152;
+}
+
 var thumbnailWidth = 90;
 var defaultFontSize = 30;
 var defaultTextColor = "#fff";
@@ -115082,7 +115088,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
 
       selectedImage.image = imageObj;
       selectedImage.naturalWidth = size().width;
-      selectedImage.naturalHeight = size().height;
+      selectedImage.naturalHeight = size().height; // need initial size for zooming calcurate
 
       if (!selectedImage.scaleXBase) {
         selectedImage.scaleXBase = stageWidth / size().width;
@@ -115214,6 +115220,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
               heightOrigin: imageObj.height
             };
             var newImages = _this2.state.images;
+            console.log(newImages);
             newImages.push(newItem);
 
             _this2.setState({
@@ -115420,7 +115427,9 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         value: this.state.currentImage.fontSize,
         onChange: this.setText,
         placeholder: "\u30C6\u30AD\u30B9\u30C8\u30B5\u30A4\u30BA"
-      }))))));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, this.state.stageWidth, " x ", this.state.stageHeight), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, this.state.currentImage.width, " x ", this.state.currentImage.height)))))));
     }
   }]);
 
