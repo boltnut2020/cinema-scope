@@ -114898,7 +114898,7 @@ var bgRectangle = {
   fill: '#202020',
   id: 'background'
 };
-var appDescription = "\nHello World!\n\n\u3053\u306E\u30DA\u30FC\u30B8\u306F\u30B7\u30CD\u30DE\u30B9\u30AF\u30EA\u30FC\u30F3\u30EC\u30A4\u30A2\u30A6\u30C8\u306E\n\u7C21\u6613\u7684\u306A\u753B\u50CF\u52A0\u5DE5\u30A2\u30D7\u30EA\u3067\u3059\u3002\n\n\u300E\u51FA\u6765\u308B\u4E8B\u300F\n\n\n\u753B\u50CF\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E\u3057\u30B9\u30C6\u30FC\u30B8\u306B\u8A2D\u7F6E\n(\u8907\u6570\u53EF\u80FD)\n\n\u30BF\u30C3\u30D7\u3067\u30B9\u30C6\u30FC\u30B8\u5185\u306E\u753B\u50CF\u79FB\u52D5\u3001\u30BA\u30FC\u30E0\u30D0\u30FC\u3067\u62E1\u5927\u3001\u7E2E\u5C0F\n\n\u4E0B\u5E2F\u306B\u8868\u793A\u3055\u305B\u308B\u30C6\u30AD\u30B9\u30C8\u3092\u8A2D\u5B9A\n\uFF08\u79FB\u52D5\u3067\u304D\u307E\u3059\uFF09\n\n\n\u203B\u52D5\u4F5C\u78BA\u8A8D\n\u4ECA\u306E\u3068\u3053\u308DAndroid, PC\u3067\u306EChrome\u30D6\u30E9\u30A6\u30B6\u306E\u307F\u3067\u78BA\u8A8D\u6E08\u307F\u3067\u3059\u3002\n\n\n";
+var appDescription = "\nHello World!\n\n\u3053\u306E\u30DA\u30FC\u30B8\u306F\u30B7\u30CD\u30DE\u30B9\u30AF\u30EA\u30FC\u30F3\u30EC\u30A4\u30A2\u30A6\u30C8\u306E\n\u7C21\u6613\u7684\u306A\u753B\u50CF\u52A0\u5DE5\u30A2\u30D7\u30EA\u3067\u3059\u3002\n\n\u300E\u51FA\u6765\u308B\u4E8B\u300F\n\n\n\u300C+\u300D\u30DC\u30BF\u30F3\u3067\u753B\u50CF\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E\u3057\u30B9\u30C6\u30FC\u30B8\u306B\u8A2D\u7F6E\n\n(\u8907\u6570\u53EF\u80FD)\n\n\u30BF\u30C3\u30D7\u3067\u30B9\u30C6\u30FC\u30B8\u5185\u306E\u753B\u50CF\u79FB\u52D5\u3001\u30BA\u30FC\u30E0\u30D0\u30FC\u3067\u62E1\u5927\u3001\u7E2E\u5C0F\n\n\u4E0B\u5E2F\u306B\u8868\u793A\u3055\u305B\u308B\u30C6\u30AD\u30B9\u30C8\u3092\u8A2D\u5B9A\n\uFF08\u79FB\u52D5\u3067\u304D\u307E\u3059\uFF09\n\n\n\u203B\u52D5\u4F5C\u78BA\u8A8D\n\u4ECA\u306E\u3068\u3053\u308DAndroid, PC\u3067\u306EChrome\u30D6\u30E9\u30A6\u30B6\u306E\u307F\u3067\u78BA\u8A8D\u6E08\u307F\u3067\u3059\u3002\n\n\n";
 var bgRectangleText = {
   x: 0,
   y: 140,
@@ -114984,6 +114984,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     _this.setDefaultImageValue = _this.setDefaultImageValue.bind(_assertThisInitialized(_this));
     _this.handleExportClick = _this.handleExportClick.bind(_assertThisInitialized(_this));
     _this.handleChangeState = _this.handleChangeState.bind(_assertThisInitialized(_this));
+    _this.handleSliderChangeBootstrap = _this.handleSliderChangeBootstrap.bind(_assertThisInitialized(_this));
     _this.imageRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
     return _this;
   }
@@ -115174,6 +115175,23 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       return setCurrentImage;
     }()
   }, {
+    key: "handleSliderChangeBootstrap",
+    value: function handleSliderChangeBootstrap() {
+      console.log("called");
+      var newValue = event.target.value;
+      var sizeScale = newValue * 2 / 100;
+      var currentImage = this.state.currentImage;
+      currentImage.imageSizeSlider = newValue;
+      currentImage.scaleX = this.state.currentImage.scaleXBase * sizeScale;
+      currentImage.scaleY = this.state.currentImage.scaleYBase * sizeScale;
+      currentImage.width = this.state.currentImage.widthBase * sizeScale;
+      currentImage.height = this.state.currentImage.heightBase * sizeScale;
+      console.log(currentImage);
+      this.setState({
+        currentImage: currentImage
+      });
+    }
+  }, {
     key: "setDefaultImageValue",
     value: function setDefaultImageValue(currentImage) {
       if (!currentImage.textColor) {
@@ -115186,6 +115204,10 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
 
       if (!currentImage.textLine) {
         currentImage.textLine = [];
+      }
+
+      if (!currentImage.imageSizeSlider) {
+        currentImage.imageSizeSlider = 50;
       }
 
       return currentImage;
@@ -115355,6 +115377,10 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           minHeight: "75px",
           borderBottom: "1px #000 solid"
         }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-11"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row col-12"
       }, this.state.images.map(function (thumbnail, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           key: "thumbnail-" + i,
@@ -115366,7 +115392,21 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
             return _this5.setCurrentImage(i);
           }
         }));
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        key: "inputFileDir",
+        className: "col-1 col-lg-1 p-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "btn btn-primary"
+      }, "+", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "inputFile",
+        ref: this.imageRef,
+        onChange: this.setFiles,
+        type: "file",
+        multiple: true,
+        style: {
+          display: "none"
+        }
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         key: "current-div",
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -115445,9 +115485,18 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         });
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-12 text-right"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_InputSlider__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        onChange: this.handleSliderChange
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "imageSizeSlider"
+      }, "scale:", this.state.currentImage.imageSizeSlider * 2), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "range",
+        id: "imageSizeSlider",
+        name: "imageSizeSlider",
+        className: "form-control-range",
+        value: this.state.currentImage.imageSizeSlider,
+        onChange: this.handleSliderChangeBootstrap
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         className: "btn btn-light",
         type: "button",
         value: "DownLoad",
@@ -115455,25 +115504,6 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-6 p-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group-prepend"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "input-group-text"
-      }, "File")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "custom-file"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        id: "inputFile",
-        ref: this.imageRef,
-        onChange: this.setFiles,
-        type: "file",
-        className: "custom-file-input",
-        multiple: true
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-        htmlFor: "imagefile",
-        className: "custom-file-label",
-        "data-browse": "\u53C2\u7167"
-      }, "\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group-prepend"
@@ -115501,7 +115531,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-        "for": "fontSize"
+        htmlFor: "fontSize"
       }, "FontSize:", this.state.currentImage.fontSize), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "range",
         id: "fontSize",
@@ -115520,7 +115550,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         onChange: this.handleChangeState,
         checked: this.state.cinemaMask
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-        "class": "custom-control-label",
+        className: "custom-control-label",
         "for": "cinemaMask"
       }, "\u9ED2\u5E2F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"

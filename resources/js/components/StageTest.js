@@ -39,7 +39,8 @@ Hello World!\n
 『出来る事』
 
 
-画像ファイルを選択しステージに設置
+「+」ボタンで画像ファイルを選択しステージに設置
+
 (複数可能)
 
 タップでステージ内の画像移動、ズームバーで拡大、縮小
@@ -112,6 +113,7 @@ class StageTest extends React.Component {
     this.setDefaultImageValue = this.setDefaultImageValue.bind(this);
     this.handleExportClick = this.handleExportClick.bind(this);
     this.handleChangeState = this.handleChangeState.bind(this);
+    this.handleSliderChangeBootstrap = this.handleSliderChangeBootstrap.bind(this);
     this.imageRef = React.createRef();
   }
 
@@ -250,6 +252,21 @@ class StageTest extends React.Component {
     }
   }
 
+  handleSliderChangeBootstrap(){
+    console.log("called")
+    var newValue = event.target.value
+
+    var sizeScale = newValue * 2 / 100
+    var currentImage = this.state.currentImage
+    currentImage.imageSizeSlider = newValue
+    currentImage.scaleX = this.state.currentImage.scaleXBase * sizeScale
+    currentImage.scaleY = this.state.currentImage.scaleYBase * sizeScale
+    currentImage.width = this.state.currentImage.widthBase * sizeScale
+    currentImage.height = this.state.currentImage.heightBase * sizeScale
+    console.log(currentImage)
+    this.setState({currentImage: currentImage})
+  }
+
   handleSliderChange = (e, newValue) => {
     console.log("called")
     console.log(e)
@@ -275,6 +292,9 @@ class StageTest extends React.Component {
 
     if (!currentImage.textLine) {
         currentImage.textLine = []
+    }
+    if (!currentImage.imageSizeSlider) {
+        currentImage.imageSizeSlider = 50
     }
 
     return currentImage
@@ -393,13 +413,26 @@ class StageTest extends React.Component {
       <React.Fragment>
       <div className="container-fluid">
         <div className="row p-0 overflow-x:scroll mb-3" style={{minHeight: "75px", borderBottom: "1px #000 solid"}}>
-          {this.state.images.map((thumbnail, i) => {
-            return(
-              <div key={"thumbnail-" + i} className="col-3 col-lg-1 p-1">
-                <img src={thumbnail.src} width={thumbnailWidth} onClick={() => this.setCurrentImage(i)} />
+          <div className="col-11">
+            <div className="row col-12">
+            {this.state.images.map((thumbnail, i) => {
+              return(
+                <div key={"thumbnail-" + i} className="col-3 col-lg-1 p-1">
+                  <img src={thumbnail.src} width={thumbnailWidth} onClick={() => this.setCurrentImage(i)} />
+                </div>
+              )
+            })}
+            </div>
+          </div>
+
+              <div key={"inputFileDir"} className="col-1 col-lg-1 p-1">
+                <label>
+                  <span className="btn btn-primary">
+                  +
+                    <input id="inputFile" ref={this.imageRef} onChange={this.setFiles} type="file"  multiple style={{display: "none"}}/>
+                  </span>
+                </label>
               </div>
-            )
-          })}
         </div>
         <div key="current-div" className="row">
           <div className="col-sm-6 p-0" >
@@ -497,21 +530,15 @@ class StageTest extends React.Component {
               </Stage>
             </div>
             <div className="col-sm-12 text-right">
-              <InputSlider onChange={this.handleSliderChange} />
+              <div className="form-group">
+                <label htmlFor="imageSizeSlider">scale:{this.state.currentImage.imageSizeSlider * 2}</label>
+                <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="form-control-range" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
+              </div>
+
               <input className="btn btn-light" type="button" value="DownLoad" onClick={this.handleExportClick} />
             </div>
           </div>
           <div className="col-sm-6 p-3">
-            <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                <span className="input-group-text">File</span>
-              </div>
-              <div className="custom-file">
-                  <input id="inputFile" ref={this.imageRef} onChange={this.setFiles} type="file" className="custom-file-input" multiple />
-                  <label htmlFor="imagefile" className="custom-file-label"  data-browse="参照">ファイルを選択</label>
-              </div>
-            </div>
-
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">Text</span>
@@ -526,13 +553,13 @@ class StageTest extends React.Component {
             <input type="color" className="form-control" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
             </div>
             <div className="form-group">
-              <label for="fontSize">FontSize:{this.state.currentImage.fontSize}</label>
+              <label htmlFor="fontSize">FontSize:{this.state.currentImage.fontSize}</label>
               <input type="range" id="fontSize" name="fontSize" className="form-control-range" value={this.state.currentImage.fontSize} onChange={this.setText} />
             </div>
 
             <div className="custom-control custom-switch mb-3">
               <input id="cinemaMask" name="cinemaMask" className="custom-control-input" type="checkbox" value={this.state.cinemaMask} onChange={this.handleChangeState} checked={this.state.cinemaMask} />
-              <label class="custom-control-label" for="cinemaMask">黒帯</label>
+              <label className="custom-control-label" for="cinemaMask">黒帯</label>
             </div>
 
             <div className="input-group mb-3">
