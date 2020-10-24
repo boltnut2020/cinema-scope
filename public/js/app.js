@@ -115396,14 +115396,14 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         height: bgRectangle.height
       }), this.state.currentImage.src == "" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
         key: bgRectangleText.id,
-        fontSize: bgRectangleText.fontSize,
+        fontSize: this.state.currentImage.fontSize || bgRectangleText.fontSize,
         text: bgRectangleText.line,
         wrap: "char",
         align: "center",
         width: bgRectangleText.width,
         height: bgRectangleText.height,
         y: bgRectangleText.y,
-        fill: bgRectangleText.fill,
+        fill: this.state.currentImage.textColor || bgRectangleText.fill,
         draggable: true
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
         key: "currentRect",
@@ -115499,18 +115499,16 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         onChange: this.setText,
         placeholder: "\u30C6\u30AD\u30B9\u30C8\u30AB\u30E9\u30FC"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group-prepend"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "input-group-text"
-      }, "Size")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        type: "number",
-        className: "form-control",
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        "for": "fontSize"
+      }, "FontSize:", this.state.currentImage.fontSize), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "range",
+        id: "fontSize",
         name: "fontSize",
+        className: "form-control-range",
         value: this.state.currentImage.fontSize,
-        onChange: this.setText,
-        placeholder: "\u30C6\u30AD\u30B9\u30C8\u30B5\u30A4\u30BA"
+        onChange: this.setText
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "custom-control custom-switch mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {

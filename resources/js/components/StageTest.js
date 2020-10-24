@@ -437,14 +437,14 @@ class StageTest extends React.Component {
                   { this.state.currentImage.src == "" &&
                   <Text
                     key={bgRectangleText.id}
-                    fontSize={bgRectangleText.fontSize}
+                    fontSize={this.state.currentImage.fontSize || bgRectangleText.fontSize}
                     text={bgRectangleText.line}
                     wrap="char"
                     align="center"
                     width={bgRectangleText.width}
                     height={bgRectangleText.height}
                     y={bgRectangleText.y}
-                    fill={bgRectangleText.fill}
+                    fill={this.state.currentImage.textColor || bgRectangleText.fill}
                     draggable={true}
                   />
                   }
@@ -525,13 +525,11 @@ class StageTest extends React.Component {
               </div>
             <input type="color" className="form-control" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
             </div>
-
-            <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                <span className="input-group-text">Size</span>
-              </div>
-            <input type="number" className="form-control" name="fontSize" value={this.state.currentImage.fontSize} onChange={this.setText} placeholder="テキストサイズ" />
+            <div className="form-group">
+              <label for="fontSize">FontSize:{this.state.currentImage.fontSize}</label>
+              <input type="range" id="fontSize" name="fontSize" className="form-control-range" value={this.state.currentImage.fontSize} onChange={this.setText} />
             </div>
+
             <div className="custom-control custom-switch mb-3">
               <input id="cinemaMask" name="cinemaMask" className="custom-control-input" type="checkbox" value={this.state.cinemaMask} onChange={this.handleChangeState} checked={this.state.cinemaMask} />
               <label class="custom-control-label" for="cinemaMask">黒帯</label>
