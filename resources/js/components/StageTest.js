@@ -31,6 +31,39 @@ const bgRectangle = {
     id: 'background',
     }
 
+const appDescription = `
+Hello World!\n
+このページはシネマスクリーンレイアウトの
+簡易的な画像加工アプリです。
+
+『出来る事』
+
+
+画像ファイルを選択しステージに設置
+(複数可能)
+
+タップでステージ内の画像移動、ズームバーで拡大、縮小
+
+下帯に表示させるテキストを設定
+（移動できます）
+
+
+※動作確認
+今のところAndroid, PCでのChromeブラウザのみで確認済みです。
+
+
+`
+
+const bgRectangleText = {
+    x: 0,
+    y: 140,
+    width: stageWidth,
+    height: stageHeight * 3,
+    fill: '#fff',
+    fontSize: 40,
+    id: 'backgroundText',
+    line: appDescription }
+
 const maskRectangles = [
   {
     x: 0,
@@ -389,6 +422,18 @@ class StageTest extends React.Component {
                     fill={bgRectangle.fill}
                     width={bgRectangle.width}
                     height={bgRectangle.height}
+                  />
+                  <Text
+                    key={bgRectangleText.id}
+                    fontSize={bgRectangleText.fontSize}
+                    text={bgRectangleText.line}
+                    wrap="char"
+                    align="center"
+                    width={bgRectangleText.width}
+                    height={bgRectangleText.height}
+                    y={bgRectangleText.y}
+                    fill={bgRectangleText.fill}
+                    draggable={true}
                   />
 
                   <Rect

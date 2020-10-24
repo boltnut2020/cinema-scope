@@ -114898,6 +114898,17 @@ var bgRectangle = {
   fill: '#202020',
   id: 'background'
 };
+var appDescription = "\nHello World!\n\n\u3053\u306E\u30DA\u30FC\u30B8\u306F\u30B7\u30CD\u30DE\u30B9\u30AF\u30EA\u30FC\u30F3\u30EC\u30A4\u30A2\u30A6\u30C8\u306E\n\u7C21\u6613\u7684\u306A\u753B\u50CF\u52A0\u5DE5\u30A2\u30D7\u30EA\u3067\u3059\u3002\n\n\u300E\u51FA\u6765\u308B\u4E8B\u300F\n\n\n\u753B\u50CF\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E\u3057\u30B9\u30C6\u30FC\u30B8\u306B\u8A2D\u7F6E\n(\u8907\u6570\u53EF\u80FD)\n\n\u30BF\u30C3\u30D7\u3067\u30B9\u30C6\u30FC\u30B8\u5185\u306E\u753B\u50CF\u79FB\u52D5\u3001\u30BA\u30FC\u30E0\u30D0\u30FC\u3067\u62E1\u5927\u3001\u7E2E\u5C0F\n\n\u4E0B\u5E2F\u306B\u8868\u793A\u3055\u305B\u308B\u30C6\u30AD\u30B9\u30C8\u3092\u8A2D\u5B9A\n\uFF08\u79FB\u52D5\u3067\u304D\u307E\u3059\uFF09\n\n\n\u203B\u52D5\u4F5C\u78BA\u8A8D\n\u4ECA\u306E\u3068\u3053\u308DAndroid, PC\u3067\u306EChrome\u30D6\u30E9\u30A6\u30B6\u306E\u307F\u3067\u78BA\u8A8D\u6E08\u307F\u3067\u3059\u3002\n\n\n";
+var bgRectangleText = {
+  x: 0,
+  y: 140,
+  width: stageWidth,
+  height: stageHeight * 3,
+  fill: '#fff',
+  fontSize: 40,
+  id: 'backgroundText',
+  line: appDescription
+};
 var maskRectangles = [{
   x: 0,
   y: 0,
@@ -115373,6 +115384,17 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         fill: bgRectangle.fill,
         width: bgRectangle.width,
         height: bgRectangle.height
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
+        key: bgRectangleText.id,
+        fontSize: bgRectangleText.fontSize,
+        text: bgRectangleText.line,
+        wrap: "char",
+        align: "center",
+        width: bgRectangleText.width,
+        height: bgRectangleText.height,
+        y: bgRectangleText.y,
+        fill: bgRectangleText.fill,
+        draggable: true
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
         key: "currentRect",
         x: (stageWidth - this.state.currentImage.width) / 2,
