@@ -114890,6 +114890,14 @@ var errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超え�
 var defaultScale = "scale(0.5)";
 var errorFileType = "ファイルタイプ";
 var testImages = [];
+var bgRectangle = {
+  x: 0,
+  y: 0,
+  width: stageWidth,
+  height: stageHeight,
+  fill: '#202020',
+  id: 'background'
+};
 var maskRectangles = [{
   x: 0,
   y: 0,
@@ -114980,6 +114988,11 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
       console.log("Did Update");
+
+      if (this.state.images.length > 0 && this.state.currentImage.src == "") {
+        console.log(this.state.images);
+        this.setCurrentImage(0);
+      }
     }
   }, {
     key: "setStageSize",
@@ -115193,12 +115206,6 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
                 break;
 
               case 11:
-                if (this.state.images.length > 0 && this.state.currentImage.src == "") {
-                  console.log(this.state.images);
-                  this.setCurrentImage(0);
-                }
-
-              case 12:
               case "end":
                 return _context2.stop();
             }
@@ -115322,7 +115329,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "container-fluid"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row p-0 overflow-x:scroll",
+        className: "row p-0 overflow-x:scroll mb-3",
         style: {
           minHeight: "75px",
           borderBottom: "1px #000 solid"
@@ -115360,6 +115367,13 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           textAlign: "center"
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Layer"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
+        key: bgRectangle.id,
+        x: bgRectangle.x,
+        y: bgRectangle.y,
+        fill: bgRectangle.fill,
+        width: bgRectangle.width,
+        height: bgRectangle.height
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
         key: "currentRect",
         x: (stageWidth - this.state.currentImage.width) / 2,
         y: (stageHeight - this.state.currentImage.height) / 2,

@@ -22,6 +22,15 @@ const errorFileType = "ファイルタイプ"
 
 const testImages = []
 
+const bgRectangle = {
+    x: 0,
+    y: 0,
+    width: stageWidth,
+    height: stageHeight,
+    fill: '#202020',
+    id: 'background',
+    }
+
 const maskRectangles = [
   {
     x: 0,
@@ -82,6 +91,11 @@ class StageTest extends React.Component {
 
   componentDidUpdate() {
     console.log("Did Update")
+    if( this.state.images.length > 0 && this.state.currentImage.src == "") {
+       console.log(this.state.images)
+       this.setCurrentImage(0)
+    }
+
   }
 
   setStageSize(finalCurrentImage) {
@@ -232,10 +246,10 @@ class StageTest extends React.Component {
       await this.setFile(event.target.files[i])
     }
 
-    if( this.state.images.length > 0 && this.state.currentImage.src == "") {
-      console.log(this.state.images)
-      this.setCurrentImage(0)
-    }
+    // if( this.state.images.length > 0 && this.state.currentImage.src == "") {
+    //   console.log(this.state.images)
+    //   this.setCurrentImage(0)
+    // }
   }
 
   setFile(file) {
@@ -334,7 +348,7 @@ class StageTest extends React.Component {
     return(
       <React.Fragment>
       <div className="container-fluid">
-        <div className="row p-0 overflow-x:scroll" style={{minHeight: "75px", borderBottom: "1px #000 solid"}}>
+        <div className="row p-0 overflow-x:scroll mb-3" style={{minHeight: "75px", borderBottom: "1px #000 solid"}}>
           {this.state.images.map((thumbnail, i) => {
             return(
               <div key={"thumbnail-" + i} className="col-3 col-lg-1 p-1">
@@ -368,6 +382,15 @@ class StageTest extends React.Component {
                 style={{transformOrigin: "top left", transform: `${ this.state.transform }`, textAlign: "center" }}
               >
                 <Layer>
+                  <Rect
+                    key={bgRectangle.id}
+                    x={bgRectangle.x}
+                    y={bgRectangle.y}
+                    fill={bgRectangle.fill}
+                    width={bgRectangle.width}
+                    height={bgRectangle.height}
+                  />
+
                   <Rect
                     key={"currentRect"}
                     x={ (stageWidth - this.state.currentImage.width) / 2}
