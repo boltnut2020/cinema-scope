@@ -115394,7 +115394,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         }));
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         key: "inputFileDir",
-        className: "col-1 col-lg-1 p-1"
+        className: "col-1 col-lg-1 p-1 mr-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "btn btn-primary"
       }, "+", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {

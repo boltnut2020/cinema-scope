@@ -425,7 +425,7 @@ class StageTest extends React.Component {
             </div>
           </div>
 
-              <div key={"inputFileDir"} className="col-1 col-lg-1 p-1">
+              <div key={"inputFileDir"} className="col-1 col-lg-1 p-1 mr-2">
                 <label>
                   <span className="btn btn-primary">
                   +
