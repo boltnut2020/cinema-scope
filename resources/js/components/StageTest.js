@@ -13,7 +13,7 @@ if ( window.screen.width > 768 && window.innerWidth > 768) {
 }
 const thumbnailWidth = 90
 const defaultFontSize = 30
-const defaultTextColor = "#fff"
+const defaultTextColor = "#ffffff"
 const limitPixelSize = 2048
 const errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 const defaultScale="scale(0.5)"
@@ -59,7 +59,7 @@ const bgRectangleText = {
     y: 140,
     width: stageWidth,
     height: stageHeight * 3,
-    fill: '#fff',
+    fill: '#ffffff',
     fontSize: 40,
     id: 'backgroundText',
     line: appDescription }
@@ -98,6 +98,7 @@ class StageTest extends React.Component {
         maskRectangles: maskRectangles,
         currentImage:{src:"", textLine: [], textColor: defaultTextColor, fontSize: defaultFontSize, width: 0, height: 0},
         currentImageIndex: 0,
+        cinemaMask: true,
     }
     this.setStageSize = this.setStageSize.bind(this);
     this.setImages = this.setImages.bind(this);
@@ -110,7 +111,17 @@ class StageTest extends React.Component {
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.setDefaultImageValue = this.setDefaultImageValue.bind(this);
     this.handleExportClick = this.handleExportClick.bind(this);
+    this.handleChangeState = this.handleChangeState.bind(this);
     this.imageRef = React.createRef();
+  }
+
+  handleChangeState(e) {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
   }
 
   componentDidMount() {
@@ -423,6 +434,7 @@ class StageTest extends React.Component {
                     width={bgRectangle.width}
                     height={bgRectangle.height}
                   />
+                  { this.state.currentImage.src == "" &&
                   <Text
                     key={bgRectangleText.id}
                     fontSize={bgRectangleText.fontSize}
@@ -435,6 +447,7 @@ class StageTest extends React.Component {
                     fill={bgRectangleText.fill}
                     draggable={true}
                   />
+                  }
 
                   <Rect
                     key={"currentRect"}
@@ -448,7 +461,7 @@ class StageTest extends React.Component {
                     filPatternRepeat = "no-repeat"
                     draggable={true}
                   />
-                  {this.state.maskRectangles.map((rect, i) => {
+                  {this.state.cinemaMask == true && this.state.maskRectangles.map((rect, i) => {
                     return (
                       <Rect
                         key={rect.id}
@@ -510,15 +523,20 @@ class StageTest extends React.Component {
               <div className="input-group-prepend">
                 <span className="input-group-text">Color</span>
               </div>
-            <input type="text" className="form-control" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
+            <input type="color" className="form-control" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
             </div>
 
             <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">Size</span>
               </div>
-            <input type="text" className="form-control" name="fontSize" value={this.state.currentImage.fontSize} onChange={this.setText} placeholder="テキストサイズ" />
+            <input type="number" className="form-control" name="fontSize" value={this.state.currentImage.fontSize} onChange={this.setText} placeholder="テキストサイズ" />
             </div>
+            <div className="custom-control custom-switch mb-3">
+              <input id="cinemaMask" name="cinemaMask" className="custom-control-input" type="checkbox" value={this.state.cinemaMask} onChange={this.handleChangeState} checked={this.state.cinemaMask} />
+              <label class="custom-control-label" for="cinemaMask">黒帯</label>
+            </div>
+
             <div className="input-group mb-3">
               <ul className="list-group text-dark">
                 <li className="list-group-item p-2">Property</li>

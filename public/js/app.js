@@ -114884,7 +114884,7 @@ if (window.screen.width > 768 && window.innerWidth > 768) {
 
 var thumbnailWidth = 90;
 var defaultFontSize = 30;
-var defaultTextColor = "#fff";
+var defaultTextColor = "#ffffff";
 var limitPixelSize = 2048;
 var errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。";
 var defaultScale = "scale(0.5)";
@@ -114904,7 +114904,7 @@ var bgRectangleText = {
   y: 140,
   width: stageWidth,
   height: stageHeight * 3,
-  fill: '#fff',
+  fill: '#ffffff',
   fontSize: 40,
   id: 'backgroundText',
   line: appDescription
@@ -114969,7 +114969,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         width: 0,
         height: 0
       },
-      currentImageIndex: 0
+      currentImageIndex: 0,
+      cinemaMask: true
     };
     _this.setStageSize = _this.setStageSize.bind(_assertThisInitialized(_this));
     _this.setImages = _this.setImages.bind(_assertThisInitialized(_this));
@@ -114982,11 +114983,20 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     _this.handleDragEnd = _this.handleDragEnd.bind(_assertThisInitialized(_this));
     _this.setDefaultImageValue = _this.setDefaultImageValue.bind(_assertThisInitialized(_this));
     _this.handleExportClick = _this.handleExportClick.bind(_assertThisInitialized(_this));
+    _this.handleChangeState = _this.handleChangeState.bind(_assertThisInitialized(_this));
     _this.imageRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
     return _this;
   }
 
   _createClass(StageTest, [{
+    key: "handleChangeState",
+    value: function handleChangeState(e) {
+      var target = e.target;
+      var value = target.type === "checkbox" ? target.checked : target.value;
+      var name = target.name;
+      this.setState(_defineProperty({}, name, value));
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       console.log("Did Mount");
@@ -115384,7 +115394,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         fill: bgRectangle.fill,
         width: bgRectangle.width,
         height: bgRectangle.height
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
+      }), this.state.currentImage.src == "" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
         key: bgRectangleText.id,
         fontSize: bgRectangleText.fontSize,
         text: bgRectangleText.line,
@@ -115406,7 +115416,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         fillPatternScaleY: this.state.currentImage.scaleY,
         filPatternRepeat: "no-repeat",
         draggable: true
-      }), this.state.maskRectangles.map(function (rect, i) {
+      }), this.state.cinemaMask == true && this.state.maskRectangles.map(function (rect, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
           key: rect.id,
           x: rect.x,
@@ -115482,7 +115492,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "input-group-text"
       }, "Color")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        type: "text",
+        type: "color",
         className: "form-control",
         name: "textColor",
         value: this.state.currentImage.textColor,
@@ -115495,13 +115505,26 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "input-group-text"
       }, "Size")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        type: "text",
+        type: "number",
         className: "form-control",
         name: "fontSize",
         value: this.state.currentImage.fontSize,
         onChange: this.setText,
         placeholder: "\u30C6\u30AD\u30B9\u30C8\u30B5\u30A4\u30BA"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "custom-control custom-switch mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        id: "cinemaMask",
+        name: "cinemaMask",
+        className: "custom-control-input",
+        type: "checkbox",
+        value: this.state.cinemaMask,
+        onChange: this.handleChangeState,
+        checked: this.state.cinemaMask
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        "class": "custom-control-label",
+        "for": "cinemaMask"
+      }, "\u9ED2\u5E2F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
         className: "list-group text-dark"
