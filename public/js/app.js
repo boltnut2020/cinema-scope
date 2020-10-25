@@ -114885,11 +114885,20 @@ if (window.screen.width > 768 && window.innerWidth > 768) {
 var thumbnailWidth = 90;
 var defaultFontSize = 30;
 var defaultTextColor = "#ffffff";
+var defaultTextAlign = "center";
 var limitPixelSize = 2048;
 var errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。";
 var defaultScale = "scale(0.5)";
 var errorFileType = "ファイルタイプ";
-var testImages = [];
+var testImages = [{
+  src: "https://pbs.twimg.com/media/EcUq3mPU4AEPT6t?format=jpg&name=large"
+}, {
+  src: "https://pbs.twimg.com/media/EcUq4V8UcAEpId0?format=jpg&name=large"
+}, {
+  src: "https://pbs.twimg.com/media/EcUq6VMUYAEUaz-?format=jpg&name=large"
+}, {
+  src: "https://pbs.twimg.com/media/EcUq5TDUwAcBhuq?format=jpg&name=large"
+}];
 var bgRectangle = {
   x: 0,
   y: 0,
@@ -114906,6 +114915,7 @@ var bgRectangleText = {
   height: stageHeight * 3,
   fill: '#ffffff',
   fontSize: 40,
+  textAlign: "center",
   id: 'backgroundText',
   line: appDescription
 };
@@ -114967,7 +114977,9 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         textColor: defaultTextColor,
         fontSize: defaultFontSize,
         width: 0,
-        height: 0
+        height: 0,
+        textAlign: defaultTextAlign,
+        imageSizeSlider: 50
       },
       currentImageIndex: 0,
       cinemaMask: true
@@ -115056,14 +115068,13 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         image.src = testImage.src;
         testImage.image = image;
         newImages.push(testImage);
-      });
-      this.setState({
-        images: newImages
-      });
+      }); // this.setState({images: newImages})
     }
   }, {
     key: "setText",
     value: function setText() {
+      console.log("set text");
+      console.log(event.target.name);
       var currentImage = this.state.currentImage;
 
       if (event.target.name == "textLine") {
@@ -115082,6 +115093,11 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         if (this.state.fontSize !== event.target.name) {
           currentImage.fontSize = event.target.value;
         }
+      }
+
+      if (event.target.name == "textAlign") {
+        console.log(event.target.value);
+        currentImage.textAlign = event.target.value;
       }
 
       this.setState({
@@ -115158,6 +115174,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
                   _this2.setStageSize(finalCurrentImage);
 
                   _this2.setCinemaScope();
+
+                  _this2.handleSliderChangeBootstrap();
                 };
 
               case 9:
@@ -115178,7 +115196,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     key: "handleSliderChangeBootstrap",
     value: function handleSliderChangeBootstrap() {
       console.log("called");
-      var newValue = event.target.value;
+      var newValue = event.target.value || this.state.currentImage.imageSizeSlider;
       var sizeScale = newValue * 3 / 100;
       var currentImage = this.state.currentImage;
       currentImage.imageSizeSlider = newValue;
@@ -115210,6 +115228,10 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         currentImage.imageSizeSlider = 50;
       }
 
+      if (!currentImage.textAlign) {
+        currentImage.textAlign = "center";
+      }
+
       return currentImage;
     }
   }, {
@@ -115221,34 +115243,34 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                console.log("set files");
-                e.preventDefault();
+                console.log("set files"); // event.preventDefault()
+
                 _context2.t0 = _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.keys(e.target.files);
 
-              case 3:
+              case 2:
                 if ((_context2.t1 = _context2.t0()).done) {
-                  _context2.next = 11;
+                  _context2.next = 10;
                   break;
                 }
 
                 i = _context2.t1.value;
 
                 if (!(event.target.files[i].type == undefined)) {
-                  _context2.next = 7;
+                  _context2.next = 6;
                   break;
                 }
 
-                return _context2.abrupt("continue", 3);
+                return _context2.abrupt("continue", 2);
 
-              case 7:
-                _context2.next = 9;
+              case 6:
+                _context2.next = 8;
                 return this.setFile(event.target.files[i]);
 
-              case 9:
-                _context2.next = 3;
+              case 8:
+                _context2.next = 2;
                 break;
 
-              case 11:
+              case 10:
               case "end":
                 return _context2.stop();
             }
@@ -115439,7 +115461,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         fontSize: this.state.currentImage.fontSize || bgRectangleText.fontSize,
         text: bgRectangleText.line,
         wrap: "char",
-        align: "center",
+        align: this.state.currentImage.textAlign || bgRectangleText.textAlign,
         width: bgRectangleText.width,
         height: bgRectangleText.height,
         y: bgRectangleText.y,
@@ -115472,7 +115494,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           fontSize: Number(_this5.state.currentImage.fontSize),
           text: line,
           wrap: "char",
-          align: "center",
+          align: _this5.state.currentImage.textAlign,
           width: stageWidth,
           height: stageHeight,
           y: _this5.state.stageHeight - _this5.state.maskHeight + 40 * i + 15,
@@ -115504,7 +115526,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-6 p-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group mb-3"
+        className: "input-group mb-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group-prepend"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
@@ -115516,6 +115538,46 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         onChange: this.setText,
         placeholder: "\u4E0B\u5E2F\u306B\u8868\u793A\u3055\u305B\u308B\u30C6\u30AD\u30B9\u30C8\u3092\u5165\u529B"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "btn-group mb-3",
+        role: "group",
+        "aria-label": "Basic example"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "btn btn-light"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fas fa-align-left w-100"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "button",
+        name: "textAlign",
+        value: "left",
+        onClick: this.setText,
+        style: {
+          display: "none"
+        }
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "btn btn-light"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fas fa-align-center w-100"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "button",
+        name: "textAlign",
+        value: "center",
+        onClick: this.setText,
+        style: {
+          display: "none"
+        }
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "btn btn-light"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fas fa-align-right w-100"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "button",
+        name: "textAlign",
+        value: "right",
+        onClick: this.setText,
+        style: {
+          display: "none"
+        }
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group-prepend"
@@ -115551,7 +115613,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         checked: this.state.cinemaMask
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         className: "custom-control-label",
-        "for": "cinemaMask"
+        htmlFor: "cinemaMask"
       }, "\u9ED2\u5E2F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {

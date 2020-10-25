@@ -14,13 +14,19 @@ if ( window.screen.width > 768 && window.innerWidth > 768) {
 const thumbnailWidth = 90
 const defaultFontSize = 30
 const defaultTextColor = "#ffffff"
+const defaultTextAlign = "center"
 const limitPixelSize = 2048
 const errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 const defaultScale="scale(0.5)"
 
 const errorFileType = "ファイルタイプ"
 
-const testImages = []
+const testImages = [
+ {src: "https://pbs.twimg.com/media/EcUq3mPU4AEPT6t?format=jpg&name=large"},
+ {src: "https://pbs.twimg.com/media/EcUq4V8UcAEpId0?format=jpg&name=large"},
+ {src: "https://pbs.twimg.com/media/EcUq6VMUYAEUaz-?format=jpg&name=large"},
+ {src: "https://pbs.twimg.com/media/EcUq5TDUwAcBhuq?format=jpg&name=large"}
+]
 
 const bgRectangle = {
     x: 0,
@@ -62,6 +68,7 @@ const bgRectangleText = {
     height: stageHeight * 3,
     fill: '#ffffff',
     fontSize: 40,
+    textAlign: "center",
     id: 'backgroundText',
     line: appDescription }
 
@@ -97,7 +104,7 @@ class StageTest extends React.Component {
         transform: defaultScale,
         images: [],
         maskRectangles: maskRectangles,
-        currentImage:{src:"", textLine: [], textColor: defaultTextColor, fontSize: defaultFontSize, width: 0, height: 0},
+        currentImage:{src:"", textLine: [], textColor: defaultTextColor, fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50 },
         currentImageIndex: 0,
         cinemaMask: true,
     }
@@ -169,7 +176,6 @@ class StageTest extends React.Component {
   }
 
   setImages() {
-
     var newImages = this.state.images
 
     testImages.map((testImage) => {
@@ -178,10 +184,12 @@ class StageTest extends React.Component {
       testImage.image = image
       newImages.push(testImage)
     })
-    this.setState({images: newImages})
+    // this.setState({images: newImages})
   }
 
   setText() {
+    console.log("set text")
+    console.log(event.target.name)
     var currentImage = this.state.currentImage
     if (event.target.name == "textLine") {
       if (this.state.textLine !== event.target.name) {
@@ -198,6 +206,10 @@ class StageTest extends React.Component {
       if (this.state.fontSize !== event.target.name) {
         currentImage.fontSize =  event.target.value
       }
+    }
+    if (event.target.name == "textAlign") {
+      console.log( event.target.value)
+      currentImage.textAlign =  event.target.value
     }
 
     this.setState({currentImage: this.setDefaultImageValue(currentImage)});
@@ -249,12 +261,13 @@ class StageTest extends React.Component {
       this.setState({currentImage: finalCurrentImage})
       this.setStageSize(finalCurrentImage)
       this.setCinemaScope()
+      this.handleSliderChangeBootstrap()
     }
   }
 
   handleSliderChangeBootstrap(){
     console.log("called")
-    var newValue = event.target.value
+    var newValue = event.target.value || this.state.currentImage.imageSizeSlider
 
     var sizeScale = newValue * 3 / 100
     var currentImage = this.state.currentImage
@@ -285,16 +298,17 @@ class StageTest extends React.Component {
     if (!currentImage.textColor) {
         currentImage.textColor = defaultTextColor
     }
-
     if (!currentImage.fontSize) {
         currentImage.fontSize = defaultFontSize
     }
-
     if (!currentImage.textLine) {
         currentImage.textLine = []
     }
     if (!currentImage.imageSizeSlider) {
         currentImage.imageSizeSlider = 50
+    }
+    if (!currentImage.textAlign) {
+        currentImage.textAlign = "center"
     }
 
     return currentImage
@@ -302,7 +316,7 @@ class StageTest extends React.Component {
 
   async setFiles(e) {
     console.log("set files")
-    e.preventDefault()
+    // event.preventDefault()
     for(var i in e.target.files) {
       if (event.target.files[i].type == undefined) {
         continue;
@@ -473,7 +487,7 @@ class StageTest extends React.Component {
                     fontSize={this.state.currentImage.fontSize || bgRectangleText.fontSize}
                     text={bgRectangleText.line}
                     wrap="char"
-                    align="center"
+                    align={this.state.currentImage.textAlign || bgRectangleText.textAlign}
                     width={bgRectangleText.width}
                     height={bgRectangleText.height}
                     y={bgRectangleText.y}
@@ -515,7 +529,7 @@ class StageTest extends React.Component {
                         fontSize={Number(this.state.currentImage.fontSize)}
                         text={line}
                         wrap="char"
-                        align="center"
+                        align={this.state.currentImage.textAlign}
                         width={stageWidth}
                         height={stageHeight}
                         y={( (this.state.stageHeight - this.state.maskHeight) + 40 * i) + 15}
@@ -539,11 +553,31 @@ class StageTest extends React.Component {
             </div>
           </div>
           <div className="col-sm-6 p-3">
-            <div className="input-group mb-3">
+            <div className="input-group mb-1">
               <div className="input-group-prepend">
                 <span className="input-group-text">Text</span>
               </div>
               <textarea className="form-control" name="textLine" value={this.state.currentImage.textLine.join("\n")} onChange={this.setText} placeholder="下帯に表示させるテキストを入力" />
+            </div>
+            <div className="btn-group mb-3" role="group" aria-label="Basic example">
+              <label>
+                <span className="btn btn-light">
+                  <i className="fas fa-align-left w-100"></i>
+                  <input type="button" name="textAlign" value="left" onClick={this.setText} style={{display: "none"}}/>
+                </span>
+              </label>
+              <label>
+                <span className="btn btn-light">
+                  <i className="fas fa-align-center w-100"></i>
+                  <input type="button" name="textAlign" value="center" onClick={this.setText} style={{display: "none"}}/>
+                </span>
+              </label>
+              <label>
+                <span className="btn btn-light">
+                  <i className="fas fa-align-right w-100"></i>
+                  <input type="button" name="textAlign" value="right" onClick={this.setText} style={{display: "none"}}/>
+                </span>
+              </label>
             </div>
 
             <div className="input-group mb-3">
@@ -559,7 +593,7 @@ class StageTest extends React.Component {
 
             <div className="custom-control custom-switch mb-3">
               <input id="cinemaMask" name="cinemaMask" className="custom-control-input" type="checkbox" value={this.state.cinemaMask} onChange={this.handleChangeState} checked={this.state.cinemaMask} />
-              <label className="custom-control-label" for="cinemaMask">黒帯</label>
+              <label className="custom-control-label" htmlFor="cinemaMask">黒帯</label>
             </div>
 
             <div className="input-group mb-3">
