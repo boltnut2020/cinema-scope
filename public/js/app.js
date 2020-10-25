@@ -114940,7 +114940,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "handleSliderChange", function (e, newValue) {
       console.log("called");
       console.log(e);
-      var sizeScale = newValue * 2 / 100;
+      var sizeScale = newValue * 3 / 100;
       var currentImage = _this.state.currentImage;
       currentImage.scaleX = _this.state.currentImage.scaleXBase * sizeScale;
       currentImage.scaleY = _this.state.currentImage.scaleYBase * sizeScale;
@@ -115179,7 +115179,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     value: function handleSliderChangeBootstrap() {
       console.log("called");
       var newValue = event.target.value;
-      var sizeScale = newValue * 2 / 100;
+      var sizeScale = newValue * 3 / 100;
       var currentImage = this.state.currentImage;
       currentImage.imageSizeSlider = newValue;
       currentImage.scaleX = this.state.currentImage.scaleXBase * sizeScale;
@@ -115378,7 +115378,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           borderBottom: "1px #000 solid"
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-11"
+        className: "col-10"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row col-12"
       }, this.state.images.map(function (thumbnail, i) {
@@ -115394,7 +115394,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         }));
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         key: "inputFileDir",
-        className: "col-1 col-lg-1 p-1 mr-2"
+        className: "col-2 col-lg-1 p-1 mr-2 text-right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "btn btn-primary"
       }, "+", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -115489,7 +115489,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "imageSizeSlider"
-      }, "scale:", this.state.currentImage.imageSizeSlider * 2), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+      }, "scale:", (this.state.currentImage.imageSizeSlider - 50) * 6), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "range",
         id: "imageSizeSlider",
         name: "imageSizeSlider",

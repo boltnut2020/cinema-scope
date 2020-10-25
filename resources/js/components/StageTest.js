@@ -256,7 +256,7 @@ class StageTest extends React.Component {
     console.log("called")
     var newValue = event.target.value
 
-    var sizeScale = newValue * 2 / 100
+    var sizeScale = newValue * 3 / 100
     var currentImage = this.state.currentImage
     currentImage.imageSizeSlider = newValue
     currentImage.scaleX = this.state.currentImage.scaleXBase * sizeScale
@@ -271,7 +271,7 @@ class StageTest extends React.Component {
     console.log("called")
     console.log(e)
 
-    var sizeScale = newValue * 2 / 100
+    var sizeScale = newValue * 3 / 100
     var currentImage = this.state.currentImage
     currentImage.scaleX = this.state.currentImage.scaleXBase * sizeScale
     currentImage.scaleY = this.state.currentImage.scaleYBase * sizeScale
@@ -413,7 +413,7 @@ class StageTest extends React.Component {
       <React.Fragment>
       <div className="container-fluid">
         <div className="row p-0 overflow-x:scroll mb-3" style={{minHeight: "75px", borderBottom: "1px #000 solid"}}>
-          <div className="col-11">
+          <div className="col-10">
             <div className="row col-12">
             {this.state.images.map((thumbnail, i) => {
               return(
@@ -425,14 +425,14 @@ class StageTest extends React.Component {
             </div>
           </div>
 
-              <div key={"inputFileDir"} className="col-1 col-lg-1 p-1 mr-2">
-                <label>
-                  <span className="btn btn-primary">
-                  +
-                    <input id="inputFile" ref={this.imageRef} onChange={this.setFiles} type="file"  multiple style={{display: "none"}}/>
-                  </span>
-                </label>
-              </div>
+          <div key={"inputFileDir"} className="col-2 col-lg-1 p-1 mr-2 text-right">
+            <label>
+              <span className="btn btn-primary">
+              +
+                <input id="inputFile" ref={this.imageRef} onChange={this.setFiles} type="file"  multiple style={{display: "none"}}/>
+              </span>
+            </label>
+          </div>
         </div>
         <div key="current-div" className="row">
           <div className="col-sm-6 p-0" >
@@ -531,7 +531,7 @@ class StageTest extends React.Component {
             </div>
             <div className="col-sm-12 text-right">
               <div className="form-group">
-                <label htmlFor="imageSizeSlider">scale:{this.state.currentImage.imageSizeSlider * 2}</label>
+                <label htmlFor="imageSizeSlider">scale:{ (this.state.currentImage.imageSizeSlider - 50) * 6 }</label>
                 <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="form-control-range" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
               </div>
 
