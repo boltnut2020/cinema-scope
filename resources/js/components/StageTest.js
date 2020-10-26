@@ -22,10 +22,30 @@ const defaultScale="scale(0.5)"
 const errorFileType = "ファイルタイプ"
 
 const testImages = [
- {src: "https://pbs.twimg.com/media/EcUq3mPU4AEPT6t?format=jpg&name=large"},
- {src: "https://pbs.twimg.com/media/EcUq4V8UcAEpId0?format=jpg&name=large"},
- {src: "https://pbs.twimg.com/media/EcUq6VMUYAEUaz-?format=jpg&name=large"},
- {src: "https://pbs.twimg.com/media/EcUq5TDUwAcBhuq?format=jpg&name=large"}
+ {
+    "src": "https://pbs.twimg.com/media/EcUq3mPU4AEPT6t?format=jpg&name=large",
+    "id": "rect2",
+    "width": "2048",
+    "height": "1536",
+    "widthOrigin": 4608,
+    "heightOrigin": 3456
+  },
+ {
+    "src": "https://pbs.twimg.com/media/EcUq4V8UcAEpId0?format=jpg&name=large",
+    "id": "rect2",
+    "width": "2048",
+    "height": "1536",
+    "widthOrigin": 4608,
+    "heightOrigin": 3456
+  },
+ {
+    "src": "https://pbs.twimg.com/media/EcUq5TDUwAcBhuq?format=jpg&name=large",
+    "id": "rect2",
+    "width": "2048",
+    "height": "1536",
+    "widthOrigin": 4608,
+    "heightOrigin": 3456
+  },
 ]
 
 const bgRectangle = {
@@ -145,10 +165,9 @@ class StageTest extends React.Component {
   componentDidUpdate() {
     console.log("Did Update")
     if( this.state.images.length > 0 && this.state.currentImage.src == "") {
-       console.log(this.state.images)
        this.setCurrentImage(0)
     }
-
+    console.log(this.state.images)
   }
 
   setStageSize(finalCurrentImage) {
@@ -181,10 +200,22 @@ class StageTest extends React.Component {
     testImages.map((testImage) => {
       var image = new window.Image();
       image.src = testImage.src;
-      testImage.image = image
-      newImages.push(testImage)
+      image.onload = (e) => {
+        testImage.image = image
+        var width = image.width;
+        var height = image.height;
+
+        if(width > limitPixelSize) {
+          height = Math.round(height * limitPixelSize / width);
+          width = limitPixelSize;
+        }
+
+        testImage.x = 0
+        testImage.y = 100
+        newImages.push(testImage)
+        this.setState({images: newImages})
+      }
     })
-    // this.setState({images: newImages})
   }
 
   setText() {
@@ -253,7 +284,8 @@ class StageTest extends React.Component {
       selectedImage.scaleY = selectedImage.scaleXBase
       selectedImage.width = selectedImage.widthBase
       selectedImage.height = selectedImage.heightBase
-
+      selectedImage.x = selectedImage.x
+      selectedImage.y = selectedImage.y
 
       this.setState({currentImageIndex: index})
       var finalCurrentImage = this.setDefaultImageValue(selectedImage)
@@ -368,7 +400,9 @@ class StageTest extends React.Component {
              width: width.toFixed(),
              height: height.toFixed(),
              widthOrigin: imageObj.width,
-             heightOrigin: imageObj.height
+             heightOrigin: imageObj.height,
+             x: (this.state.stageWidth - width.toFixed()) / 2,
+             y: (this.state.stageHeignt - height.toFixed()) / 2
            }
            
            var newImages = this.state.images
@@ -406,7 +440,15 @@ class StageTest extends React.Component {
     this.setState({maskRectangles: newMaskRectangles})
   }
 
-  handleDragEnd() {
+  handleDragEnd(e) {
+    var x = e.target.x()
+    var y = e.target.y()
+
+    var currentImage = this.state.currentImage
+    currentImage.x = x
+    currentImage.y = y
+
+    this.setState({currentImage: currentImage})
     // x: e.target.x(),
   }
 
@@ -450,22 +492,11 @@ class StageTest extends React.Component {
         </div>
         <div key="current-div" className="row">
           <div className="col-sm-6 p-0" >
-            {/*
-            <div className="col-sm-12 text-right">
-              <div className="row">
-                <div className="col-sm-6 text-right">
-                </div>
-                <div className="col-sm-6 text-right">
-                    <p>Canvas: {stageWidth} x {stageHeight} Image: {this.state.currentImage.width} x {this.state.currentImage.height}</p>
-
-                </div>
-              </div>
-            </div>
-            */}
             <div 
               className="col-sm-12"
               style={{height: `${this.state.stageDivHeight}`}}
             >
+
               <Stage
                 ref={node => { this.stageRef = node}}
                 width={this.state.stageWidth} 
@@ -498,8 +529,8 @@ class StageTest extends React.Component {
 
                   <Rect
                     key={"currentRect"}
-                    x={ (stageWidth - this.state.currentImage.width) / 2}
-                    y={ (stageHeight - this.state.currentImage.height) / 2}
+                    x={ this.state.currentImage.x || (stageWidth - this.state.currentImage.width) / 2}
+                    y={ this.state.currentImage.y || (stageHeight - this.state.currentImage.height) / 2}
                     width={Number(this.state.currentImage.width)}
                     height={Number(this.state.currentImage.height)}
                     fillPatternImage={this.state.currentImage.image}
@@ -507,6 +538,7 @@ class StageTest extends React.Component {
                     fillPatternScaleY={this.state.currentImage.scaleY}
                     filPatternRepeat = "no-repeat"
                     draggable={true}
+                    onDragEnd={this.handleDragEnd}
                   />
                   {this.state.cinemaMask == true && this.state.maskRectangles.map((rect, i) => {
                     return (
@@ -542,6 +574,7 @@ class StageTest extends React.Component {
 
                 </Layer>
               </Stage>
+
             </div>
             <div className="col-sm-12 text-right">
               <div className="form-group">
@@ -552,7 +585,12 @@ class StageTest extends React.Component {
               <input className="btn btn-light" type="button" value="DownLoad" onClick={this.handleExportClick} />
             </div>
           </div>
-          <div className="col-sm-6 p-3">
+          <div className="col-sm-6 p-0">
+            {/*
+            <div className="btn-group mb-3" role="group" aria-label="Basic example">
+              <Tate state={this.state} />
+            </div>
+            */}
             <div className="input-group mb-1">
               <div className="input-group-prepend">
                 <span className="input-group-text">Text</span>
@@ -603,6 +641,9 @@ class StageTest extends React.Component {
                 <i className="far fa-image ml-2 mr-2"></i>{this.state.currentImage.width} x {this.state.currentImage.height}</li>
               </ul>
             </div>
+            <div className="input-group mb-3">
+              <textarea className="form-control" value={JSON.stringify(this.state.images, null, 2)} />
+            </div>
           </div>
         </div>
       </div>
@@ -610,4 +651,95 @@ class StageTest extends React.Component {
       )
   }
 }
+
+const Tate = props => {
+
+  const{state} = props
+  const scale = state.transform
+  let maskBottom = []
+  maskBottom.push(state.maskRectangles[state.maskRectangles.length - 1])
+
+  return(
+    <div>
+      <Stage
+        width={state.stageWidth} 
+        height={state.stageHeight * state.images.length}
+        style={{transformOrigin: "top left", transform: `${ state.transform }`, textAlign: "center" }}
+      >
+        <Layer>
+        
+        {state.images.map((image, i) => {
+
+        var sizeScale = imageSizeSlider * 3 / 100
+        var renderWidth = image.width
+        return(
+        <React.Fragment>
+          <Rect
+            key={i}
+            x={ image.x }
+            y={ (image.y) + (state.stageHeight * i) - state.maskHeight}
+            width={Number(image.width)}
+            height={Number(image.height)}
+            fillPatternImage={image.image}
+            fillPatternScaleX={image.scaleX}
+            fillPatternScaleY={image.scaleY}
+            filPatternRepeat = "no-repeat"
+            draggable={true}
+          />
+        {maskBottom.map((rect, j) => {
+          return (
+            <Rect
+              key={rect.id}
+              x={rect.x}
+              y={rect.y + stageHeight * i}
+              fill={rect.fill}
+              width={rect.width}
+              height={rect.height}
+            />
+          )
+        })}
+
+          </React.Fragment>
+        )
+        })}
+
+        {/*
+        {images.map((image) => {
+          <Rect
+            key={"currentRect"}
+            x={ (stageWidth - image.width) / 2}
+            y={ (stageHeight - image.height) / 2}
+            width={Number(image.width)}
+            height={Number(image.height)}
+            fillPatternImage={image.image}
+            fillPatternScaleX={image.scaleX}
+            fillPatternScaleY={image.scaleY}
+            filPatternRepeat = "no-repeat"
+            draggable={true}
+          />
+          {image.textLine.map((line, i) => {
+            var positionY = i * 40
+            return(
+              <Text
+                key={"textline" + i}
+                fontSize={Number(image.fontSize)}
+                text={line}
+                wrap="char"
+                align={image.textAlign}
+                width={stageWidth}
+                height={stageHeight}
+                y={100}
+                fill={image.textColor}
+                draggable={true}
+              />
+            )})}
+        })}
+        */}
+        </Layer>
+      </Stage>
+
+    </div>
+  )
+}
+
 export default StageTest

@@ -114891,13 +114891,26 @@ var errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超え�
 var defaultScale = "scale(0.5)";
 var errorFileType = "ファイルタイプ";
 var testImages = [{
-  src: "https://pbs.twimg.com/media/EcUq3mPU4AEPT6t?format=jpg&name=large"
+  "src": "https://pbs.twimg.com/media/EcUq3mPU4AEPT6t?format=jpg&name=large",
+  "id": "rect2",
+  "width": "2048",
+  "height": "1536",
+  "widthOrigin": 4608,
+  "heightOrigin": 3456
 }, {
-  src: "https://pbs.twimg.com/media/EcUq4V8UcAEpId0?format=jpg&name=large"
+  "src": "https://pbs.twimg.com/media/EcUq4V8UcAEpId0?format=jpg&name=large",
+  "id": "rect2",
+  "width": "2048",
+  "height": "1536",
+  "widthOrigin": 4608,
+  "heightOrigin": 3456
 }, {
-  src: "https://pbs.twimg.com/media/EcUq6VMUYAEUaz-?format=jpg&name=large"
-}, {
-  src: "https://pbs.twimg.com/media/EcUq5TDUwAcBhuq?format=jpg&name=large"
+  "src": "https://pbs.twimg.com/media/EcUq5TDUwAcBhuq?format=jpg&name=large",
+  "id": "rect2",
+  "width": "2048",
+  "height": "1536",
+  "widthOrigin": 4608,
+  "heightOrigin": 3456
 }];
 var bgRectangle = {
   x: 0,
@@ -115024,9 +115037,10 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       console.log("Did Update");
 
       if (this.state.images.length > 0 && this.state.currentImage.src == "") {
-        console.log(this.state.images);
         this.setCurrentImage(0);
       }
+
+      console.log(this.state.images);
     }
   }, {
     key: "setStageSize",
@@ -115062,13 +115076,32 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setImages",
     value: function setImages() {
+      var _this2 = this;
+
       var newImages = this.state.images;
       testImages.map(function (testImage) {
         var image = new window.Image();
         image.src = testImage.src;
-        testImage.image = image;
-        newImages.push(testImage);
-      }); // this.setState({images: newImages})
+
+        image.onload = function (e) {
+          testImage.image = image;
+          var width = image.width;
+          var height = image.height;
+
+          if (width > limitPixelSize) {
+            height = Math.round(height * limitPixelSize / width);
+            width = limitPixelSize;
+          }
+
+          testImage.x = 0;
+          testImage.y = 100;
+          newImages.push(testImage);
+
+          _this2.setState({
+            images: newImages
+          });
+        };
+      });
     }
   }, {
     key: "setText",
@@ -115108,7 +115141,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     key: "setCurrentImage",
     value: function () {
       var _setCurrentImage = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(index) {
-        var _this2 = this;
+        var _this3 = this;
 
         var images, updateImage, key, selectedImage, imageObj, naturalWidth;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -115158,24 +115191,26 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
                   selectedImage.scaleY = selectedImage.scaleXBase;
                   selectedImage.width = selectedImage.widthBase;
                   selectedImage.height = selectedImage.heightBase;
+                  selectedImage.x = selectedImage.x;
+                  selectedImage.y = selectedImage.y;
 
-                  _this2.setState({
+                  _this3.setState({
                     currentImageIndex: index
                   });
 
-                  var finalCurrentImage = _this2.setDefaultImageValue(selectedImage);
+                  var finalCurrentImage = _this3.setDefaultImageValue(selectedImage);
 
                   console.log(finalCurrentImage);
 
-                  _this2.setState({
+                  _this3.setState({
                     currentImage: finalCurrentImage
                   });
 
-                  _this2.setStageSize(finalCurrentImage);
+                  _this3.setStageSize(finalCurrentImage);
 
-                  _this2.setCinemaScope();
+                  _this3.setCinemaScope();
 
-                  _this2.handleSliderChangeBootstrap();
+                  _this3.handleSliderChangeBootstrap();
                 };
 
               case 9:
@@ -115287,7 +115322,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setFile",
     value: function setFile(file) {
-      var _this3 = this;
+      var _this4 = this;
 
       console.log("set file");
       var reader = new FileReader();
@@ -115319,17 +115354,19 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
             url = window.URL.createObjectURL(imageFile);
             var newItem = {
               src: url,
-              id: 'rect' + (_this3.state.images.length + 1),
+              id: 'rect' + (_this4.state.images.length + 1),
               width: width.toFixed(),
               height: height.toFixed(),
               widthOrigin: imageObj.width,
-              heightOrigin: imageObj.height
+              heightOrigin: imageObj.height,
+              x: (_this4.state.stageWidth - width.toFixed()) / 2,
+              y: (_this4.state.stageHeignt - height.toFixed()) / 2
             };
-            var newImages = _this3.state.images;
+            var newImages = _this4.state.images;
             console.log(newImages);
             newImages.push(newItem);
 
-            _this3.setState({
+            _this4.setState({
               images: newImages
             });
           }, file.type, 1);
@@ -115341,7 +115378,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setCinemaScope",
     value: function setCinemaScope() {
-      var _this4 = this;
+      var _this5 = this;
 
       console.log("set cinema scope");
       var maskHeight = 0;
@@ -115352,13 +115389,13 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       var newMaskRectangles = [];
       maskRectangles.map(function (rect, i) {
         if (rect.id == "topmask") {
-          rect.width = _this4.state.stageWidth;
+          rect.width = _this5.state.stageWidth;
           rect.height = maskHeight;
         }
 
         if (rect.id == "bottommask") {
-          rect.width = _this4.state.stageWidth;
-          rect.y = _this4.state.stageHeight - maskHeight;
+          rect.width = _this5.state.stageWidth;
+          rect.y = _this5.state.stageHeight - maskHeight;
           rect.height = maskHeight;
         }
 
@@ -115370,7 +115407,15 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleDragEnd",
-    value: function handleDragEnd() {// x: e.target.x(),
+    value: function handleDragEnd(e) {
+      var x = e.target.x();
+      var y = e.target.y();
+      var currentImage = this.state.currentImage;
+      currentImage.x = x;
+      currentImage.y = y;
+      this.setState({
+        currentImage: currentImage
+      }); // x: e.target.x(),
     }
   }, {
     key: "handleExportClick",
@@ -115389,7 +115434,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "container-fluid"
@@ -115411,7 +115456,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           src: thumbnail.src,
           width: thumbnailWidth,
           onClick: function onClick() {
-            return _this5.setCurrentImage(i);
+            return _this6.setCurrentImage(i);
           }
         }));
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -115440,7 +115485,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Stage"], {
         ref: function ref(node) {
-          _this5.stageRef = node;
+          _this6.stageRef = node;
         },
         width: this.state.stageWidth,
         height: this.state.stageHeight,
@@ -115469,15 +115514,16 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         draggable: true
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
         key: "currentRect",
-        x: (stageWidth - this.state.currentImage.width) / 2,
-        y: (stageHeight - this.state.currentImage.height) / 2,
+        x: this.state.currentImage.x || (stageWidth - this.state.currentImage.width) / 2,
+        y: this.state.currentImage.y || (stageHeight - this.state.currentImage.height) / 2,
         width: Number(this.state.currentImage.width),
         height: Number(this.state.currentImage.height),
         fillPatternImage: this.state.currentImage.image,
         fillPatternScaleX: this.state.currentImage.scaleX,
         fillPatternScaleY: this.state.currentImage.scaleY,
         filPatternRepeat: "no-repeat",
-        draggable: true
+        draggable: true,
+        onDragEnd: this.handleDragEnd
       }), this.state.cinemaMask == true && this.state.maskRectangles.map(function (rect, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
           key: rect.id,
@@ -115491,18 +115537,18 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         var positionY = i * 40;
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
           key: "textline" + i,
-          fontSize: Number(_this5.state.currentImage.fontSize),
+          fontSize: Number(_this6.state.currentImage.fontSize),
           text: line,
           wrap: "char",
-          align: _this5.state.currentImage.textAlign,
+          align: _this6.state.currentImage.textAlign,
           width: stageWidth,
           height: stageHeight,
-          y: _this5.state.stageHeight - _this5.state.maskHeight + 40 * i + 15,
-          fill: _this5.state.currentImage.textColor,
+          y: _this6.state.stageHeight - _this6.state.maskHeight + 40 * i + 15,
+          fill: _this6.state.currentImage.textColor,
           draggable: true,
-          onDragEnd: _this5.handleDragEnd,
+          onDragEnd: _this6.handleDragEnd,
           style: {
-            transform: "".concat(_this5.state.transform)
+            transform: "".concat(_this6.state.transform)
           }
         });
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -115524,7 +115570,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         value: "DownLoad",
         onClick: this.handleExportClick
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-6 p-3"
+        className: "col-sm-6 p-0"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -115626,12 +115672,57 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         className: "far fa-window-maximize mr-2"
       }), this.state.stageWidth, " x ", this.state.stageHeight, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "far fa-image ml-2 mr-2"
-      }), this.state.currentImage.width, " x ", this.state.currentImage.height)))))));
+      }), this.state.currentImage.width, " x ", this.state.currentImage.height))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
+        className: "form-control",
+        value: JSON.stringify(this.state.images, null, 2)
+      }))))));
     }
   }]);
 
   return StageTest;
 }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
+
+var Tate = function Tate(props) {
+  var state = props.state;
+  var scale = state.transform;
+  var maskBottom = [];
+  maskBottom.push(state.maskRectangles[state.maskRectangles.length - 1]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Stage"], {
+    width: state.stageWidth,
+    height: state.stageHeight * state.images.length,
+    style: {
+      transformOrigin: "top left",
+      transform: "".concat(state.transform),
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Layer"], null, state.images.map(function (image, i) {
+    var sizeScale = imageSizeSlider * 3 / 100;
+    var renderWidth = image.width;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
+      key: i,
+      x: image.x,
+      y: image.y + state.stageHeight * i - state.maskHeight,
+      width: Number(image.width),
+      height: Number(image.height),
+      fillPatternImage: image.image,
+      fillPatternScaleX: image.scaleX,
+      fillPatternScaleY: image.scaleY,
+      filPatternRepeat: "no-repeat",
+      draggable: true
+    }), maskBottom.map(function (rect, j) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
+        key: rect.id,
+        x: rect.x,
+        y: rect.y + stageHeight * i,
+        fill: rect.fill,
+        width: rect.width,
+        height: rect.height
+      });
+    }));
+  }))));
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (StageTest);
 
