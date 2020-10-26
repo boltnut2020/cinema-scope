@@ -6,10 +6,10 @@ import InputSlider from './InputSlider';
 const windowWidth = window.screen.width;
 
 let stageWidth = 1280
-let stageHeight = 720
+let stageHeight = 960
 if ( window.screen.width > 768 && window.innerWidth > 768) {
   stageWidth = 2048
-  stageHeight = 1152
+  stageHeight = 1536
 }
 const thumbnailWidth = 80
 const defaultFontSize = 30
@@ -83,11 +83,11 @@ Hello World!\n
 
 const bgRectangleText = {
     x: 0,
-    y: 140,
+    y: 340,
     width: stageWidth,
     height: stageHeight * 3,
     fill: '#ffffff',
-    fontSize: 40,
+    fontSize: 60,
     textAlign: "center",
     id: 'backgroundText',
     line: appDescription }
@@ -157,7 +157,7 @@ class StageTest extends React.Component {
     console.log("Did Mount")
     this.setStageSize()
     this.setCinemaScope()
-    //this.setImages()
+    // this.setImages()
 
     console.log(this.stageRef)  
   }
@@ -174,9 +174,9 @@ class StageTest extends React.Component {
     console.log("setStageSize")
     var scaleX = 1
     if ( window.screen.width > 768 && window.innerWidth > 768) {
-      scaleX = 768 / this.state.stageWidth * 0.92
+      scaleX = 768 / this.state.stageWidth * 1
     } else {
-      scaleX = window.screen.width / this.state.stageWidth * 0.9
+      scaleX = window.screen.width / this.state.stageWidth * 1
     }
 
 
@@ -401,11 +401,12 @@ class StageTest extends React.Component {
              height: height.toFixed(),
              widthOrigin: imageObj.width,
              heightOrigin: imageObj.height,
-             x: (this.state.stageWidth - width.toFixed()) / 2,
-             y: (this.state.stageHeignt - height.toFixed()) / 2
+             x: (stageWidth - width.toFixed()) / 2,
+             y: (stageHeight - height.toFixed()) / 2
            }
            
            var newImages = this.state.images
+           console.log("newImages")
            console.log(newImages)
            newImages.push(newItem)
            this.setState({images: newImages})
@@ -493,7 +494,7 @@ class StageTest extends React.Component {
         <div key="current-div" className="row">
           <div className="col-sm-6 p-0" >
             <div 
-              className="col-sm-12"
+              className="col-sm-12 p-0"
               style={{height: `${this.state.stageDivHeight}`}}
             >
 
@@ -529,8 +530,8 @@ class StageTest extends React.Component {
 
                   <Rect
                     key={"currentRect"}
-                    x={ this.state.currentImage.x || (stageWidth - this.state.currentImage.width) / 2}
-                    y={ this.state.currentImage.y || (stageHeight - this.state.currentImage.height) / 2}
+                    x={ Number(this.state.currentImage.x) }
+                    y={ Number(this.state.currentImage.y) }
                     width={Number(this.state.currentImage.width)}
                     height={Number(this.state.currentImage.height)}
                     fillPatternImage={this.state.currentImage.image}
@@ -564,10 +565,9 @@ class StageTest extends React.Component {
                         align={this.state.currentImage.textAlign}
                         width={stageWidth}
                         height={stageHeight}
-                        y={( (this.state.stageHeight - this.state.maskHeight) + 40 * i) + 15}
+                        y={( (this.state.stageHeight - this.state.maskHeight) + 45 * i) + 40}
                         fill={this.state.currentImage.textColor}
                         draggable={true}
-                        onDragEnd={this.handleDragEnd}
                         style={{ transform: `${ this.state.transform }` }}
                       />
                     )})}
@@ -672,16 +672,16 @@ const Tate = props => {
         
         {state.images.map((image, i) => {
 
-        var sizeScale = imageSizeSlider * 3 / 100
-        var renderWidth = image.width
         return(
         <React.Fragment>
           <Rect
             key={i}
-            x={ image.x }
-            y={ (image.y) + (state.stageHeight * i) - state.maskHeight}
-            width={Number(image.width)}
-            height={Number(image.height)}
+            x={0}
+            y={ (state.stageHeight - state.maskHeight) * i}
+            width={Number(state.stageWidth)}
+            height={Number(state.stageHeight) - (state.maskHeight * 2)}
+            fillPatternOffsetX={-image.x}
+            fillPatternOffsetY={-(image.y - state.maskHeight)}
             fillPatternImage={image.image}
             fillPatternScaleX={image.scaleX}
             fillPatternScaleY={image.scaleY}
@@ -693,7 +693,7 @@ const Tate = props => {
             <Rect
               key={rect.id}
               x={rect.x}
-              y={rect.y + stageHeight * i}
+              y={ (state.stageHeight - state.maskHeight * 2) * (i + 1)}
               fill={rect.fill}
               width={rect.width}
               height={rect.height}

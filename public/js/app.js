@@ -114875,11 +114875,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var windowWidth = window.screen.width;
 var stageWidth = 1280;
-var stageHeight = 720;
+var stageHeight = 960;
 
 if (window.screen.width > 768 && window.innerWidth > 768) {
   stageWidth = 2048;
-  stageHeight = 1152;
+  stageHeight = 1536;
 }
 
 var thumbnailWidth = 80;
@@ -114923,11 +114923,11 @@ var bgRectangle = {
 var appDescription = "\nHello World!\n\n\u3053\u306E\u30DA\u30FC\u30B8\u306F\u30B7\u30CD\u30DE\u30B9\u30AF\u30EA\u30FC\u30F3\u30EC\u30A4\u30A2\u30A6\u30C8\u306E\n\u7C21\u6613\u7684\u306A\u753B\u50CF\u52A0\u5DE5\u30A2\u30D7\u30EA\u3067\u3059\u3002\n\n\u300E\u51FA\u6765\u308B\u4E8B\u300F\n\n\n\u300C+\u300D\u30DC\u30BF\u30F3\u3067\u753B\u50CF\u30D5\u30A1\u30A4\u30EB\u3092\u9078\u629E\u3057\u30B9\u30C6\u30FC\u30B8\u306B\u8A2D\u7F6E\n\n(\u8907\u6570\u53EF\u80FD)\n\n\u30BF\u30C3\u30D7\u3067\u30B9\u30C6\u30FC\u30B8\u5185\u306E\u753B\u50CF\u79FB\u52D5\u3001\u30BA\u30FC\u30E0\u30D0\u30FC\u3067\u62E1\u5927\u3001\u7E2E\u5C0F\n\n\u4E0B\u5E2F\u306B\u8868\u793A\u3055\u305B\u308B\u30C6\u30AD\u30B9\u30C8\u3092\u8A2D\u5B9A\n\uFF08\u79FB\u52D5\u3067\u304D\u307E\u3059\uFF09\n\n\n\u203B\u52D5\u4F5C\u78BA\u8A8D\n\u4ECA\u306E\u3068\u3053\u308DAndroid, PC\u3067\u306EChrome\u30D6\u30E9\u30A6\u30B6\u306E\u307F\u3067\u78BA\u8A8D\u6E08\u307F\u3067\u3059\u3002\n\n\n";
 var bgRectangleText = {
   x: 0,
-  y: 140,
+  y: 340,
   width: stageWidth,
   height: stageHeight * 3,
   fill: '#ffffff',
-  fontSize: 40,
+  fontSize: 60,
   textAlign: "center",
   id: 'backgroundText',
   line: appDescription
@@ -115027,7 +115027,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       console.log("Did Mount");
       this.setStageSize();
-      this.setCinemaScope(); //this.setImages()
+      this.setCinemaScope(); // this.setImages()
 
       console.log(this.stageRef);
     }
@@ -115049,9 +115049,9 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       var scaleX = 1;
 
       if (window.screen.width > 768 && window.innerWidth > 768) {
-        scaleX = 768 / this.state.stageWidth * 0.92;
+        scaleX = 768 / this.state.stageWidth * 1;
       } else {
-        scaleX = window.screen.width / this.state.stageWidth * 0.9;
+        scaleX = window.screen.width / this.state.stageWidth * 1;
       } //    let heightTragetValue = 1
       //    if (finalCurrentImage) {
       //        console.log(finalCurrentImage.height)
@@ -115359,10 +115359,11 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
               height: height.toFixed(),
               widthOrigin: imageObj.width,
               heightOrigin: imageObj.height,
-              x: (_this4.state.stageWidth - width.toFixed()) / 2,
-              y: (_this4.state.stageHeignt - height.toFixed()) / 2
+              x: (stageWidth - width.toFixed()) / 2,
+              y: (stageHeight - height.toFixed()) / 2
             };
             var newImages = _this4.state.images;
+            console.log("newImages");
             console.log(newImages);
             newImages.push(newItem);
 
@@ -115479,7 +115480,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-6 p-0"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-12",
+        className: "col-sm-12 p-0",
         style: {
           height: "".concat(this.state.stageDivHeight)
         }
@@ -115514,8 +115515,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         draggable: true
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
         key: "currentRect",
-        x: this.state.currentImage.x || (stageWidth - this.state.currentImage.width) / 2,
-        y: this.state.currentImage.y || (stageHeight - this.state.currentImage.height) / 2,
+        x: Number(this.state.currentImage.x),
+        y: Number(this.state.currentImage.y),
         width: Number(this.state.currentImage.width),
         height: Number(this.state.currentImage.height),
         fillPatternImage: this.state.currentImage.image,
@@ -115543,10 +115544,9 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           align: _this6.state.currentImage.textAlign,
           width: stageWidth,
           height: stageHeight,
-          y: _this6.state.stageHeight - _this6.state.maskHeight + 40 * i + 15,
+          y: _this6.state.stageHeight - _this6.state.maskHeight + 45 * i + 40,
           fill: _this6.state.currentImage.textColor,
           draggable: true,
-          onDragEnd: _this6.handleDragEnd,
           style: {
             transform: "".concat(_this6.state.transform)
           }
@@ -115693,14 +115693,14 @@ var Tate = function Tate(props) {
       textAlign: "center"
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Layer"], null, state.images.map(function (image, i) {
-    var sizeScale = imageSizeSlider * 3 / 100;
-    var renderWidth = image.width;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
       key: i,
-      x: image.x,
-      y: image.y + state.stageHeight * i - state.maskHeight,
-      width: Number(image.width),
-      height: Number(image.height),
+      x: 0,
+      y: (state.stageHeight - state.maskHeight) * i,
+      width: Number(state.stageWidth),
+      height: Number(state.stageHeight) - state.maskHeight * 2,
+      fillPatternOffsetX: -image.x,
+      fillPatternOffsetY: -(image.y - state.maskHeight),
       fillPatternImage: image.image,
       fillPatternScaleX: image.scaleX,
       fillPatternScaleY: image.scaleY,
@@ -115710,7 +115710,7 @@ var Tate = function Tate(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
         key: rect.id,
         x: rect.x,
-        y: rect.y + stageHeight * i,
+        y: (state.stageHeight - state.maskHeight * 2) * (i + 1),
         fill: rect.fill,
         width: rect.width,
         height: rect.height
