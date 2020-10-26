@@ -11,7 +11,7 @@ if ( window.screen.width > 768 && window.innerWidth > 768) {
   stageWidth = 2048
   stageHeight = 1152
 }
-const thumbnailWidth = 90
+const thumbnailWidth = 80
 const defaultFontSize = 30
 const defaultTextColor = "#ffffff"
 const defaultTextAlign = "center"
@@ -157,7 +157,7 @@ class StageTest extends React.Component {
     console.log("Did Mount")
     this.setStageSize()
     this.setCinemaScope()
-    // this.setImages()
+    //this.setImages()
 
     console.log(this.stageRef)  
   }
@@ -174,7 +174,7 @@ class StageTest extends React.Component {
     console.log("setStageSize")
     var scaleX = 1
     if ( window.screen.width > 768 && window.innerWidth > 768) {
-      scaleX = 768 / this.state.stageWidth * 0.9
+      scaleX = 768 / this.state.stageWidth * 0.92
     } else {
       scaleX = window.screen.width / this.state.stageWidth * 0.9
     }
@@ -481,7 +481,7 @@ class StageTest extends React.Component {
             </div>
           </div>
 
-          <div key={"inputFileDir"} className="col-2 col-lg-1 p-1 mr-2 text-right">
+          <div key={"inputFileDir"} className="col-1 col-lg-1 p-1 mr-2 text-right">
             <label>
               <span className="btn btn-primary">
               +
@@ -582,10 +582,10 @@ class StageTest extends React.Component {
                 <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="form-control-range" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
               </div>
 
-              <input className="btn btn-light" type="button" value="DownLoad" onClick={this.handleExportClick} />
+              <input className="btn btn-light mb-2" type="button" value="DownLoad" onClick={this.handleExportClick} />
             </div>
           </div>
-          <div className="col-sm-6 p-0">
+          <div className="col-sm-6 p-3">
             {/*
             <div className="btn-group mb-3" role="group" aria-label="Basic example">
               <Tate state={this.state} />
@@ -624,7 +624,7 @@ class StageTest extends React.Component {
               </div>
             <input type="color" className="form-control" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
             </div>
-            <div className="form-group">
+            <div className="form-group text-right">
               <label htmlFor="fontSize">FontSize:{this.state.currentImage.fontSize}</label>
               <input type="range" id="fontSize" name="fontSize" className="form-control-range" value={this.state.currentImage.fontSize} onChange={this.setText} />
             </div>
@@ -641,9 +641,11 @@ class StageTest extends React.Component {
                 <i className="far fa-image ml-2 mr-2"></i>{this.state.currentImage.width} x {this.state.currentImage.height}</li>
               </ul>
             </div>
+            {/*
             <div className="input-group mb-3">
               <textarea className="form-control" value={JSON.stringify(this.state.images, null, 2)} />
             </div>
+            */}
           </div>
         </div>
       </div>

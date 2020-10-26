@@ -114882,7 +114882,7 @@ if (window.screen.width > 768 && window.innerWidth > 768) {
   stageHeight = 1152;
 }
 
-var thumbnailWidth = 90;
+var thumbnailWidth = 80;
 var defaultFontSize = 30;
 var defaultTextColor = "#ffffff";
 var defaultTextAlign = "center";
@@ -115027,7 +115027,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       console.log("Did Mount");
       this.setStageSize();
-      this.setCinemaScope(); // this.setImages()
+      this.setCinemaScope(); //this.setImages()
 
       console.log(this.stageRef);
     }
@@ -115049,7 +115049,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       var scaleX = 1;
 
       if (window.screen.width > 768 && window.innerWidth > 768) {
-        scaleX = 768 / this.state.stageWidth * 0.9;
+        scaleX = 768 / this.state.stageWidth * 0.92;
       } else {
         scaleX = window.screen.width / this.state.stageWidth * 0.9;
       } //    let heightTragetValue = 1
@@ -115461,7 +115461,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         }));
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         key: "inputFileDir",
-        className: "col-2 col-lg-1 p-1 mr-2 text-right"
+        className: "col-1 col-lg-1 p-1 mr-2 text-right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "btn btn-primary"
       }, "+", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -115565,12 +115565,12 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         value: this.state.currentImage.imageSizeSlider,
         onChange: this.handleSliderChangeBootstrap
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        className: "btn btn-light",
+        className: "btn btn-light mb-2",
         type: "button",
         value: "DownLoad",
         onClick: this.handleExportClick
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-6 p-0"
+        className: "col-sm-6 p-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -115637,7 +115637,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         onChange: this.setText,
         placeholder: "\u30C6\u30AD\u30B9\u30C8\u30AB\u30E9\u30FC"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "form-group"
+        className: "form-group text-right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "fontSize"
       }, "FontSize:", this.state.currentImage.fontSize), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -115672,12 +115672,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         className: "far fa-window-maximize mr-2"
       }), this.state.stageWidth, " x ", this.state.stageHeight, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "far fa-image ml-2 mr-2"
-      }), this.state.currentImage.width, " x ", this.state.currentImage.height))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
-        className: "form-control",
-        value: JSON.stringify(this.state.images, null, 2)
-      }))))));
+      }), this.state.currentImage.width, " x ", this.state.currentImage.height)))))));
     }
   }]);
 
