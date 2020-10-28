@@ -114961,15 +114961,14 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
 
     _defineProperty(_assertThisInitialized(_this), "handleSliderChange", function (e, newValue) {
-      console.log("called");
-      console.log(e);
+      // console.log("called")
+      // console.log(e)
       var sizeScale = newValue * 3 / 100;
       var currentImage = _this.state.currentImage;
       currentImage.scaleX = _this.state.currentImage.scaleXBase * sizeScale;
       currentImage.scaleY = _this.state.currentImage.scaleYBase * sizeScale;
       currentImage.width = _this.state.currentImage.widthBase * sizeScale;
-      currentImage.height = _this.state.currentImage.heightBase * sizeScale;
-      console.log(currentImage);
+      currentImage.height = _this.state.currentImage.heightBase * sizeScale; // console.log(currentImage)
 
       _this.setState({
         currentImage: currentImage
@@ -115027,27 +115026,24 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      console.log("Did Mount");
+      // console.log("Did Mount")
       this.setStageSize();
       this.setCinemaScope(); // this.setImages()
-
-      console.log(this.stageRef);
+      // console.log(this.stageRef)  
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      console.log("Did Update");
-
+      // console.log("Did Update")
       if (this.state.images.length > 0 && this.state.currentImage.src == "") {
         this.setCurrentImage(0);
-      }
+      } // console.log(this.state.images)
 
-      console.log(this.state.images);
     }
   }, {
     key: "setStageSize",
     value: function setStageSize(finalCurrentImage) {
-      console.log("setStageSize");
+      // console.log("setStageSize")
       var scaleX = 1;
 
       if (window.screen.width > 768 && window.innerWidth > 768) {
@@ -115056,7 +115052,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         scaleX = window.screen.width / this.state.stageWidth * 0.99;
       } //    let heightTragetValue = 1
       //    if (finalCurrentImage) {
-      //        console.log(finalCurrentImage.height)
+      //        // console.log(finalCurrentImage.height)
       //        heightTragetValue = finalCurrentImage.height * scaleX
       //    } else {
       //    }
@@ -115084,7 +115080,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     value: function setImages() {
       var _this2 = this;
 
-      console.log("set images");
+      // console.log("set images")
       var newImages = this.state.images;
       testImages.map(function (testImage) {
         var image = new window.Image();
@@ -115113,8 +115109,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setText",
     value: function setText() {
-      console.log("set text");
-      console.log(event.target.name);
+      // console.log("set text")
+      // console.log(event.target.name)
       var currentImage = this.state.currentImage;
 
       if (event.target.name == "textLine") {
@@ -115136,7 +115132,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }
 
       if (event.target.name == "textAlign") {
-        console.log(event.target.value);
+        // console.log( event.target.value)
         currentImage.textAlign = event.target.value;
       }
 
@@ -115163,8 +115159,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
                 return _context.abrupt("return", false);
 
               case 2:
-                console.log("set Current Image"); // save previous item
-
+                // console.log("set Current Image")
+                // save previous item
                 if (this.state.currentImageIndex) {
                   images = this.state.images;
                   updateImage = this.state.images[this.state.currentImageIndex];
@@ -115205,9 +115201,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
                     currentImageIndex: index
                   });
 
-                  var finalCurrentImage = _this3.setDefaultImageValue(selectedImage);
+                  var finalCurrentImage = _this3.setDefaultImageValue(selectedImage); // console.log(finalCurrentImage)
 
-                  console.log(finalCurrentImage);
 
                   _this3.setState({
                     currentImage: finalCurrentImage
@@ -115220,7 +115215,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
                   _this3.handleSliderChangeBootstrap();
                 };
 
-              case 9:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -115237,7 +115232,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSliderChangeBootstrap",
     value: function handleSliderChangeBootstrap() {
-      console.log("handleSliderChangeBootstrap");
+      // console.log("handleSliderChangeBootstrap")
       var newValue = event.target.value || this.state.currentImage.imageSizeSlider;
       var sizeScale = newValue * 2 / 100;
       var currentImage = this.state.currentImage;
@@ -115245,8 +115240,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       currentImage.scaleX = this.state.currentImage.scaleXBase * sizeScale;
       currentImage.scaleY = this.state.currentImage.scaleYBase * sizeScale;
       currentImage.width = this.state.currentImage.widthBase * sizeScale;
-      currentImage.height = this.state.currentImage.heightBase * sizeScale;
-      console.log(currentImage);
+      currentImage.height = this.state.currentImage.heightBase * sizeScale; // console.log(currentImage)
+
       this.setState({
         currentImage: currentImage
       });
@@ -115285,34 +115280,32 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                console.log("set files"); // event.preventDefault()
-
                 _context2.t0 = _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.keys(e.target.files);
 
-              case 2:
+              case 1:
                 if ((_context2.t1 = _context2.t0()).done) {
-                  _context2.next = 10;
+                  _context2.next = 9;
                   break;
                 }
 
                 i = _context2.t1.value;
 
                 if (!(event.target.files[i].type == undefined)) {
-                  _context2.next = 6;
+                  _context2.next = 5;
                   break;
                 }
 
-                return _context2.abrupt("continue", 2);
+                return _context2.abrupt("continue", 1);
 
-              case 6:
-                _context2.next = 8;
+              case 5:
+                _context2.next = 7;
                 return this.setFile(event.target.files[i]);
 
-              case 8:
-                _context2.next = 2;
+              case 7:
+                _context2.next = 1;
                 break;
 
-              case 10:
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -115331,7 +115324,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     value: function setFile(file) {
       var _this4 = this;
 
-      console.log("set file");
+      // console.log("set file")
       var reader = new FileReader();
       var imageObj = new window.Image();
       var url = window.URL.createObjectURL(file);
@@ -115366,12 +115359,13 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
               height: height.toFixed(),
               widthOrigin: imageObj.width,
               heightOrigin: imageObj.height,
-              x: (stageWidth - width.toFixed()) / 2,
-              y: (stageHeight - height.toFixed()) / 2
+              x: 0,
+              y: 0
             };
             var newImages = _this4.state.images;
             console.log("newImages");
-            console.log(newImages);
+            console.log(_this4.state);
+            console.log(newItem);
             newImages.push(newItem);
 
             _this4.setState({
@@ -115388,7 +115382,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     value: function setCinemaScope() {
       var _this5 = this;
 
-      console.log("set cinema scope");
+      // console.log("set cinema scope")
       var maskHeight = 0;
       maskHeight = ((this.state.stageHeight - this.state.stageWidth / 2.39) / 2).toFixed();
       this.setState({
@@ -115509,7 +115503,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         role: "tab",
         "aria-controls": "item2",
         "aria-selected": "false"
-      }, "\u30AF\u30ED\u30C3\u30D7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, "\u67A0\u7121\u3057"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "tab-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "tab-pane fade show active",
@@ -115731,13 +115725,12 @@ var CropCurrentImage = function CropCurrentImage(props) {
   var csHeight = Number(state.stageWidth / 2.39).toFixed();
   var csstHeightScale = csHeight / state.stageHeight;
   var maskHeightT = Number(state.maskHeight * csstHeightScale);
-  var stageRef = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])(null);
-  console.log("CropCurrentImage");
-  console.log(csWidth / csHeight);
+  var stageRef = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])(null); // console.log("CropCurrentImage")
+  // console.log(csWidth/csHeight)
+
   var imageThird = state.images[2];
   var imageSecond = state.images[1];
-  var imageFirst = state.images[0];
-  console.log("maskHeight" + state.maskHeight);
+  var imageFirst = state.images[0]; // console.log("maskHeight" + state.maskHeight)
 
   var handleExportClick = function handleExportClick() {
     var uri = stageRef.getStage().toDataURL({

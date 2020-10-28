@@ -156,24 +156,24 @@ class StageTest extends React.Component {
   }
 
   componentDidMount() {
-    console.log("Did Mount")
+    // console.log("Did Mount")
     this.setStageSize()
     this.setCinemaScope()
     // this.setImages()
 
-    console.log(this.stageRef)  
+    // console.log(this.stageRef)  
   }
 
   componentDidUpdate() {
-    console.log("Did Update")
+    // console.log("Did Update")
     if( this.state.images.length > 0 && this.state.currentImage.src == "") {
        this.setCurrentImage(0)
     }
-    console.log(this.state.images)
+    // console.log(this.state.images)
   }
 
   setStageSize(finalCurrentImage) {
-    console.log("setStageSize")
+    // console.log("setStageSize")
     var scaleX = 1
     if ( window.screen.width > 768 && window.innerWidth > 768) {
       scaleX = 768 / this.state.stageWidth * 0.99
@@ -184,7 +184,7 @@ class StageTest extends React.Component {
 
 //    let heightTragetValue = 1
 //    if (finalCurrentImage) {
-//        console.log(finalCurrentImage.height)
+//        // console.log(finalCurrentImage.height)
 //        heightTragetValue = finalCurrentImage.height * scaleX
 //    } else {
 //    }
@@ -200,7 +200,7 @@ class StageTest extends React.Component {
   }
 
   setImages() {
-    console.log("set images")
+    // console.log("set images")
     var newImages = this.state.images
 
     testImages.map((testImage) => {
@@ -227,8 +227,8 @@ class StageTest extends React.Component {
   }
 
   setText() {
-    console.log("set text")
-    console.log(event.target.name)
+    // console.log("set text")
+    // console.log(event.target.name)
     var currentImage = this.state.currentImage
     if (event.target.name == "textLine") {
       if (this.state.textLine !== event.target.name) {
@@ -247,7 +247,7 @@ class StageTest extends React.Component {
       }
     }
     if (event.target.name == "textAlign") {
-      console.log( event.target.value)
+      // console.log( event.target.value)
       currentImage.textAlign =  event.target.value
     }
 
@@ -259,7 +259,7 @@ class StageTest extends React.Component {
     if(index == undefined) {
         return false
     }
-    console.log("set Current Image")
+    // console.log("set Current Image")
     // save previous item
     if (this.state.currentImageIndex) {
       var images = this.state.images
@@ -297,7 +297,7 @@ class StageTest extends React.Component {
 
       this.setState({currentImageIndex: index})
       var finalCurrentImage = this.setDefaultImageValue(selectedImage)
-      console.log(finalCurrentImage)
+      // console.log(finalCurrentImage)
       this.setState({currentImage: finalCurrentImage})
       this.setStageSize(finalCurrentImage)
       this.setCinemaScope()
@@ -306,7 +306,7 @@ class StageTest extends React.Component {
   }
 
   handleSliderChangeBootstrap(){
-    console.log("handleSliderChangeBootstrap")
+    // console.log("handleSliderChangeBootstrap")
     var newValue = event.target.value || this.state.currentImage.imageSizeSlider
 
     var sizeScale = newValue * 2 / 100
@@ -316,13 +316,13 @@ class StageTest extends React.Component {
     currentImage.scaleY = this.state.currentImage.scaleYBase * sizeScale
     currentImage.width = this.state.currentImage.widthBase * sizeScale
     currentImage.height = this.state.currentImage.heightBase * sizeScale
-    console.log(currentImage)
+    // console.log(currentImage)
     this.setState({currentImage: currentImage})
   }
 
   handleSliderChange = (e, newValue) => {
-    console.log("called")
-    console.log(e)
+    // console.log("called")
+    // console.log(e)
 
     var sizeScale = newValue * 3 / 100
     var currentImage = this.state.currentImage
@@ -330,7 +330,7 @@ class StageTest extends React.Component {
     currentImage.scaleY = this.state.currentImage.scaleYBase * sizeScale
     currentImage.width = this.state.currentImage.widthBase * sizeScale
     currentImage.height = this.state.currentImage.heightBase * sizeScale
-    console.log(currentImage)
+    // console.log(currentImage)
     this.setState({currentImage: currentImage})
   }
 
@@ -355,7 +355,7 @@ class StageTest extends React.Component {
   }
 
   async setFiles(e) {
-    console.log("set files")
+    // console.log("set files")
     // event.preventDefault()
     for(var i in e.target.files) {
       if (event.target.files[i].type == undefined) {
@@ -365,14 +365,14 @@ class StageTest extends React.Component {
     }
 
     // if( this.state.images.length > 0 && this.state.currentImage.src == "") {
-    //   console.log(this.state.images)
+    //   // console.log(this.state.images)
     //   this.setCurrentImage(0)
     // }
   }
 
   setFile(file) {
 
-    console.log("set file")
+    // console.log("set file")
     var reader = new FileReader();
     var imageObj = new window.Image();
     var url = window.URL.createObjectURL(file)
@@ -409,13 +409,14 @@ class StageTest extends React.Component {
              height: height.toFixed(),
              widthOrigin: imageObj.width,
              heightOrigin: imageObj.height,
-             x: (stageWidth - width.toFixed()) / 2,
-             y: (stageHeight - height.toFixed()) / 2
+             x: 0,
+             y: 0
            }
            
            var newImages = this.state.images
            console.log("newImages")
-           console.log(newImages)
+           console.log(this.state)
+           console.log(newItem)
            newImages.push(newItem)
            this.setState({images: newImages})
 
@@ -427,7 +428,7 @@ class StageTest extends React.Component {
   }
 
   setCinemaScope() {
-    console.log("set cinema scope")
+    // console.log("set cinema scope")
     let maskHeight = 0
     maskHeight =  ((this.state.stageHeight- (this.state.stageWidth / 2.39)) / 2).toFixed()
     this.setState({maskHeight: Number(maskHeight)})
@@ -506,7 +507,7 @@ class StageTest extends React.Component {
                 <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">黒枠</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">クロップ</a>
+                <a className="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">枠無し</a>
               </li>
             </ul>
             <div className="tab-content">
@@ -695,12 +696,12 @@ const CropCurrentImage = props => {
   const csstHeightScale = csHeight / state.stageHeight
   const maskHeightT = Number(state.maskHeight * csstHeightScale)
   let stageRef = useRef(null);
-  console.log("CropCurrentImage")
-  console.log(csWidth/csHeight)
+  // console.log("CropCurrentImage")
+  // console.log(csWidth/csHeight)
   var imageThird = state.images[2]
   var imageSecond = state.images[1]
   var imageFirst = state.images[0]
-  console.log("maskHeight" + state.maskHeight)
+  // console.log("maskHeight" + state.maskHeight)
 
   const handleExportClick = () => {
     var uri = stageRef.getStage().toDataURL({mimeType: "image/jpeg", quality: 1});
