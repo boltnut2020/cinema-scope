@@ -16260,7 +16260,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "body {\n  /*background: #343a40;*/\n  background:#f8f9fa;\n  color: #fff;\n}\n\n.canvas {\n  border: none;\n  background: #fff;\n  margin:0;\n  padding: 0;\n}\n", ""]);
+exports.push([module.i, "body {\n  /*background: #343a40;*/\n  background:#f8f9fa;\n  color: #343a40;\n}\n\n.canvas {\n  border: none;\n  background: #fff;\n  margin:0;\n  padding: 0;\n}\n", ""]);
 
 // exports
 
