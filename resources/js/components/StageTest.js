@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useRef} from 'react';
 import { render } from 'react-dom';
 import { Stage, Layer, Rect, Transformer, Text } from 'react-konva';
 import InputSlider from './InputSlider';
@@ -127,6 +127,8 @@ class StageTest extends React.Component {
         currentImage:{src:"", textLine: [], textColor: defaultTextColor, fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50 },
         currentImageIndex: 0,
         cinemaMask: true,
+        maskHeight: 0,
+        csDivHeight: 0,
     }
     this.setStageSize = this.setStageSize.bind(this);
     this.setImages = this.setImages.bind(this);
@@ -174,9 +176,9 @@ class StageTest extends React.Component {
     console.log("setStageSize")
     var scaleX = 1
     if ( window.screen.width > 768 && window.innerWidth > 768) {
-      scaleX = 768 / this.state.stageWidth * 1
+      scaleX = 768 / this.state.stageWidth * 0.99
     } else {
-      scaleX = window.screen.width / this.state.stageWidth * 1
+      scaleX = window.screen.width / this.state.stageWidth * 0.99
     }
 
 
@@ -192,9 +194,13 @@ class StageTest extends React.Component {
     this.setState({transform: 'scale(' + scaleX + ',' + scaleY + ')'})
     this.setState({stageDivWidth: widthTragetValue + "px"})
     this.setState({stageDivHeight: heightTragetValue + 30 + "px"})
+
+    let csDivHeight = Number((this.state.stageWidth / 2.39) * scaleX).toFixed()
+    this.setState({csDivHeight: Number(csDivHeight) + 20 + "px"})
   }
 
   setImages() {
+    console.log("set images")
     var newImages = this.state.images
 
     testImages.map((testImage) => {
@@ -204,14 +210,16 @@ class StageTest extends React.Component {
         testImage.image = image
         var width = image.width;
         var height = image.height;
-
         if(width > limitPixelSize) {
           height = Math.round(height * limitPixelSize / width);
           width = limitPixelSize;
         }
 
-        testImage.x = 0
-        testImage.y = 100
+        testImage.width = width
+        testImage.height = height
+        testImage.x = (stageWidth - width.toFixed()) / 2,
+        testImage.y = (stageHeight - height.toFixed()) / 2,
+
         newImages.push(testImage)
         this.setState({images: newImages})
       }
@@ -281,7 +289,7 @@ class StageTest extends React.Component {
       }
 
       selectedImage.scaleX = selectedImage.scaleXBase
-      selectedImage.scaleY = selectedImage.scaleXBase
+      selectedImage.scaleY = selectedImage.scaleYBase
       selectedImage.width = selectedImage.widthBase
       selectedImage.height = selectedImage.heightBase
       selectedImage.x = selectedImage.x
@@ -298,10 +306,10 @@ class StageTest extends React.Component {
   }
 
   handleSliderChangeBootstrap(){
-    console.log("called")
+    console.log("handleSliderChangeBootstrap")
     var newValue = event.target.value || this.state.currentImage.imageSizeSlider
 
-    var sizeScale = newValue * 3 / 100
+    var sizeScale = newValue * 2 / 100
     var currentImage = this.state.currentImage
     currentImage.imageSizeSlider = newValue
     currentImage.scaleX = this.state.currentImage.scaleXBase * sizeScale
@@ -421,8 +429,8 @@ class StageTest extends React.Component {
   setCinemaScope() {
     console.log("set cinema scope")
     let maskHeight = 0
-    maskHeight =  (this.state.stageHeight - this.state.stageWidth  / 2.39) / 2
-    this.setState({maskHeight: maskHeight})
+    maskHeight =  ((this.state.stageHeight- (this.state.stageWidth / 2.39)) / 2).toFixed()
+    this.setState({maskHeight: Number(maskHeight)})
     let newMaskRectangles = []
     maskRectangles.map((rect, i) => {
 
@@ -493,104 +501,127 @@ class StageTest extends React.Component {
         </div>
         <div key="current-div" className="row">
           <div className="col-sm-6 p-0" >
-            <div 
-              className="col-sm-12 p-0"
-              style={{height: `${this.state.stageDivHeight}`}}
-            >
-
-              <Stage
-                ref={node => { this.stageRef = node}}
-                width={this.state.stageWidth} 
-                height={this.state.stageHeight}
-                style={{transformOrigin: "top left", transform: `${ this.state.transform }`, textAlign: "center" }}
-              >
-                <Layer>
-                  <Rect
-                    key={bgRectangle.id}
-                    x={bgRectangle.x}
-                    y={bgRectangle.y}
-                    fill={bgRectangle.fill}
-                    width={bgRectangle.width}
-                    height={bgRectangle.height}
-                  />
-                  { this.state.currentImage.src == "" &&
-                  <Text
-                    key={bgRectangleText.id}
-                    fontSize={this.state.currentImage.fontSize || bgRectangleText.fontSize}
-                    text={bgRectangleText.line}
-                    wrap="char"
-                    align={this.state.currentImage.textAlign || bgRectangleText.textAlign}
-                    width={bgRectangleText.width}
-                    height={bgRectangleText.height}
-                    y={bgRectangleText.y}
-                    fill={this.state.currentImage.textColor || bgRectangleText.fill}
-                    draggable={true}
-                  />
-                  }
-
-                  <Rect
-                    key={"currentRect"}
-                    x={ Number(this.state.currentImage.x) }
-                    y={ Number(this.state.currentImage.y) }
-                    width={Number(this.state.currentImage.width)}
-                    height={Number(this.state.currentImage.height)}
-                    fillPatternImage={this.state.currentImage.image}
-                    fillPatternScaleX={this.state.currentImage.scaleX}
-                    fillPatternScaleY={this.state.currentImage.scaleY}
-                    filPatternRepeat = "no-repeat"
-                    draggable={true}
-                    onDragEnd={this.handleDragEnd}
-                  />
-                  {this.state.cinemaMask == true && this.state.maskRectangles.map((rect, i) => {
-                    return (
+            <ul className="nav nav-tabs border-dark" role="tablist pd-0">
+              <li className="nav-item">
+                <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">黒枠</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">クロップ</a>
+              </li>
+            </ul>
+            <div className="tab-content">
+              <div className="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">
+                <div 
+                  className="col-sm-12 p-0"
+                  style={{height: `${this.state.stageDivHeight}`}}
+                >
+                  <Stage
+                    ref={node => { this.stageRef = node}}
+                    width={this.state.stageWidth} 
+                    height={this.state.stageHeight}
+                    style={{transformOrigin: "top left", transform: `${ this.state.transform }`, textAlign: "center" }}
+                  >
+                    <Layer>
                       <Rect
-                        key={rect.id}
-                        x={rect.x}
-                        y={rect.y}
-                        fill={rect.fill}
-                        width={rect.width}
-                        height={rect.height}
+                        key={bgRectangle.id}
+                        x={bgRectangle.x}
+                        y={bgRectangle.y}
+                        fill={bgRectangle.fill}
+                        width={bgRectangle.width}
+                        height={bgRectangle.height}
                       />
-                    );
-                  })}
-
-                  {this.state.currentImage.textLine.map((line, i) => {
-                    var positionY = i * 40
-                    return(
+                      { this.state.currentImage.src == "" &&
                       <Text
-                        key={"textline" + i}
-                        fontSize={Number(this.state.currentImage.fontSize)}
-                        text={line}
+                        key={bgRectangleText.id}
+                        fontSize={this.state.currentImage.fontSize || bgRectangleText.fontSize}
+                        text={bgRectangleText.line}
                         wrap="char"
-                        align={this.state.currentImage.textAlign}
-                        width={stageWidth}
-                        height={stageHeight}
-                        y={( (this.state.stageHeight - this.state.maskHeight) + 45 * i) + 40}
-                        fill={this.state.currentImage.textColor}
+                        align={this.state.currentImage.textAlign || bgRectangleText.textAlign}
+                        width={bgRectangleText.width}
+                        height={bgRectangleText.height}
+                        y={bgRectangleText.y}
+                        fill={this.state.currentImage.textColor || bgRectangleText.fill}
                         draggable={true}
-                        style={{ transform: `${ this.state.transform }` }}
                       />
-                    )})}
+                      }
 
-                </Layer>
-              </Stage>
+                      <Rect
+                        key={"currentRect"}
+                        x={this.state.currentImage.x}
+                        y={this.state.currentImage.y}
+                        width={Number(this.state.currentImage.width)}
+                        height={Number(this.state.currentImage.height)}
+                        fillPatternImage={this.state.currentImage.image}
+                        fillPatternScaleX={this.state.currentImage.scaleX}
+                        fillPatternScaleY={this.state.currentImage.scaleY}
+                        filPatternRepeat = "no-repeat"
+                        draggable={true}
+                        onDragEnd={this.handleDragEnd}
+                      />
+                      <Text 
+                        width={300}
+                        height={500}
+                        wrap="char"
+                        x={0}
+                        y={500}
+                        fill={"red"}
+                        text={
+                         "width:" + this.state.currentImage.width
+                         + "scaleX" + this.state.currentImage.scaleX
+                         + "scaleY" + this.state.currentImage.scaleY
+                        } 
+                        fontSize={100}
+                      />
 
-            </div>
-            <div className="col-sm-12 text-right">
-              <div className="form-group">
-                <label htmlFor="imageSizeSlider">scale:{ (this.state.currentImage.imageSizeSlider - 50) * 6 }</label>
-                <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="form-control-range" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
+                      {this.state.cinemaMask == true && this.state.maskRectangles.map((rect, i) => {
+                        return (
+                          <Rect
+                            key={rect.id}
+                            x={rect.x}
+                            y={rect.y}
+                            fill={rect.fill}
+                            width={rect.width}
+                            height={rect.height}
+                          />
+                        );
+                      })}
+
+                      {this.state.currentImage.textLine.map((line, i) => {
+                        var positionY = i * 40
+                        return(
+                          <Text
+                            key={"textline" + i}
+                            fontSize={Number(this.state.currentImage.fontSize)}
+                            text={line}
+                            wrap="char"
+                            align={this.state.currentImage.textAlign}
+                            width={stageWidth}
+                            height={stageHeight}
+                            y={( (this.state.stageHeight - this.state.maskHeight) + 45 * i) + 40}
+                            fill={this.state.currentImage.textColor}
+                            draggable={true}
+                            style={{ transform: `${ this.state.transform }` }}
+                          />
+                        )})}
+
+                    </Layer>
+                  </Stage>
+                </div>
+                <div className="col-sm-12 text-right">
+                  <div className="form-group">
+                    <label htmlFor="imageSizeSlider">scale:{ (this.state.currentImage.imageSizeSlider - 50) * 6 }</label>
+                    <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="form-control-range" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
+                  </div>
+      
+                  <input className="btn btn-light mb-2" type="button" value="DownLoad" onClick={this.handleExportClick} />
+                </div>
               </div>
-
-              <input className="btn btn-light mb-2" type="button" value="DownLoad" onClick={this.handleExportClick} />
+              <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
+                <CropCurrentImage state={this.state} images={this.state.images} />
+              </div>
             </div>
           </div>
           <div className="col-sm-6 p-3">
-            {/*
-            <div className="btn-group mb-3" role="group" aria-label="Basic example">
-              <Tate state={this.state} />
-            </div>
-            */}
             <div className="input-group mb-1">
               <div className="input-group-prepend">
                 <span className="input-group-text">Text</span>
@@ -654,93 +685,64 @@ class StageTest extends React.Component {
   }
 }
 
-const Tate = props => {
+const CropCurrentImage = props => {
 
   const{state} = props
   const scale = state.transform
-  let maskBottom = []
-  maskBottom.push(state.maskRectangles[state.maskRectangles.length - 1])
+  const csWidth = state.stageWidth
+  const csHeight = Number((state.stageWidth / 2.39)).toFixed()
+  const csstHeightScale = csHeight / state.stageHeight
+  const maskHeightT = Number(state.maskHeight * csstHeightScale)
+  let stageRef = useRef(null);
+  console.log("CropCurrentImage")
+  console.log(csWidth/csHeight)
+  var imageThird = state.images[2]
+  var imageSecond = state.images[1]
+  var imageFirst = state.images[0]
+  console.log("maskHeight" + state.maskHeight)
+
+  const handleExportClick = () => {
+    var uri = stageRef.getStage().toDataURL({mimeType: "image/jpeg", quality: 1});
+    var link = document.createElement('a');
+    link.download = "cinema-scope.jpg";
+    link.href = uri;
+     document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    // delete link;
+  }
 
   return(
-    <div>
+    <>
+    <div style={{height: `${state.csDivHeight}`}}>
       <Stage
+        ref={node => {stageRef = node }}
         width={state.stageWidth} 
-        height={state.stageHeight * state.images.length}
+        height={ csHeight }
         style={{transformOrigin: "top left", transform: `${ state.transform }`, textAlign: "center" }}
       >
         <Layer>
-        
-        {state.images.map((image, i) => {
-
-        return(
-        <React.Fragment>
-          <Rect
-            key={i}
-            x={0}
-            y={ (state.stageHeight - state.maskHeight) * i}
-            width={Number(state.stageWidth)}
-            height={Number(state.stageHeight) - (state.maskHeight * 2)}
-            fillPatternOffsetX={-image.x}
-            fillPatternOffsetY={-(image.y - state.maskHeight)}
-            fillPatternImage={image.image}
-            fillPatternScaleX={image.scaleX}
-            fillPatternScaleY={image.scaleY}
+        { state.currentImage.image != undefined &&
+        <>
+        <Rect 
+            width={state.currentImage.width}
+            height={state.currentImage.height}
+            x={state.currentImage.x}
+            y={state.currentImage.y - state.maskHeight}
+            fillPatternImage={state.currentImage.image}
+            fillPatternScaleX={state.currentImage.scaleX}
+            fillPatternScaleY={state.currentImage.scaleY}
             filPatternRepeat = "no-repeat"
-            draggable={true}
-          />
-        {maskBottom.map((rect, j) => {
-          return (
-            <Rect
-              key={rect.id}
-              x={rect.x}
-              y={ (state.stageHeight - state.maskHeight * 2) * (i + 1)}
-              fill={rect.fill}
-              width={rect.width}
-              height={rect.height}
-            />
-          )
-        })}
-
-          </React.Fragment>
-        )
-        })}
-
-        {/*
-        {images.map((image) => {
-          <Rect
-            key={"currentRect"}
-            x={ (stageWidth - image.width) / 2}
-            y={ (stageHeight - image.height) / 2}
-            width={Number(image.width)}
-            height={Number(image.height)}
-            fillPatternImage={image.image}
-            fillPatternScaleX={image.scaleX}
-            fillPatternScaleY={image.scaleY}
-            filPatternRepeat = "no-repeat"
-            draggable={true}
-          />
-          {image.textLine.map((line, i) => {
-            var positionY = i * 40
-            return(
-              <Text
-                key={"textline" + i}
-                fontSize={Number(image.fontSize)}
-                text={line}
-                wrap="char"
-                align={image.textAlign}
-                width={stageWidth}
-                height={stageHeight}
-                y={100}
-                fill={image.textColor}
-                draggable={true}
-              />
-            )})}
-        })}
-        */}
+        />
+        </>
+        }
         </Layer>
       </Stage>
-
     </div>
+    <div className="col-sm-12 text-right">
+      <input className="btn btn-light mb-2" type="button" value="DownLoad" onClick={handleExportClick} />
+    </div>
+    </>
   )
 }
 
