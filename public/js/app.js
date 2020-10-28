@@ -115562,15 +115562,6 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         filPatternRepeat: "no-repeat",
         draggable: true,
         onDragEnd: this.handleDragEnd
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
-        width: 300,
-        height: 500,
-        wrap: "char",
-        x: 0,
-        y: 500,
-        fill: "red",
-        text: "width:" + this.state.currentImage.width + "scaleX" + this.state.currentImage.scaleX + "scaleY" + this.state.currentImage.scaleY,
-        fontSize: 100
       }), this.state.cinemaMask == true && this.state.maskRectangles.map(function (rect, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
           key: rect.id,

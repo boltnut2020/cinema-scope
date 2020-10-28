@@ -558,6 +558,7 @@ class StageTest extends React.Component {
                         draggable={true}
                         onDragEnd={this.handleDragEnd}
                       />
+                      {/*
                       <Text 
                         width={300}
                         height={500}
@@ -572,7 +573,7 @@ class StageTest extends React.Component {
                         } 
                         fontSize={100}
                       />
-
+                      */}
                       {this.state.cinemaMask == true && this.state.maskRectangles.map((rect, i) => {
                         return (
                           <Rect
