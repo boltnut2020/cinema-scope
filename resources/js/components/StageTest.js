@@ -111,6 +111,12 @@ const maskRectangles = [
   },
 ];
 
+const addButtonCss = {
+    position: "absolute",
+    top: 5,
+    right: 10,
+    background: "#000"
+}
 
 class StageTest extends React.Component {
 
@@ -144,6 +150,7 @@ class StageTest extends React.Component {
     this.handleChangeState = this.handleChangeState.bind(this);
     this.handleSliderChangeBootstrap = this.handleSliderChangeBootstrap.bind(this);
     this.imageRef = React.createRef();
+
   }
 
   handleChangeState(e) {
@@ -176,9 +183,9 @@ class StageTest extends React.Component {
     // console.log("setStageSize")
     var scaleX = 1
     if ( window.screen.width > 768 && window.innerWidth > 768) {
-      scaleX = 768 / this.state.stageWidth * 0.99
+      scaleX = 768 / this.state.stageWidth * 0.90
     } else {
-      scaleX = window.screen.width / this.state.stageWidth * 0.99
+      scaleX = window.screen.width / this.state.stageWidth * 0.96
     }
 
 
@@ -491,18 +498,16 @@ class StageTest extends React.Component {
             </div>
           </div>
 
-          <div key={"inputFileDir"} className="col-1 col-lg-1 p-1 mr-2 text-right">
             <label>
-              <span className="btn btn-primary">
+              <span className="btn btn-primary" style={addButtonCss}>
               +
                 <input id="inputFile" ref={this.imageRef} onChange={this.setFiles} type="file"  multiple style={{display: "none"}}/>
               </span>
             </label>
-          </div>
         </div>
         <div key="current-div" className="row">
           <div className="col-sm-6 p-0" >
-            <ul className="nav nav-tabs border-dark" role="tablist pd-0">
+            <ul className="nav nav-tabs border-0" role="tablist pd-0">
               <li className="nav-item">
                 <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">黒枠</a>
               </li>
@@ -513,7 +518,7 @@ class StageTest extends React.Component {
             <div className="tab-content">
               <div className="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">
                 <div 
-                  className="col-sm-12 p-0"
+                  className="col-sm-12 p-2"
                   style={{height: `${this.state.stageDivHeight}`}}
                 >
                   <Stage
@@ -623,7 +628,7 @@ class StageTest extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-sm-6 p-3">
+          <div className="col-sm-6 pt-5">
             <div className="input-group mb-1">
               <div className="input-group-prepend">
                 <span className="input-group-text">Text</span>

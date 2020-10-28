@@ -16260,7 +16260,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "body {\n  background: #343a40;\n  color: #fff;\n}\n\n.canvas {\n  border: none;\n  background: #fff;\n  margin:0;\n  padding: 0;\n}\n", ""]);
+exports.push([module.i, "body {\n  /*background: #343a40;*/\n  background:#f8f9fa;\n  color: #fff;\n}\n\n.canvas {\n  border: none;\n  background: #fff;\n  margin:0;\n  padding: 0;\n}\n", ""]);
 
 // exports
 
@@ -113969,17 +113969,7 @@ var App = function App() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "navbar-brand",
     href: "/"
-  }, "CinemaScope"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "navbar-toggler",
-    type: "button",
-    "data-toggle": "collapse",
-    "data-target": "#navbarSupportedContent",
-    "aria-controls": "navbarSupportedContent",
-    "aria-expanded": "false",
-    "aria-label": "{{ __('Toggle navigation') }}"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "navbar-toggler-icon"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "CinemaScope"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "collapse navbar-collapse",
     id: "navbarSupportedContent"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
@@ -114947,6 +114937,12 @@ var maskRectangles = [{
   fill: 'black',
   id: 'bottommask'
 }];
+var addButtonCss = {
+  position: "absolute",
+  top: 5,
+  right: 10,
+  background: "#000"
+};
 
 var StageTest = /*#__PURE__*/function (_React$Component) {
   _inherits(StageTest, _React$Component);
@@ -115047,9 +115043,9 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       var scaleX = 1;
 
       if (window.screen.width > 768 && window.innerWidth > 768) {
-        scaleX = 768 / this.state.stageWidth * 0.99;
+        scaleX = 768 / this.state.stageWidth * 0.90;
       } else {
-        scaleX = window.screen.width / this.state.stageWidth * 0.99;
+        scaleX = window.screen.width / this.state.stageWidth * 0.96;
       } //    let heightTragetValue = 1
       //    if (finalCurrentImage) {
       //        // console.log(finalCurrentImage.height)
@@ -115461,11 +115457,9 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
             return _this6.setCurrentImage(i);
           }
         }));
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        key: "inputFileDir",
-        className: "col-1 col-lg-1 p-1 mr-2 text-right"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "btn btn-primary"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "btn btn-primary",
+        style: addButtonCss
       }, "+", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         id: "inputFile",
         ref: this.imageRef,
@@ -115475,13 +115469,13 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         style: {
           display: "none"
         }
-      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         key: "current-div",
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-6 p-0"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
-        className: "nav nav-tabs border-dark",
+        className: "nav nav-tabs border-0",
         role: "tablist pd-0"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
         className: "nav-item"
@@ -115511,7 +115505,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         role: "tabpanel",
         "aria-labelledby": "item1-tab"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-12 p-0",
+        className: "col-sm-12 p-2",
         style: {
           height: "".concat(this.state.stageDivHeight)
         }
@@ -115609,7 +115603,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         state: this.state,
         images: this.state.images
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-6 p-3"
+        className: "col-sm-6 pt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
