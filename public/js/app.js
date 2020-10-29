@@ -114872,7 +114872,7 @@ if (window.screen.width > 768 && window.innerWidth > 768) {
   stageHeight = 1536;
 }
 
-var thumbnailWidth = 80;
+var thumbnailWidth = 96;
 var defaultFontSize = 30;
 var defaultTextColor = "#ffffff";
 var defaultTextAlign = "center";
@@ -114942,6 +114942,25 @@ var addButtonCss = {
   top: 5,
   right: 10,
   background: "#000"
+};
+var scaleViewCss = {
+  position: "absolute",
+  top: 45,
+  right: "5%",
+  color: "#909090"
+};
+var downloadCss = {
+  position: "absolute",
+  top: 0,
+  right: "5%",
+  color: "#909090"
+};
+var thumbnailDivHeight = {
+  background: "#000"
+};
+var thumbnailCss = {
+  maxWidth: "80px",
+  maxHeight: "60px"
 };
 
 var StageTest = /*#__PURE__*/function (_React$Component) {
@@ -115024,8 +115043,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       // console.log("Did Mount")
       this.setStageSize();
-      this.setCinemaScope(); // this.setImages()
-      // console.log(this.stageRef)  
+      this.setCinemaScope();
+      this.setImages(); // console.log(this.stageRef)  
     }
   }, {
     key: "componentDidUpdate",
@@ -115437,22 +115456,19 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "container-fluid"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row p-0 overflow-x:scroll mb-3",
-        style: {
-          minHeight: "75px",
-          borderBottom: "1px #000 solid"
-        }
+        className: "row p-0 overflow-auto mb-3",
+        style: thumbnailDivHeight
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-10"
+        className: "col-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row col-12"
+        className: "row col-12 overflow-hidden"
       }, this.state.images.map(function (thumbnail, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           key: "thumbnail-" + i,
-          className: "col-3 col-lg-1 p-1"
+          className: "col-4 col-lg-1"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
           src: thumbnail.src,
-          width: thumbnailWidth,
+          style: thumbnailCss,
           onClick: function onClick() {
             return _this6.setCurrentImage(i);
           }
@@ -115576,25 +115592,27 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
             transform: "".concat(_this6.state.transform)
           }
         });
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-12 text-right"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-        htmlFor: "imageSizeSlider"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "imageSizeSlider",
+        style: scaleViewCss
       }, "scale:", (this.state.currentImage.imageSizeSlider - 50) * 6), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        type: "range",
-        id: "imageSizeSlider",
-        name: "imageSizeSlider",
-        className: "form-control-range",
-        value: this.state.currentImage.imageSizeSlider,
-        onChange: this.handleSliderChangeBootstrap
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        className: "btn btn-light mb-2",
+        className: "btn btn-dark text-light mb-2",
+        style: downloadCss,
         type: "button",
         value: "DownLoad",
         onClick: this.handleExportClick
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-12 text-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "range",
+        id: "imageSizeSlider",
+        name: "imageSizeSlider",
+        className: "",
+        value: this.state.currentImage.imageSizeSlider,
+        onChange: this.handleSliderChangeBootstrap
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         "class": "tab-pane fade",
         id: "item2",
         role: "tabpanel",
@@ -115603,9 +115621,9 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         state: this.state,
         images: this.state.images
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-6 pt-5"
+        className: "col-sm-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group mb-1"
+        className: "input-group mb-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group-prepend"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
@@ -115656,32 +115674,26 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         style: {
           display: "none"
         }
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group-prepend"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "input-group-text"
-      }, "Color")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group col-2 pb-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "color",
-        className: "form-control",
+        className: "",
         name: "textColor",
         value: this.state.currentImage.textColor,
         onChange: this.setText,
         placeholder: "\u30C6\u30AD\u30B9\u30C8\u30AB\u30E9\u30FC"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "form-group text-right"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-        htmlFor: "fontSize"
-      }, "FontSize:", this.state.currentImage.fontSize), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        className: "form-group text-right pb-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "range",
         id: "fontSize",
         name: "fontSize",
         className: "form-control-range",
         value: this.state.currentImage.fontSize,
         onChange: this.setText
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "custom-control custom-switch mb-3"
+      }), this.state.currentImage.fontSize), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "custom-control custom-switch mb-3 ml-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         id: "cinemaMask",
         name: "cinemaMask",
@@ -115693,19 +115705,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         className: "custom-control-label",
         htmlFor: "cinemaMask"
-      }, "\u9ED2\u5E2F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group mb-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
-        className: "list-group text-dark"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
-        className: "list-group-item p-2"
-      }, "Property"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
-        className: "list-group-item"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "far fa-window-maximize mr-2"
-      }), this.state.stageWidth, " x ", this.state.stageHeight, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "far fa-image ml-2 mr-2"
-      }), this.state.currentImage.width, " x ", this.state.currentImage.height)))))));
+      }, "\u9ED2\u5E2F")))))));
     }
   }]);
 
@@ -115763,14 +115763,13 @@ var CropCurrentImage = function CropCurrentImage(props) {
     fillPatternScaleX: state.currentImage.scaleX,
     fillPatternScaleY: state.currentImage.scaleY,
     filPatternRepeat: "no-repeat"
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "col-sm-12 text-right"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-    className: "btn btn-light mb-2",
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+    className: "btn btn-dark text-light mb-2 ",
+    style: downloadCss,
     type: "button",
     value: "DownLoad",
     onClick: handleExportClick
-  })));
+  }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (StageTest);

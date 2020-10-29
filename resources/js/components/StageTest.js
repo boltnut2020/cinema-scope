@@ -11,7 +11,7 @@ if ( window.screen.width > 768 && window.innerWidth > 768) {
   stageWidth = 2048
   stageHeight = 1536
 }
-const thumbnailWidth = 80
+const thumbnailWidth = 96
 const defaultFontSize = 30
 const defaultTextColor = "#ffffff"
 const defaultTextAlign = "center"
@@ -49,13 +49,13 @@ const testImages = [
 ]
 
 const bgRectangle = {
-    x: 0,
-    y: 0,
-    width: stageWidth,
-    height: stageHeight,
-    fill: '#202020',
-    id: 'background',
-    }
+  x: 0,
+  y: 0,
+  width: stageWidth,
+  height: stageHeight,
+  fill: '#202020',
+  id: 'background',
+}
 
 const appDescription = `
 Hello World!\n
@@ -118,6 +118,25 @@ const addButtonCss = {
     background: "#000"
 }
 
+const scaleViewCss = {
+    position: "absolute",
+    top: 45,
+    right: "5%",
+    color: "#909090",
+}
+const downloadCss = {
+    position: "absolute",
+    top: 0,
+    right: "5%",
+    color: "#909090",
+}
+const thumbnailDivHeight = {
+  background: "#000",
+}
+const thumbnailCss = {
+  maxWidth: "80px",
+  maxHeight: "60px"
+}
 class StageTest extends React.Component {
 
   constructor(props) {
@@ -166,7 +185,7 @@ class StageTest extends React.Component {
     // console.log("Did Mount")
     this.setStageSize()
     this.setCinemaScope()
-    // this.setImages()
+    this.setImages()
 
     // console.log(this.stageRef)  
   }
@@ -485,13 +504,13 @@ class StageTest extends React.Component {
     return(
       <React.Fragment>
       <div className="container-fluid">
-        <div className="row p-0 overflow-x:scroll mb-3" style={{minHeight: "75px", borderBottom: "1px #000 solid"}}>
-          <div className="col-10">
-            <div className="row col-12">
+        <div className="row p-0 overflow-auto mb-3" style={thumbnailDivHeight}>
+          <div className="col-12">
+            <div className="row col-12 overflow-hidden">
             {this.state.images.map((thumbnail, i) => {
               return(
-                <div key={"thumbnail-" + i} className="col-3 col-lg-1 p-1">
-                  <img src={thumbnail.src} width={thumbnailWidth} onClick={() => this.setCurrentImage(i)} />
+                <div key={"thumbnail-" + i} className="col-4 col-lg-1">
+                  <img src={thumbnail.src} style={thumbnailCss} onClick={() => this.setCurrentImage(i)} />
                 </div>
               )
             })}
@@ -614,13 +633,15 @@ class StageTest extends React.Component {
                     </Layer>
                   </Stage>
                 </div>
-                <div className="col-sm-12 text-right">
+
+                <label htmlFor="imageSizeSlider" style={scaleViewCss}>scale:{ (this.state.currentImage.imageSizeSlider - 50) * 6 }</label>
+
+                <input className="btn btn-dark text-light mb-2" style={downloadCss} type="button" value="DownLoad" onClick={this.handleExportClick} />
+                <div className="col-sm-12 text-center">
                   <div className="form-group">
-                    <label htmlFor="imageSizeSlider">scale:{ (this.state.currentImage.imageSizeSlider - 50) * 6 }</label>
-                    <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="form-control-range" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
+                    <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
                   </div>
       
-                  <input className="btn btn-light mb-2" type="button" value="DownLoad" onClick={this.handleExportClick} />
                 </div>
               </div>
               <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
@@ -628,8 +649,8 @@ class StageTest extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-sm-6 pt-5">
-            <div className="input-group mb-1">
+          <div className="col-sm-6">
+            <div className="input-group mb-3">
               <div className="input-group-prepend">
                 <span className="input-group-text">Text</span>
               </div>
@@ -654,24 +675,20 @@ class StageTest extends React.Component {
                   <input type="button" name="textAlign" value="right" onClick={this.setText} style={{display: "none"}}/>
                 </span>
               </label>
-            </div>
-
-            <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                <span className="input-group-text">Color</span>
+              <div className="input-group col-2 pb-4">
+                <input type="color"  className="" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
               </div>
-            <input type="color" className="form-control" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
-            </div>
-            <div className="form-group text-right">
-              <label htmlFor="fontSize">FontSize:{this.state.currentImage.fontSize}</label>
-              <input type="range" id="fontSize" name="fontSize" className="form-control-range" value={this.state.currentImage.fontSize} onChange={this.setText} />
+              <div className="form-group text-right pb-4">
+                <input type="range" id="fontSize" name="fontSize" className="form-control-range" value={this.state.currentImage.fontSize} onChange={this.setText} />{this.state.currentImage.fontSize}
+              </div>
+
+              <div className="custom-control custom-switch mb-3 ml-3">
+                <input id="cinemaMask" name="cinemaMask" className="custom-control-input" type="checkbox" value={this.state.cinemaMask} onChange={this.handleChangeState} checked={this.state.cinemaMask} />
+                <label className="custom-control-label" htmlFor="cinemaMask">黒帯</label>
+              </div>
             </div>
 
-            <div className="custom-control custom-switch mb-3">
-              <input id="cinemaMask" name="cinemaMask" className="custom-control-input" type="checkbox" value={this.state.cinemaMask} onChange={this.handleChangeState} checked={this.state.cinemaMask} />
-              <label className="custom-control-label" htmlFor="cinemaMask">黒帯</label>
-            </div>
-
+            {/*
             <div className="input-group mb-3">
               <ul className="list-group text-dark">
                 <li className="list-group-item p-2">Property</li>
@@ -679,7 +696,6 @@ class StageTest extends React.Component {
                 <i className="far fa-image ml-2 mr-2"></i>{this.state.currentImage.width} x {this.state.currentImage.height}</li>
               </ul>
             </div>
-            {/*
             <div className="input-group mb-3">
               <textarea className="form-control" value={JSON.stringify(this.state.images, null, 2)} />
             </div>
@@ -746,9 +762,7 @@ const CropCurrentImage = props => {
         </Layer>
       </Stage>
     </div>
-    <div className="col-sm-12 text-right">
-      <input className="btn btn-light mb-2" type="button" value="DownLoad" onClick={handleExportClick} />
-    </div>
+    <input className="btn btn-dark text-light mb-2 " style={downloadCss} type="button" value="DownLoad" onClick={handleExportClick} />
     </>
   )
 }
