@@ -115043,8 +115043,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       // console.log("Did Mount")
       this.setStageSize();
-      this.setCinemaScope();
-      this.setImages(); // console.log(this.stageRef)  
+      this.setCinemaScope(); // this.setImages()
+      // console.log(this.stageRef)  
     }
   }, {
     key: "componentDidUpdate",

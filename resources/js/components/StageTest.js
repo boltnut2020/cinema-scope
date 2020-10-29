@@ -185,7 +185,7 @@ class StageTest extends React.Component {
     // console.log("Did Mount")
     this.setStageSize()
     this.setCinemaScope()
-    this.setImages()
+    // this.setImages()
 
     // console.log(this.stageRef)  
   }
