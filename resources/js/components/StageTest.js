@@ -276,7 +276,19 @@ class StageTest extends React.Component {
     }
     if (event.target.name == "textAlign") {
       // console.log( event.target.value)
-      currentImage.textAlign =  event.target.value
+      var textPositionX = 0;
+      switch(event.target.value) {
+        case "left":
+            textPositionX = "10"
+        break;
+        case "right":
+            textPositionX = this.state.stageWidth - this.countTextFirstLine() * this.state.currentImage.fontSize - 10
+        break;
+        case "center":
+            textPositionX = (this.state.stageWidth / 2) - (this.countTextFirstLine() * this.state.currentImage.fontSize / 2)
+        break;
+      }
+      currentImage.textPositionX =  textPositionX
     }
     if (event.target.name == "maskColor") {
       // console.log( event.target.value)
@@ -645,7 +657,7 @@ class StageTest extends React.Component {
                         lineHeight={1.4}
                         align={this.state.currentImage.textAlign}
                         height={stageHeight}
-                        x={ (this.state.stageWidth / 2) - (this.countTextFirstLine() * this.state.currentImage.fontSize / 2)}
+                        x={ this.state.currentImage.textPositionX || (this.state.stageWidth / 2) - (this.countTextFirstLine() * this.state.currentImage.fontSize / 2)}
                         y={ ((this.state.stageHeight - this.state.maskHeight) + 45) + 40}
                         fill={this.state.currentImage.textColor}
                         draggable={true}
