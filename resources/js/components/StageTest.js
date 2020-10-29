@@ -737,7 +737,10 @@ const CropCurrentImage = props => {
 
   return(
     <>
-    <div style={{height: `${state.csDivHeight}`}}>
+    <div 
+      style={{height: `${state.csDivHeight}`}}
+      className="col-sm-12 p-2"
+    >
       <Stage
         ref={node => {stageRef = node }}
         width={state.stageWidth} 

@@ -115742,7 +115742,8 @@ var CropCurrentImage = function CropCurrentImage(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     style: {
       height: "".concat(state.csDivHeight)
-    }
+    },
+    className: "col-sm-12 p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Stage"], {
     ref: function ref(node) {
       stageRef = node;
