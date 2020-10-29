@@ -115130,7 +115130,8 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
 
       if (event.target.name == "textLine") {
         if (this.state.textLine !== event.target.name) {
-          currentImage.textLine = event.target.value.split("\n");
+          // currentImage.textLine =  event.target.value.split("\n")
+          currentImage.textLine = event.target.value;
         }
       }
 
@@ -115149,6 +115150,25 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       if (event.target.name == "textAlign") {
         // console.log( event.target.value)
         currentImage.textAlign = event.target.value;
+      }
+
+      if (event.target.name == "maskColor") {
+        // console.log( event.target.value)
+        currentImage.maskColor = event.target.value;
+
+        if (currentImage.textColor == event.target.value) {
+          switch (event.target.value) {
+            case "#ffffff":
+              currentImage.textColor = "#000000";
+              break;
+
+            case "#000000":
+              currentImage.textColor = "#ffffff";
+              break;
+
+            default:
+          }
+        }
       }
 
       this.setState({
@@ -115503,7 +115523,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         role: "tab",
         "aria-controls": "item1",
         "aria-selected": "true"
-      }, "\u9ED2\u67A0")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+      }, "\u5E2F\u4ED8\u304D")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         className: "nav-link",
@@ -115513,7 +115533,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         role: "tab",
         "aria-controls": "item2",
         "aria-selected": "false"
-      }, "\u67A0\u7121\u3057"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, "\u5E2F\u7121\u3057"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "tab-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "tab-pane fade show active",
@@ -115540,7 +115560,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         key: bgRectangle.id,
         x: bgRectangle.x,
         y: bgRectangle.y,
-        fill: bgRectangle.fill,
+        fill: this.state.currentImage.maskColor || bgRectangle.fill,
         width: bgRectangle.width,
         height: bgRectangle.height
       }), this.state.currentImage.src == "" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
@@ -115571,27 +115591,25 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           key: rect.id,
           x: rect.x,
           y: rect.y,
-          fill: rect.fill,
+          fill: _this6.state.currentImage.maskColor || rect.fill,
           width: rect.width,
           height: rect.height
         });
-      }), this.state.currentImage.textLine.map(function (line, i) {
-        var positionY = i * 40;
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
-          key: "textline" + i,
-          fontSize: Number(_this6.state.currentImage.fontSize),
-          text: line,
-          wrap: "char",
-          align: _this6.state.currentImage.textAlign,
-          width: stageWidth,
-          height: stageHeight,
-          y: _this6.state.stageHeight - _this6.state.maskHeight + 45 * i + 40,
-          fill: _this6.state.currentImage.textColor,
-          draggable: true,
-          style: {
-            transform: "".concat(_this6.state.transform)
-          }
-        });
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
+        key: "textLine",
+        fontSize: Number(this.state.currentImage.fontSize),
+        text: this.state.currentImage.textLine,
+        wrap: "char",
+        lineHeight: 1.4,
+        align: this.state.currentImage.textAlign,
+        width: stageWidth,
+        height: stageHeight,
+        y: this.state.stageHeight - this.state.maskHeight + 45 + 40,
+        fill: this.state.currentImage.textColor,
+        draggable: true,
+        style: {
+          transform: "".concat(this.state.transform)
+        }
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "imageSizeSlider",
         style: scaleViewCss
@@ -115623,7 +115641,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group mb-3"
+        className: "input-group mb-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group-prepend"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
@@ -115631,17 +115649,17 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }, "Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
         className: "form-control",
         name: "textLine",
-        value: this.state.currentImage.textLine.join("\n"),
+        value: this.state.currentImage.textLine,
         onChange: this.setText,
         placeholder: "\u4E0B\u5E2F\u306B\u8868\u793A\u3055\u305B\u308B\u30C6\u30AD\u30B9\u30C8\u3092\u5165\u529B"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "btn-group mb-3",
+        className: "btn-group",
         role: "group",
         "aria-label": "Basic example"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "btn btn-light"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fas fa-align-left w-100"
+        className: "fas fa-align-left"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "button",
         name: "textAlign",
@@ -115653,7 +115671,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "btn btn-light"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fas fa-align-center w-100"
+        className: "fas fa-align-center"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "button",
         name: "textAlign",
@@ -115665,7 +115683,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "btn btn-light"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fas fa-align-right w-100"
+        className: "fas fa-align-right"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "button",
         name: "textAlign",
@@ -115675,7 +115693,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
           display: "none"
         }
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "input-group col-2 pb-4"
+        className: "input-group col-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "color",
         className: "",
@@ -115684,7 +115702,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         onChange: this.setText,
         placeholder: "\u30C6\u30AD\u30B9\u30C8\u30AB\u30E9\u30FC"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "form-group text-right pb-4"
+        className: "form-group text-right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "range",
         id: "fontSize",
@@ -115692,8 +115710,23 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         className: "form-control-range",
         value: this.state.currentImage.fontSize,
         onChange: this.setText
-      }), this.state.currentImage.fontSize), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "custom-control custom-switch mb-3 ml-3"
+      }), "Size:", this.state.currentImage.fontSize)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "",
+        role: "group",
+        "aria-label": "Basic example"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group pb-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "color",
+        className: "",
+        name: "maskColor",
+        value: this.state.currentImage.maskColor,
+        onChange: this.setText,
+        placeholder: "\u5E2F\u8272"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "ml-2"
+      }, "\u5E2F\u8272")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "custom-control custom-switch ml-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         id: "cinemaMask",
         name: "cinemaMask",
@@ -115705,7 +115738,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         className: "custom-control-label",
         htmlFor: "cinemaMask"
-      }, "\u9ED2\u5E2F")))))));
+      }, "\u5E2F")))))));
     }
   }]);
 

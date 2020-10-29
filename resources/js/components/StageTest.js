@@ -258,7 +258,8 @@ class StageTest extends React.Component {
     var currentImage = this.state.currentImage
     if (event.target.name == "textLine") {
       if (this.state.textLine !== event.target.name) {
-        currentImage.textLine =  event.target.value.split("\n")
+        // currentImage.textLine =  event.target.value.split("\n")
+        currentImage.textLine =  event.target.value
       }
     }
     if (event.target.name == "textColor") {
@@ -275,6 +276,21 @@ class StageTest extends React.Component {
     if (event.target.name == "textAlign") {
       // console.log( event.target.value)
       currentImage.textAlign =  event.target.value
+    }
+    if (event.target.name == "maskColor") {
+      // console.log( event.target.value)
+      currentImage.maskColor =  event.target.value
+      if(currentImage.textColor ==  event.target.value) {
+        switch(event.target.value) {
+          case "#ffffff":
+            currentImage.textColor = "#000000";
+            break;
+          case "#000000":
+            currentImage.textColor = "#ffffff";
+            break;
+          default:
+        }
+      }
     }
 
     this.setState({currentImage: this.setDefaultImageValue(currentImage)});
@@ -528,10 +544,10 @@ class StageTest extends React.Component {
           <div className="col-sm-6 p-0" >
             <ul className="nav nav-tabs border-0" role="tablist pd-0">
               <li className="nav-item">
-                <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">黒枠</a>
+                <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">帯付き</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">枠無し</a>
+                <a className="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">帯無し</a>
               </li>
             </ul>
             <div className="tab-content">
@@ -551,7 +567,7 @@ class StageTest extends React.Component {
                         key={bgRectangle.id}
                         x={bgRectangle.x}
                         y={bgRectangle.y}
-                        fill={bgRectangle.fill}
+                        fill={this.state.currentImage.maskColor || bgRectangle.fill}
                         width={bgRectangle.width}
                         height={bgRectangle.height}
                       />
@@ -605,13 +621,28 @@ class StageTest extends React.Component {
                             key={rect.id}
                             x={rect.x}
                             y={rect.y}
-                            fill={rect.fill}
+                            fill={this.state.currentImage.maskColor || rect.fill}
                             width={rect.width}
                             height={rect.height}
                           />
                         );
                       })}
+                      <Text
+                        key={"textLine"}
+                        fontSize={Number(this.state.currentImage.fontSize)}
+                        text={this.state.currentImage.textLine}
+                        wrap="char"
+                        lineHeight={1.4}
+                        align={this.state.currentImage.textAlign}
+                        width={stageWidth}
+                        height={stageHeight}
+                        y={( (this.state.stageHeight - this.state.maskHeight) + 45) + 40}
+                        fill={this.state.currentImage.textColor}
+                        draggable={true}
+                        style={{ transform: `${ this.state.transform }` }}
+                      />
 
+                      {/*
                       {this.state.currentImage.textLine.map((line, i) => {
                         var positionY = i * 40
                         return(
@@ -629,7 +660,7 @@ class StageTest extends React.Component {
                             style={{ transform: `${ this.state.transform }` }}
                           />
                         )})}
-
+                      */}
                     </Layer>
                   </Stage>
                 </div>
@@ -650,44 +681,55 @@ class StageTest extends React.Component {
             </div>
           </div>
           <div className="col-sm-6">
-            <div className="input-group mb-3">
+            <div className="input-group mb-2">
               <div className="input-group-prepend">
                 <span className="input-group-text">Text</span>
               </div>
+              {/*
               <textarea className="form-control" name="textLine" value={this.state.currentImage.textLine.join("\n")} onChange={this.setText} placeholder="下帯に表示させるテキストを入力" />
+              */}
+              <textarea className="form-control" name="textLine" value={this.state.currentImage.textLine} onChange={this.setText} placeholder="下帯に表示させるテキストを入力" />
             </div>
-            <div className="btn-group mb-3" role="group" aria-label="Basic example">
+            <div className="btn-group" role="group" aria-label="Basic example">
               <label>
                 <span className="btn btn-light">
-                  <i className="fas fa-align-left w-100"></i>
+                  <i className="fas fa-align-left"></i>
                   <input type="button" name="textAlign" value="left" onClick={this.setText} style={{display: "none"}}/>
                 </span>
               </label>
               <label>
                 <span className="btn btn-light">
-                  <i className="fas fa-align-center w-100"></i>
+                  <i className="fas fa-align-center"></i>
                   <input type="button" name="textAlign" value="center" onClick={this.setText} style={{display: "none"}}/>
                 </span>
               </label>
               <label>
                 <span className="btn btn-light">
-                  <i className="fas fa-align-right w-100"></i>
+                  <i className="fas fa-align-right"></i>
                   <input type="button" name="textAlign" value="right" onClick={this.setText} style={{display: "none"}}/>
                 </span>
               </label>
-              <div className="input-group col-2 pb-4">
+              <div className="input-group col-2">
                 <input type="color"  className="" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
-              </div>
-              <div className="form-group text-right pb-4">
-                <input type="range" id="fontSize" name="fontSize" className="form-control-range" value={this.state.currentImage.fontSize} onChange={this.setText} />{this.state.currentImage.fontSize}
-              </div>
 
-              <div className="custom-control custom-switch mb-3 ml-3">
-                <input id="cinemaMask" name="cinemaMask" className="custom-control-input" type="checkbox" value={this.state.cinemaMask} onChange={this.handleChangeState} checked={this.state.cinemaMask} />
-                <label className="custom-control-label" htmlFor="cinemaMask">黒帯</label>
+              </div>
+              <div className="form-group text-right">
+                <input type="range" id="fontSize" name="fontSize" className="form-control-range" value={this.state.currentImage.fontSize} onChange={this.setText} />Size:{this.state.currentImage.fontSize}
               </div>
             </div>
 
+            <div className="" role="group" aria-label="Basic example">
+              <div className="input-group pb-4">
+                <input type="color"  className="" name="maskColor" value={this.state.currentImage.maskColor} onChange={this.setText} placeholder="帯色" />
+                <span className="ml-2">帯色</span>
+              </div>
+
+              <div className="custom-control custom-switch ml-3">
+                <input id="cinemaMask" name="cinemaMask" className="custom-control-input" type="checkbox" value={this.state.cinemaMask} onChange={this.handleChangeState} checked={this.state.cinemaMask} />
+                <label className="custom-control-label" htmlFor="cinemaMask">帯</label>
+              </div>
+           
+            </div>
             {/*
             <div className="input-group mb-3">
               <ul className="list-group text-dark">
