@@ -115000,7 +115000,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       maskRectangles: maskRectangles,
       currentImage: {
         src: "",
-        textLine: [],
+        textLine: "",
         textColor: defaultTextColor,
         fontSize: defaultFontSize,
         width: 0,
@@ -115016,6 +115016,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     _this.setStageSize = _this.setStageSize.bind(_assertThisInitialized(_this));
     _this.setImages = _this.setImages.bind(_assertThisInitialized(_this));
     _this.setText = _this.setText.bind(_assertThisInitialized(_this));
+    _this.countTextFirstLine = _this.countTextFirstLine.bind(_assertThisInitialized(_this));
     _this.setFiles = _this.setFiles.bind(_assertThisInitialized(_this));
     _this.setFile = _this.setFile.bind(_assertThisInitialized(_this));
     _this.setCinemaScope = _this.setCinemaScope.bind(_assertThisInitialized(_this));
@@ -115027,6 +115028,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
     _this.handleChangeState = _this.handleChangeState.bind(_assertThisInitialized(_this));
     _this.handleSliderChangeBootstrap = _this.handleSliderChangeBootstrap.bind(_assertThisInitialized(_this));
     _this.imageRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
+    _this.textRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createRef();
     return _this;
   }
 
@@ -115174,6 +115176,16 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
       this.setState({
         currentImage: this.setDefaultImageValue(currentImage)
       });
+    }
+  }, {
+    key: "countTextFirstLine",
+    value: function countTextFirstLine() {
+      if (this.state.currentImage.textLine.length == 0) {
+        return 0;
+      }
+
+      var mapText = this.state.currentImage.textLine.split("\n");
+      return mapText[0].length;
     }
   }, {
     key: "setCurrentImage",
@@ -115597,13 +115609,14 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         });
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Text"], {
         key: "textLine",
+        ref: this.textRef,
         fontSize: Number(this.state.currentImage.fontSize),
         text: this.state.currentImage.textLine,
         wrap: "char",
         lineHeight: 1.4,
         align: this.state.currentImage.textAlign,
-        width: stageWidth,
         height: stageHeight,
+        x: this.state.stageWidth / 2 - this.countTextFirstLine() * this.state.currentImage.fontSize / 2,
         y: this.state.stageHeight - this.state.maskHeight + 45 + 40,
         fill: this.state.currentImage.textColor,
         draggable: true,

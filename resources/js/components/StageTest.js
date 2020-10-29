@@ -149,7 +149,7 @@ class StageTest extends React.Component {
         transform: defaultScale,
         images: [],
         maskRectangles: maskRectangles,
-        currentImage:{src:"", textLine: [], textColor: defaultTextColor, fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50 },
+        currentImage:{src:"", textLine: "", textColor: defaultTextColor, fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50 },
         currentImageIndex: 0,
         cinemaMask: true,
         maskHeight: 0,
@@ -158,6 +158,7 @@ class StageTest extends React.Component {
     this.setStageSize = this.setStageSize.bind(this);
     this.setImages = this.setImages.bind(this);
     this.setText = this.setText.bind(this);
+    this.countTextFirstLine = this.countTextFirstLine.bind(this);
     this.setFiles = this.setFiles.bind(this);
     this.setFile = this.setFile.bind(this);
     this.setCinemaScope = this.setCinemaScope.bind(this);
@@ -169,7 +170,7 @@ class StageTest extends React.Component {
     this.handleChangeState = this.handleChangeState.bind(this);
     this.handleSliderChangeBootstrap = this.handleSliderChangeBootstrap.bind(this);
     this.imageRef = React.createRef();
-
+    this.textRef = React.createRef();
   }
 
   handleChangeState(e) {
@@ -294,6 +295,14 @@ class StageTest extends React.Component {
     }
 
     this.setState({currentImage: this.setDefaultImageValue(currentImage)});
+  }
+
+  countTextFirstLine() {
+    if (this.state.currentImage.textLine.length == 0) {
+      return 0;
+    }
+    var mapText = this.state.currentImage.textLine.split("\n")
+    return mapText[0].length
   }
 
   async setCurrentImage(index) {
@@ -629,14 +638,15 @@ class StageTest extends React.Component {
                       })}
                       <Text
                         key={"textLine"}
+                        ref={this.textRef}
                         fontSize={Number(this.state.currentImage.fontSize)}
                         text={this.state.currentImage.textLine}
                         wrap="char"
                         lineHeight={1.4}
                         align={this.state.currentImage.textAlign}
-                        width={stageWidth}
                         height={stageHeight}
-                        y={( (this.state.stageHeight - this.state.maskHeight) + 45) + 40}
+                        x={ (this.state.stageWidth / 2) - (this.countTextFirstLine() * this.state.currentImage.fontSize / 2)}
+                        y={ ((this.state.stageHeight - this.state.maskHeight) + 45) + 40}
                         fill={this.state.currentImage.textColor}
                         draggable={true}
                         style={{ transform: `${ this.state.transform }` }}
