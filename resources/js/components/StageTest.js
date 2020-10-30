@@ -533,18 +533,19 @@ class StageTest extends React.Component {
   }
 
   handleDragEnd(e) {
+    console.log(e)
     console.log(e.target)
     var x = e.target.x()
     var y = e.target.y()
 
     var currentImage = this.state.currentImage
 
-    if (e.attrs.id == "textLine") {
-      currentImage.textX = x
-      currentImage.textY = y
+    if (e.currentTarget.attrs.id == "textLine") {
+      currentImage.textX = e.currentTarget.attrs.x
+      currentImage.textY = e.currentTarget.attrs.y
     } else {
-      currentImage.x = x
-      currentImage.y = y
+      currentImage.x = e.currentTarget.attrs.x
+      currentImage.y = e.currentTarget.attrs.y
     }
 
     this.setState({currentImage: currentImage})
@@ -634,6 +635,7 @@ class StageTest extends React.Component {
                       }
 
                       <Rect
+                        id={"currentRect"}
                         key={"currentRect"}
                         x={this.state.currentImage.x}
                         y={this.state.currentImage.y}
@@ -644,7 +646,7 @@ class StageTest extends React.Component {
                         fillPatternScaleY={this.state.currentImage.scaleY}
                         filPatternRepeat = "no-repeat"
                         draggable={true}
-                        onDragEnd={this.handleDragEnd}
+                        onMouseUp={this.handleDragEnd}
                       />
                       {/*
                       <Text 
@@ -689,7 +691,7 @@ class StageTest extends React.Component {
                         y={ this.state.currentImage.textY || ((this.state.stageHeight - this.state.maskHeight) + 25)}
                         fill={this.state.currentImage.textColor}
                         draggable={true}
-                        onDragEnd={this.handleDragEnd}
+                        onMouseUp={this.handleDragEnd}
                         style={{ transform: `${ this.state.transform }` }}
                       />
 
