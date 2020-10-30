@@ -496,9 +496,6 @@ class StageTest extends React.Component {
            }
            
            var newImages = this.state.images
-           console.log("newImages")
-           console.log(this.state)
-           console.log(newItem)
            newImages.push(newItem)
            this.setState({images: newImages})
 
@@ -533,8 +530,6 @@ class StageTest extends React.Component {
   }
 
   handleDragEnd(e) {
-    console.log(e)
-    console.log(e.target)
     var x = e.target.x()
     var y = e.target.y()
 
