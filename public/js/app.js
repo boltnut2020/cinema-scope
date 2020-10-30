@@ -114927,26 +114927,26 @@ var maskRectangles = [{
   y: 0,
   width: windowWidth,
   height: 100,
-  fill: 'black',
+  fill: '#000000',
   id: 'topmask'
 }, {
   x: 0,
   y: 0,
   width: windowWidth,
   height: 100,
-  fill: 'black',
+  fill: '#000000',
   id: 'bottommask'
 }];
 var addButtonCss = {
   position: "absolute",
   top: 5,
   right: 10,
-  background: "#000"
+  background: "#000000"
 };
 var scaleViewCss = {
   position: "absolute",
-  top: 45,
-  right: "5%",
+  top: 50,
+  left: "4%",
   color: "#909090"
 };
 var downloadCss = {
@@ -114956,7 +114956,7 @@ var downloadCss = {
   color: "#909090"
 };
 var thumbnailDivHeight = {
-  background: "#000"
+  background: "#000000"
 };
 var thumbnailCss = {
   maxWidth: "80px",
@@ -115639,10 +115639,10 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         style: {
           transform: "".concat(this.state.transform)
         }
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-        htmlFor: "imageSizeSlider",
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "p-0 m-0",
         style: scaleViewCss
-      }, "scale:", (this.state.currentImage.imageSizeSlider - 50) * 6), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+      }, "scale: ", (this.state.currentImage.imageSizeSlider - 50) * 6), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         className: "btn btn-dark text-light mb-2",
         style: downloadCss,
         type: "button",
@@ -115660,7 +115660,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         value: this.state.currentImage.imageSizeSlider,
         onChange: this.handleSliderChangeBootstrap
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        "class": "tab-pane fade",
+        className: "tab-pane fade",
         id: "item2",
         role: "tabpanel",
         "aria-labelledby": "item2-tab"
