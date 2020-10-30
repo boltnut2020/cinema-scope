@@ -16,6 +16,7 @@ const defaultFontSize = 30
 const defaultTextColor = "#ffffff"
 const defaultMaskColor = "#000000"
 const defaultTextAlign = "center"
+const defaultMaskOpacity = 80
 const limitPixelSize = 2048
 const errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 const defaultScale="scale(0.5)"
@@ -150,7 +151,7 @@ class StageTest extends React.Component {
         transform: defaultScale,
         images: [],
         maskRectangles: maskRectangles,
-        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50 },
+        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50, maskOpacity: 80 },
         currentImageIndex: 0,
         cinemaMask: true,
         maskHeight: 0,
@@ -187,7 +188,9 @@ class StageTest extends React.Component {
     // console.log("Did Mount")
     this.setStageSize()
     this.setCinemaScope()
-    // this.setImages()
+    if (window.location.hostname == "localhost") {
+      this.setImages()
+    }
 
     // console.log(this.stageRef)  
   }
@@ -291,6 +294,7 @@ class StageTest extends React.Component {
       }
       currentImage.textPositionX =  textPositionX
     }
+
     if (event.target.name == "maskColor") {
       // console.log( event.target.value)
       currentImage.maskColor =  event.target.value
@@ -305,6 +309,11 @@ class StageTest extends React.Component {
           default:
         }
       }
+    }
+
+    if (event.target.name == "maskOpacity") {
+        console.log(event.target.value)
+        currentImage.maskOpacity = event.target.value
     }
 
     this.setState({currentImage: this.setDefaultImageValue(currentImage)});
@@ -418,6 +427,9 @@ class StageTest extends React.Component {
         currentImage.maskColor = "#000000"
     }
 
+    if (!currentImage.maskOpacity) {
+        currentImage.maskOpacity = defaultMaskOpacity
+    }
     return currentImage
   }
 
@@ -644,6 +656,7 @@ class StageTest extends React.Component {
                         return (
                           <Rect
                             key={rect.id}
+                            opacity={this.state.currentImage.maskOpacity / 100}
                             x={rect.x}
                             y={rect.y}
                             fill={this.state.currentImage.maskColor || rect.fill}
@@ -749,6 +762,10 @@ class StageTest extends React.Component {
               <div className="input-group pb-4">
                 <input type="color"  className="" name="maskColor" value={this.state.currentImage.maskColor} onChange={this.setText} placeholder="帯色" />
                 <span className="ml-2">帯色</span>
+              </div>
+              <div className="form-group pb-4">
+                <input type="range"  className="" name="maskOpacity" value={this.state.currentImage.maskOpacity} onChange={this.setText} />
+                <span className="ml-2">不透明度:{this.state.currentImage.maskOpacity}</span>
               </div>
 
               <div className="custom-control custom-switch ml-3">
