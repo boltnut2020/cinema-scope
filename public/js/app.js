@@ -115668,7 +115668,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         align: this.state.currentImage.textAlign,
         height: stageHeight,
         x: this.state.currentImage.textX || this.state.stageWidth / 2 - this.countTextFirstLine() * this.state.currentImage.fontSize / 2,
-        y: this.state.currentImage.textY || this.state.stageHeight - this.state.maskHeight + 45 + 40,
+        y: this.state.currentImage.textY || this.state.stageHeight - this.state.maskHeight + 25,
         fill: this.state.currentImage.textColor,
         draggable: true,
         onDragEnd: this.handleDragEnd,
