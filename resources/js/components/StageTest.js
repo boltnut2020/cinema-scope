@@ -7,10 +7,13 @@ const windowWidth = window.screen.width;
 
 let stageWidth = 1280
 let stageHeight = 960
+stageHeight = 720
 if ( window.screen.width > 768 && window.innerWidth > 768) {
   stageWidth = 2048
   stageHeight = 1536
+  stageHeight = 1152
 }
+
 const thumbnailWidth = 96
 const defaultFontSize = 30
 const defaultTextColor = "#ffffff"
@@ -151,7 +154,7 @@ class StageTest extends React.Component {
         transform: defaultScale,
         images: [],
         maskRectangles: maskRectangles,
-        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50, maskOpacity: 80 },
+        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50, maskOpacity: 80, textX: null, textY: null },
         currentImageIndex: 0,
         cinemaMask: true,
         maskHeight: 0,
@@ -530,12 +533,19 @@ class StageTest extends React.Component {
   }
 
   handleDragEnd(e) {
+    console.log(e.target)
     var x = e.target.x()
     var y = e.target.y()
 
     var currentImage = this.state.currentImage
-    currentImage.x = x
-    currentImage.y = y
+
+    if (e.attrs.id == "textLine") {
+      currentImage.textX = x
+      currentImage.textY = y
+    } else {
+      currentImage.x = x
+      currentImage.y = y
+    }
 
     this.setState({currentImage: currentImage})
     // x: e.target.x(),
@@ -666,6 +676,7 @@ class StageTest extends React.Component {
                         );
                       })}
                       <Text
+                        id="textLine"
                         key={"textLine"}
                         ref={this.textRef}
                         fontSize={Number(this.state.currentImage.fontSize)}
@@ -674,10 +685,11 @@ class StageTest extends React.Component {
                         lineHeight={1.4}
                         align={this.state.currentImage.textAlign}
                         height={stageHeight}
-                        x={ this.state.currentImage.textPositionX || (this.state.stageWidth / 2) - (this.countTextFirstLine() * this.state.currentImage.fontSize / 2)}
-                        y={ ((this.state.stageHeight - this.state.maskHeight) + 45) + 40}
+                        x={ this.state.currentImage.textX || (this.state.stageWidth / 2) - (this.countTextFirstLine() * this.state.currentImage.fontSize / 2)}
+                        y={ this.state.currentImage.textY || ((this.state.stageHeight - this.state.maskHeight) + 45) + 40}
                         fill={this.state.currentImage.textColor}
                         draggable={true}
+                        onDragEnd={this.handleDragEnd}
                         style={{ transform: `${ this.state.transform }` }}
                       />
 
