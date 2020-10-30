@@ -79,6 +79,8 @@ Hello World!\n
 下帯に表示させるテキストを設定
 （移動できます）
 
+DownLoadボタンで画像をダウンロード
+
 
 ※動作確認
 今のところAndroid, PCでのChromeブラウザのみで確認済みです。
@@ -88,7 +90,7 @@ Hello World!\n
 
 const bgRectangleText = {
     x: 0,
-    y: 340,
+    y: 200,
     width: stageWidth,
     height: stageHeight * 3,
     fill: '#ffffff',
@@ -154,7 +156,7 @@ class StageTest extends React.Component {
         transform: defaultScale,
         images: [],
         maskRectangles: maskRectangles,
-        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50, maskOpacity: 80, textX: null, textY: null },
+        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50, maskOpacity: 70, textX: null, textY: null },
         currentImageIndex: 0,
         cinemaMask: true,
         maskHeight: 0,
@@ -192,7 +194,7 @@ class StageTest extends React.Component {
     this.setStageSize()
     this.setCinemaScope()
     if (window.location.hostname == "localhost") {
-      this.setImages()
+      // this.setImages()
     }
 
     // console.log(this.stageRef)  
@@ -530,8 +532,6 @@ class StageTest extends React.Component {
   }
 
   handleDragEnd(e) {
-    var x = e.target.x()
-    var y = e.target.y()
 
     var currentImage = this.state.currentImage
 
@@ -543,6 +543,7 @@ class StageTest extends React.Component {
       currentImage.y = e.currentTarget.attrs.y
     }
 
+    // console.log(currentImage)
     this.setState({currentImage: currentImage})
     // x: e.target.x(),
   }
@@ -642,6 +643,7 @@ class StageTest extends React.Component {
                         filPatternRepeat = "no-repeat"
                         draggable={true}
                         onMouseUp={this.handleDragEnd}
+                        onTouchEnd={this.handleDragEnd}
                       />
                       {/*
                       <Text 
@@ -686,6 +688,7 @@ class StageTest extends React.Component {
                         fill={this.state.currentImage.textColor}
                         draggable={true}
                         onMouseUp={this.handleDragEnd}
+                        onTouchEnd={this.handleDragEnd}
                         style={{ transform: `${ this.state.transform }` }}
                       />
 
