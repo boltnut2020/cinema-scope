@@ -14,6 +14,7 @@ if ( window.screen.width > 768 && window.innerWidth > 768) {
 const thumbnailWidth = 96
 const defaultFontSize = 30
 const defaultTextColor = "#ffffff"
+const defaultMaskColor = "#000000"
 const defaultTextAlign = "center"
 const limitPixelSize = 2048
 const errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
@@ -149,7 +150,7 @@ class StageTest extends React.Component {
         transform: defaultScale,
         images: [],
         maskRectangles: maskRectangles,
-        currentImage:{src:"", textLine: "", textColor: defaultTextColor, fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50 },
+        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50 },
         currentImageIndex: 0,
         cinemaMask: true,
         maskHeight: 0,
@@ -412,6 +413,9 @@ class StageTest extends React.Component {
     }
     if (!currentImage.textAlign) {
         currentImage.textAlign = "center"
+    }
+    if (!currentImage.maskColor) {
+        currentImage.maskColor = "#000000"
     }
 
     return currentImage

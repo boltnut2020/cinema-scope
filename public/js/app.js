@@ -114875,6 +114875,7 @@ if (window.screen.width > 768 && window.innerWidth > 768) {
 var thumbnailWidth = 96;
 var defaultFontSize = 30;
 var defaultTextColor = "#ffffff";
+var defaultMaskColor = "#000000";
 var defaultTextAlign = "center";
 var limitPixelSize = 2048;
 var errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。";
@@ -115002,6 +115003,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         src: "",
         textLine: "",
         textColor: defaultTextColor,
+        maskColor: defaultMaskColor,
         fontSize: defaultFontSize,
         width: 0,
         height: 0,
@@ -115330,6 +115332,10 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
 
       if (!currentImage.textAlign) {
         currentImage.textAlign = "center";
+      }
+
+      if (!currentImage.maskColor) {
+        currentImage.maskColor = "#000000";
       }
 
       return currentImage;
