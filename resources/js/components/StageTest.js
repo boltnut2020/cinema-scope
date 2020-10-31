@@ -158,7 +158,8 @@ class StageTest extends React.Component {
         maskRectangles: maskRectangles,
         currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50, maskOpacity: 70, textX: null, textY: null },
         currentImageIndex: 0,
-        cinemaMask: true,
+        cinemaMaskTop: true,
+        cinemaMaskBottom: true,
         maskHeight: 0,
         csDivHeight: 0,
     }
@@ -194,7 +195,7 @@ class StageTest extends React.Component {
     this.setStageSize()
     this.setCinemaScope()
     if (window.location.hostname == "localhost") {
-      // this.setImages()
+       this.setImages()
     }
 
     // console.log(this.stageRef)  
@@ -560,7 +561,8 @@ class StageTest extends React.Component {
   }
 
   render() {
-
+    let maskRectangleTop = this.state.maskRectangles[0]
+    let maskRectangleBottom = this.state.maskRectangles[1]
     return(
       <React.Fragment>
       <div className="container-fluid">
@@ -661,20 +663,31 @@ class StageTest extends React.Component {
                         fontSize={100}
                       />
                       */}
-                      {this.state.cinemaMask == true && this.state.maskRectangles.map((rect, i) => {
-                        return (
-                          <Rect
-                            key={rect.id}
+
+                      {this.state.cinemaMaskTop && 
+                           <Rect
+                            key={maskRectangleTop.id}
                             opacity={this.state.currentImage.maskOpacity / 100}
-                            x={rect.x}
-                            y={rect.y}
-                            fill={this.state.currentImage.maskColor || rect.fill}
-                            width={rect.width}
-                            height={rect.height}
+                            x={maskRectangleTop.x}
+                            y={maskRectangleTop.y}
+                            fill={this.state.currentImage.maskColor || maskRectangleTop.fill}
+                            width={maskRectangleTop.width}
+                            height={maskRectangleTop.height}
                           />
-                        );
-                      })}
-                      <Text
+                      }
+                      {this.state.cinemaMaskBottom && 
+                           <Rect
+                            key={maskRectangleBottom.id}
+                            opacity={this.state.currentImage.maskOpacity / 100}
+                            x={maskRectangleBottom.x}
+                            y={maskRectangleBottom.y}
+                            fill={this.state.currentImage.maskColor || maskRectangleBottom.fill}
+                            width={maskRectangleBottom.width}
+                            height={maskRectangleBottom.height}
+                          />
+                      }
+
+                     <Text
                         id="textLine"
                         key={"textLine"}
                         ref={this.textRef}
@@ -780,10 +793,14 @@ class StageTest extends React.Component {
               </div>
 
               <div className="custom-control custom-switch ml-3">
-                <input id="cinemaMask" name="cinemaMask" className="custom-control-input" type="checkbox" value={this.state.cinemaMask} onChange={this.handleChangeState} checked={this.state.cinemaMask} />
-                <label className="custom-control-label" htmlFor="cinemaMask">帯</label>
+                <input id="cinemaMaskTop" name="cinemaMaskTop" className="custom-control-input" type="checkbox" value={this.state.cinemaMaskTop} onChange={this.handleChangeState} checked={this.state.cinemaMaskTop} />
+                <label className="custom-control-label" htmlFor="cinemaMaskTop">上帯</label>
               </div>
-           
+               <div className="custom-control custom-switch ml-3">
+                <input id="cinemaMaskBottom" name="cinemaMaskBottom" className="custom-control-input" type="checkbox" value={this.state.cinemaMaskBottom} onChange={this.handleChangeState} checked={this.state.cinemaMaskBottom} />
+                <label className="custom-control-label" htmlFor="cinemaMaskBottom">下帯</label>
+              </div>
+          
             </div>
             {/*
             <div className="input-group mb-3">
