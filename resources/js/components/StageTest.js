@@ -59,7 +59,16 @@ const bgRectangle = {
   width: stageWidth,
   height: stageHeight,
   fill: '#202020',
+  fillPatternImage: '',
+  fillPatternScaleX: 1.5,
+  fillPatternScaleY: 1.5,
   id: 'background',
+}
+
+const bgImage = () => {
+  var image = new window.Image();
+  image.src = "https://cnt-02.content-jp.drive.amazonaws.com/cdproxy/templink/pOwS96M1-Z0nx5lEZ4w8vKuOVnO9QyaC9OfjJcumnsAeJxFPc?viewBox=1425%2C951"
+  return image
 }
 
 const appDescription = `
@@ -195,7 +204,7 @@ class StageTest extends React.Component {
     this.setStageSize()
     this.setCinemaScope()
     if (window.location.hostname == "localhost") {
-       this.setImages()
+        // this.setImages()
     }
 
     // console.log(this.stageRef)  
@@ -286,19 +295,19 @@ class StageTest extends React.Component {
     }
     if (event.target.name == "textAlign") {
       // console.log( event.target.value)
-      var textPositionX = 0;
+      var textX = 0;
       switch(event.target.value) {
         case "left":
-            textPositionX = "10"
+            textX = "10"
         break;
         case "right":
-            textPositionX = this.state.stageWidth - this.countTextFirstLine() * this.state.currentImage.fontSize - 10
+            textX = this.state.stageWidth - this.countTextFirstLine() * this.state.currentImage.fontSize - 10
         break;
         case "center":
-            textPositionX = (this.state.stageWidth / 2) - (this.countTextFirstLine() * this.state.currentImage.fontSize / 2)
+            textX = (this.state.stageWidth / 2) - (this.countTextFirstLine() * this.state.currentImage.fontSize / 2)
         break;
       }
-      currentImage.textPositionX =  textPositionX
+      currentImage.textX =  textX
     }
 
     if (event.target.name == "maskColor") {
@@ -563,6 +572,7 @@ class StageTest extends React.Component {
   render() {
     let maskRectangleTop = this.state.maskRectangles[0]
     let maskRectangleBottom = this.state.maskRectangles[1]
+    let bgRectangleFill = (this.state.currentImage.src) ? this.state.currentImage.maskColor : ""
     return(
       <React.Fragment>
       <div className="container-fluid">
@@ -613,7 +623,10 @@ class StageTest extends React.Component {
                         key={bgRectangle.id}
                         x={bgRectangle.x}
                         y={bgRectangle.y}
-                        fill={this.state.currentImage.maskColor || bgRectangle.fill}
+                        fill={bgRectangleFill}
+                        fillPatternImage={bgImage()}
+                        fillPatternScaleX={bgRectangle.fillPatternScaleX}
+                        fillPatternScaleY={bgRectangle.fillPatternScaleY}
                         width={bgRectangle.width}
                         height={bgRectangle.height}
                       />
