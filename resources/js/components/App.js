@@ -10,7 +10,7 @@ const App = () => {
     return (
         <BrowserRouter>
         <React.Fragment>
-          <nav className="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+          <nav className="navbar navbar-expand-md navbar-light bg-silver shadow-sm">
             <div className="container">
               <a className="navbar-brand" href="/">
                   CinemaScope

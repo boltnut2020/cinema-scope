@@ -20,6 +20,8 @@ const defaultTextColor = "#ffffff"
 const defaultMaskColor = "#000000"
 const defaultTextAlign = "center"
 const defaultMaskOpacity = 100
+const defaultImageSizeSlider = 50
+const defaultframeScaleSlider = 10
 const limitPixelSize = 2048
 const errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 const defaultScale="scale(0.5)"
@@ -158,21 +160,25 @@ class StageTest extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+        stageType: "cinema-scope",
         stageWidth: stageWidth,
         stageHeight: stageHeight,
         stageDivWidth: stageWidth,
         stageDivHeight: stageHeight,
+        bgRectangle: bgRectangle,
         transform: defaultScale,
         images: [],
         maskRectangles: maskRectangles,
-        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: 50, maskOpacity: 70, textX: null, textY: null },
+        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: defaultImageSizeSlider, maskOpacity: 70, textX: null, textY: null },
         currentImageIndex: 0,
         cinemaMaskTop: true,
         cinemaMaskBottom: true,
         maskHeight: 0,
         csDivHeight: 0,
+        frameScale: defaultframeScaleSlider,
     }
     this.setStageSize = this.setStageSize.bind(this);
+    this.setStageType = this.setStageType.bind(this);
     this.setImages = this.setImages.bind(this);
     this.setText = this.setText.bind(this);
     this.countTextFirstLine = this.countTextFirstLine.bind(this);
@@ -197,6 +203,14 @@ class StageTest extends React.Component {
     this.setState({
       [name]: value
     });
+
+    if (target.name == "frameScale") {
+        var currentImage = this.state.currentImage
+        currentImage.imageSizeSlider = defaultImageSizeSlider
+        currentImage.maskColor = "#ffffff"
+        this.setState({currentImage: currentImage})
+        this.handleSliderChangeBootstrap()
+    }
   }
 
   componentDidMount() {
@@ -204,7 +218,7 @@ class StageTest extends React.Component {
     this.setStageSize()
     this.setCinemaScope()
     if (window.location.hostname == "localhost") {
-        // this.setImages()
+         this.setImages()
     }
 
     // console.log(this.stageRef)  
@@ -214,12 +228,32 @@ class StageTest extends React.Component {
     // console.log("Did Update")
     if( this.state.images.length > 0 && this.state.currentImage.src == "") {
        this.setCurrentImage(0)
+
+       // this.handleSliderChangeBootstrap()
+       // this.setStageSize()
     }
     // console.log(this.state.images)
   }
 
-  setStageSize(finalCurrentImage) {
+  setStageSize() {
     // console.log("setStageSize")
+
+    this.setState({stageHeight: stageHeight})
+    var bgRectangle = this.state.bgRectangle
+    bgRectangle.height = stageHeight
+    this.setState({bgRectangle: bgRectangle})
+    if (this.state.stageType == "frame") {
+        
+      var newStageHeight = this.state.stageWidth * this.state.currentImage.pixelRetio
+      this.setState({stageHeight: newStageHeight})
+      var bgRectangle = this.state.bgRectangle
+      bgRectangle.height = newStageHeight
+      this.setState({bgRectangle: bgRectangle})
+      this.setState({frameScale: this.state.frameScale})
+
+    }
+
+
     var scaleX = 1
     if ( window.screen.width > 768 && window.innerWidth > 768) {
       scaleX = 768 / this.state.stageWidth * 0.90
@@ -228,23 +262,26 @@ class StageTest extends React.Component {
     }
 
 
-//    let heightTragetValue = 1
-//    if (finalCurrentImage) {
-//        // console.log(finalCurrentImage.height)
-//        heightTragetValue = finalCurrentImage.height * scaleX
-//    } else {
-//    }
     var heightTragetValue = this.state.stageHeight * scaleX
     var widthTragetValue = this.state.stageWidth * scaleX
-    let scaleY =  heightTragetValue / this.state.stageHeight
+    var scaleY =  heightTragetValue / this.state.stageHeight
     this.setState({transform: 'scale(' + scaleX + ',' + scaleY + ')'})
+
+    // this.setState({stageHeight: heightTragetValue})
     this.setState({stageDivWidth: widthTragetValue + "px"})
     this.setState({stageDivHeight: heightTragetValue + 30 + "px"})
-
     let csDivHeight = Number((this.state.stageWidth / 2.39) * scaleX).toFixed()
     this.setState({csDivHeight: Number(csDivHeight) + 20 + "px"})
   }
 
+  setStageType(type) {
+    this.setState({
+      stageType: type
+    });
+    this.setStageSize()
+    this.setCurrentImage(this.state.currentImageIndex)
+
+  }
   setImages() {
     // console.log("set images")
     var newImages = this.state.images
@@ -261,10 +298,12 @@ class StageTest extends React.Component {
           width = limitPixelSize;
         }
 
+        var pixelRetio = Number(height) / Number(width)
         testImage.width = width
         testImage.height = height
-        testImage.x = (stageWidth - width.toFixed()) / 2,
-        testImage.y = (stageHeight - height.toFixed()) / 2,
+        testImage.x = 0,
+        testImage.y = 0,
+        testImage.pixelRetio = pixelRetio
 
         newImages.push(testImage)
         this.setState({images: newImages})
@@ -327,7 +366,6 @@ class StageTest extends React.Component {
     }
 
     if (event.target.name == "maskOpacity") {
-        console.log(event.target.value)
         currentImage.maskOpacity = event.target.value
     }
 
@@ -395,15 +433,41 @@ class StageTest extends React.Component {
 
   handleSliderChangeBootstrap(){
     // console.log("handleSliderChangeBootstrap")
-    var newValue = event.target.value || this.state.currentImage.imageSizeSlider
+
+    var frameScale = 0
+    var frameScaleX = 1
+    var frameScaleY = 1
+    var newValue = this.state.currentImage.imageSizeSlider
+    if (this.state.stageType == "frame") {
+      frameScale = this.state.frameScale * 2
+      // 10 /100
+      // 20 /100
+      frameScaleX = 1 - frameScale / this.state.currentImage.widthBase
+      frameScaleY = 1 - frameScale / this.state.currentImage.heightBase
+      // console.log("fX" + frameScaleX)
+      // console.log("fY" + frameScaleY)
+      // console.log("fS" + frameScale)
+      if (frameScale === 1) {
+        frameScaleX = 1
+        frameScaleY = 1
+      }
+      newValue = defaultImageSizeSlider
+    } 
+
+    if (event.target.name == "imageSizeSlider") {
+       newValue = event.target.value || this.state.currentImage.imageSizeSlider
+    }
 
     var sizeScale = newValue * 2 / 100
     var currentImage = this.state.currentImage
     currentImage.imageSizeSlider = newValue
-    currentImage.scaleX = this.state.currentImage.scaleXBase * sizeScale
-    currentImage.scaleY = this.state.currentImage.scaleYBase * sizeScale
-    currentImage.width = this.state.currentImage.widthBase * sizeScale
-    currentImage.height = this.state.currentImage.heightBase * sizeScale
+    currentImage.scaleX = this.state.currentImage.scaleXBase * sizeScale * frameScaleX
+    currentImage.scaleY = this.state.currentImage.scaleYBase * sizeScale * frameScaleY
+
+    currentImage.width = this.state.currentImage.widthBase * sizeScale * frameScaleX
+    currentImage.height = this.state.currentImage.heightBase * sizeScale * frameScaleY
+    currentImage.x = frameScale / 2
+    currentImage.y = frameScale / 2
     // console.log(currentImage)
     this.setState({currentImage: currentImage})
   }
@@ -484,6 +548,7 @@ class StageTest extends React.Component {
              width = limitPixelSize;
          }
 
+         var pixelRetio = Number(height) / Number(width)
          var canvas = document.createElement('canvas');
          canvas.width = width;
          canvas.height = height;
@@ -503,8 +568,9 @@ class StageTest extends React.Component {
              height: height.toFixed(),
              widthOrigin: imageObj.width,
              heightOrigin: imageObj.height,
+             pixelRetio: pixelRetio,
              x: 0,
-             y: 0
+             y: 0,
            }
            
            var newImages = this.state.images
@@ -570,8 +636,15 @@ class StageTest extends React.Component {
   }
 
   render() {
-    let maskRectangleTop = this.state.maskRectangles[0]
-    let maskRectangleBottom = this.state.maskRectangles[1]
+
+    let maskRectangleTop = false
+    let maskRectangleBottom = false
+    // console.log(this.state.currentImage)
+    if (this.state.stageType == "cinema-scope") {
+      maskRectangleTop = this.state.maskRectangles[0]
+      maskRectangleBottom = this.state.maskRectangles[1]
+    }
+
     let bgRectangleFill = (this.state.currentImage.src) ? this.state.currentImage.maskColor : ""
     return(
       <React.Fragment>
@@ -597,19 +670,24 @@ class StageTest extends React.Component {
             </label>
         </div>
         <div key="current-div" className="row">
-          <div className="col-sm-6 p-0" >
-            <ul className="nav nav-tabs border-0" role="tablist pd-0">
+          <div className="col-sm-6 p-0 rounded-bottom" style={{backgroundImage: "linear-gradient(15deg, #111 0%, #333 100%)"}}>
+              <ul className="nav nav-tabs border-0" role="tablist pd-0">
               <li className="nav-item">
-                <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">帯付き</a>
+                <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("cinema-scope")}>シネスコ
+                </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">帯無し</a>
               </li>
+              <li className="nav-item">
+                <a className="nav-link" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="false" onClick={() => this.setStageType("frame")}>フレーム</a>
+              </li>
+
             </ul>
             <div className="tab-content">
               <div className="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">
                 <div 
-                  className="col-sm-12 p-2"
+                  className="col-sm-12 p-2 pl-lg-4"
                   style={{height: `${this.state.stageDivHeight}`}}
                 >
                   <Stage
@@ -620,15 +698,15 @@ class StageTest extends React.Component {
                   >
                     <Layer>
                       <Rect
-                        key={bgRectangle.id}
-                        x={bgRectangle.x}
-                        y={bgRectangle.y}
+                        key={this.state.bgRectangle.id}
+                        x={this.state.bgRectangle.x}
+                        y={this.state.bgRectangle.y}
                         fill={bgRectangleFill}
                         fillPatternImage={bgImage()}
-                        fillPatternScaleX={bgRectangle.fillPatternScaleX}
-                        fillPatternScaleY={bgRectangle.fillPatternScaleY}
-                        width={bgRectangle.width}
-                        height={bgRectangle.height}
+                        fillPatternScaleX={this.state.bgRectangle.fillPatternScaleX}
+                        fillPatternScaleY={this.state.bgRectangle.fillPatternScaleY}
+                        width={this.state.bgRectangle.width}
+                        height={this.state.bgRectangle.height}
                       />
                       { this.state.currentImage.src == "" &&
                       <Text
@@ -742,12 +820,21 @@ class StageTest extends React.Component {
                 </div>
 
                 <div className="p-0 m-0" style={scaleViewCss}>
-                  scale: { (this.state.currentImage.imageSizeSlider - 50) * 6 }
+                  <span>imagescale: { (this.state.currentImage.imageSizeSlider - 50) * 6 }</span>
+
+                  <span className="ml-1">framescale: { this.state.frameScale } </span>
                 </div>
                 <input className="btn btn-dark text-light mb-2" style={downloadCss} type="button" value="DownLoad" onClick={this.handleExportClick} />
                 <div className="col-sm-12 text-center">
                   <div className="form-group">
+
+                    {this.state.stageType == "cinema-scope" &&
                     <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
+                    }
+
+                    {this.state.stageType == "frame" &&
+                    <input type="range" id="frameScaleSlider" name="frameScale" className="" value={this.state.frameScale} onChange={this.handleChangeState} />
+                    }
                   </div>
       
                 </div>
@@ -758,76 +845,84 @@ class StageTest extends React.Component {
             </div>
           </div>
           <div className="col-sm-6">
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <span className="input-group-text">Text</span>
+            <div className="card p-3 mt-2">
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">Text</span>
+                </div>
+                {/*
+                <textarea className="form-control" name="textLine" value={this.state.currentImage.textLine.join("\n")} onChange={this.setText} placeholder="下帯に表示させるテキストを入力" />
+                */}
+                <textarea className="form-control" name="textLine" value={this.state.currentImage.textLine} onChange={this.setText} placeholder="下帯に表示させるテキストを入力" />
+              </div>
+              <div className="btn-group" role="group" aria-label="Basic example">
+                <label>
+                  <span className="btn btn-light">
+                    <i className="fas fa-align-left"></i>
+                    <input type="button" name="textAlign" value="left" onClick={this.setText} style={{display: "none"}}/>
+                  </span>
+                </label>
+                <label>
+                  <span className="btn btn-light">
+                    <i className="fas fa-align-center"></i>
+                    <input type="button" name="textAlign" value="center" onClick={this.setText} style={{display: "none"}}/>
+                  </span>
+                </label>
+                <label>
+                  <span className="btn btn-light">
+                    <i className="fas fa-align-right"></i>
+                    <input type="button" name="textAlign" value="right" onClick={this.setText} style={{display: "none"}}/>
+                  </span>
+                </label>
+                <div className="input-group col-2">
+                  <input type="color"  className="" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
+
+                </div>
+                <div className="form-group text-right">
+                  <input type="range" id="fontSize" name="fontSize" className="form-control-range" value={this.state.currentImage.fontSize} onChange={this.setText} />Size:{this.state.currentImage.fontSize}
+                </div>
+              </div>
+
+              <div className="" role="group" aria-label="Basic example">
+                <div className="input-group pb-4">
+                  <input type="color"  className="" name="maskColor" value={this.state.currentImage.maskColor} onChange={this.setText} placeholder="帯色" />
+                  <span className="ml-2">帯色</span>
+                </div>
+
+                { this.state.stageType == "cinema-scope" &&
+                <div className="form-group pb-4">
+                  <input type="range"  className="" name="maskOpacity" value={this.state.currentImage.maskOpacity} onChange={this.setText} />
+                  <span className="ml-2">不透明度:{this.state.currentImage.maskOpacity}</span>
+                </div>
+                }
+
+                { this.state.stageType == "cinema-scope" &&
+                <div className="custom-control custom-switch ml-3">
+                  <input id="cinemaMaskTop" name="cinemaMaskTop" className="custom-control-input" type="checkbox" value={this.state.cinemaMaskTop} onChange={this.handleChangeState} checked={this.state.cinemaMaskTop} />
+                  <label className="custom-control-label" htmlFor="cinemaMaskTop">上帯</label>
+                </div>
+                }
+                { this.state.stageType == "cinema-scope" &&
+                 <div className="custom-control custom-switch ml-3">
+                  <input id="cinemaMaskBottom" name="cinemaMaskBottom" className="custom-control-input" type="checkbox" value={this.state.cinemaMaskBottom} onChange={this.handleChangeState} checked={this.state.cinemaMaskBottom} />
+                  <label className="custom-control-label" htmlFor="cinemaMaskBottom">下帯</label>
+                </div>
+                }
               </div>
               {/*
-              <textarea className="form-control" name="textLine" value={this.state.currentImage.textLine.join("\n")} onChange={this.setText} placeholder="下帯に表示させるテキストを入力" />
-              */}
-              <textarea className="form-control" name="textLine" value={this.state.currentImage.textLine} onChange={this.setText} placeholder="下帯に表示させるテキストを入力" />
-            </div>
-            <div className="btn-group" role="group" aria-label="Basic example">
-              <label>
-                <span className="btn btn-light">
-                  <i className="fas fa-align-left"></i>
-                  <input type="button" name="textAlign" value="left" onClick={this.setText} style={{display: "none"}}/>
-                </span>
-              </label>
-              <label>
-                <span className="btn btn-light">
-                  <i className="fas fa-align-center"></i>
-                  <input type="button" name="textAlign" value="center" onClick={this.setText} style={{display: "none"}}/>
-                </span>
-              </label>
-              <label>
-                <span className="btn btn-light">
-                  <i className="fas fa-align-right"></i>
-                  <input type="button" name="textAlign" value="right" onClick={this.setText} style={{display: "none"}}/>
-                </span>
-              </label>
-              <div className="input-group col-2">
-                <input type="color"  className="" name="textColor" value={this.state.currentImage.textColor} onChange={this.setText} placeholder="テキストカラー" />
-
+              <div className="input-group mb-3">
+                <ul className="list-group text-dark">
+                  <li className="list-group-item p-2">Property</li>
+                  <li className="list-group-item"><i className="far fa-window-maximize mr-2"></i>{this.state.stageWidth} x {this.state.stageHeight}
+                  <i className="far fa-image ml-2 mr-2"></i>{this.state.currentImage.width} x {this.state.currentImage.height}</li>
+                </ul>
               </div>
-              <div className="form-group text-right">
-                <input type="range" id="fontSize" name="fontSize" className="form-control-range" value={this.state.currentImage.fontSize} onChange={this.setText} />Size:{this.state.currentImage.fontSize}
+              <div className="input-group mb-3">
+                <textarea className="form-control" value={JSON.stringify(this.state.images, null, 2)} />
               </div>
-            </div>
-
-            <div className="" role="group" aria-label="Basic example">
-              <div className="input-group pb-4">
-                <input type="color"  className="" name="maskColor" value={this.state.currentImage.maskColor} onChange={this.setText} placeholder="帯色" />
-                <span className="ml-2">帯色</span>
-              </div>
-              <div className="form-group pb-4">
-                <input type="range"  className="" name="maskOpacity" value={this.state.currentImage.maskOpacity} onChange={this.setText} />
-                <span className="ml-2">不透明度:{this.state.currentImage.maskOpacity}</span>
-              </div>
-
-              <div className="custom-control custom-switch ml-3">
-                <input id="cinemaMaskTop" name="cinemaMaskTop" className="custom-control-input" type="checkbox" value={this.state.cinemaMaskTop} onChange={this.handleChangeState} checked={this.state.cinemaMaskTop} />
-                <label className="custom-control-label" htmlFor="cinemaMaskTop">上帯</label>
-              </div>
-               <div className="custom-control custom-switch ml-3">
-                <input id="cinemaMaskBottom" name="cinemaMaskBottom" className="custom-control-input" type="checkbox" value={this.state.cinemaMaskBottom} onChange={this.handleChangeState} checked={this.state.cinemaMaskBottom} />
-                <label className="custom-control-label" htmlFor="cinemaMaskBottom">下帯</label>
-              </div>
-          
-            </div>
-            {/*
-            <div className="input-group mb-3">
-              <ul className="list-group text-dark">
-                <li className="list-group-item p-2">Property</li>
-                <li className="list-group-item"><i className="far fa-window-maximize mr-2"></i>{this.state.stageWidth} x {this.state.stageHeight}
-                <i className="far fa-image ml-2 mr-2"></i>{this.state.currentImage.width} x {this.state.currentImage.height}</li>
-              </ul>
-            </div>
-            <div className="input-group mb-3">
-              <textarea className="form-control" value={JSON.stringify(this.state.images, null, 2)} />
-            </div>
             */}
           </div>
+        </div>
         </div>
       </div>
       </React.Fragment>
