@@ -207,7 +207,6 @@ class StageTest extends React.Component {
     if (target.name == "frameScale") {
         var currentImage = this.state.currentImage
         currentImage.imageSizeSlider = defaultImageSizeSlider
-        currentImage.maskColor = "#ffffff"
         this.setState({currentImage: currentImage})
         this.handleSliderChangeBootstrap()
     }
