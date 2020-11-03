@@ -2,6 +2,7 @@ import React, {Component, useRef} from 'react';
 import { render } from 'react-dom';
 import { Stage, Layer, Rect, Transformer, Text } from 'react-konva';
 import InputSlider from './InputSlider';
+import "./CinemaScope.css"
 
 const windowWidth = window.screen.width;
 
@@ -138,13 +139,13 @@ const addButtonCss = {
 
 const scaleViewCss = {
     position: "absolute",
-    top: 50,
-    left: "4%",
+    bottom: "5%",
+    right: "5%",
     color: "#909090",
 }
 const downloadCss = {
     position: "absolute",
-    top: 0,
+    top: 10,
     right: "5%",
     color: "#909090",
 }
@@ -676,7 +677,7 @@ class StageTest extends React.Component {
             </label>
         </div>
         <div key="current-div" className="row">
-          <div className="col-sm-6 p-0 rounded-bottom" style={{backgroundImage: "linear-gradient(15deg, #ccc 80%, #fff 100%)"}}>
+          <div className="col-sm-6 pt-2 rounded-bottom" style={{backgroundImage: "linear-gradient(15deg, #ddcccc 10%, #eeeedd 100%)"}}>
               <ul className="nav nav-tabs border-0" role="tablist pd-0">
               <li className="nav-item">
                 <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("cinema-scope")}>シネスコ
@@ -828,9 +829,13 @@ class StageTest extends React.Component {
                 </div>
 
                 <div className="p-0 m-0" style={scaleViewCss}>
+                  { this.state.stageType == "cinema-scope" &&
                   <span>imagescale: { (this.state.currentImage.imageSizeSlider - 50) * 6 }</span>
+                  }
 
+                  { this.state.stageType == "frame" &&
                   <span className="ml-1">framescale: { this.state.frameScale } </span>
+                  }
                 </div>
                 <input className="btn btn-dark text-light mb-2" style={downloadCss} type="button" value="DownLoad" onClick={this.handleExportClick} />
                 <div className="col-sm-12 text-center">
