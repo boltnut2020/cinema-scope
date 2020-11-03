@@ -153,8 +153,7 @@ const downloadCss = {
 }
 const stageTypeCss = {
     fontSize: "0.85em",
-    backgroundImage: "linear-gradient(15deg, #ddcccc 0%, #eeeedd 100%)",
-    backgroundImage: "linear-gradient(15deg, #333 90%, #eeeedd 100%)"
+    background: "#333"
 }
 
 const thumbnailDivHeight = {
