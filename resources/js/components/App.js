@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link, BrowserRouter, Route, Switch} from 'react-router-dom'
 
-import CinemaScope from './CinemaScope'
+// import CinemaScope from './CinemaScope'
 import About from './About'
 import StageTest from './StageTest'
 

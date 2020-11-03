@@ -771,7 +771,7 @@ class StageTest extends React.Component {
                             y={maskRectangleTop.y}
                             fill={this.state.currentImage.maskColor || maskRectangleTop.fill}
                             width={maskRectangleTop.width}
-                            height={maskRectangleTop.height}
+                            height={Number(maskRectangleTop.height)}
                           />
                       }
                       {this.state.cinemaMaskBottom && 
@@ -782,7 +782,7 @@ class StageTest extends React.Component {
                             y={maskRectangleBottom.y}
                             fill={this.state.currentImage.maskColor || maskRectangleBottom.fill}
                             width={maskRectangleBottom.width}
-                            height={maskRectangleBottom.height}
+                            height={Number(maskRectangleBottom.height)}
                           />
                       }
 
@@ -794,7 +794,7 @@ class StageTest extends React.Component {
                         text={this.state.currentImage.textLine}
                         wrap="char"
                         lineHeight={1.4}
-                        height={stageHeight}
+                        height={Number(stageHeight)}
                         x={ this.state.currentImage.textX || (this.state.stageWidth / 2) - (this.countTextFirstLine() * this.state.currentImage.fontSize / 2)}
                         y={ this.state.currentImage.textY || ((this.state.stageHeight - this.state.maskHeight) + 25)}
                         fill={this.state.currentImage.textColor}
