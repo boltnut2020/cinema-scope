@@ -148,8 +148,14 @@ const downloadCss = {
     bottom: "0%",
     right: "5%",
     color: "#909090",
+    fontSize: "0.85em"
     
 }
+const stageTypeCss = {
+    fontSize: "0.85em",
+    backgroundImage: "linear-gradient(15deg, #ddcccc 10%, #eeeedd 100%)"
+}
+
 const thumbnailDivHeight = {
   background: "#000000",
 }
@@ -678,7 +684,7 @@ class StageTest extends React.Component {
             </label>
         </div>
         <div key="current-div" className="row">
-          <div className="col-sm-6 p-0 pt-2 rounded-bottom" style={{backgroundImage: "linear-gradient(15deg, #ddcccc 10%, #eeeedd 100%)"}}>
+          <div className="col-sm-6 p-0 pt-2 rounded-bottom" style={stageTypeCss}>
               <ul className="nav nav-tabs border-0" role="tablist pd-0">
               <li className="nav-item">
                 <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("cinema-scope")}>シネスコ
