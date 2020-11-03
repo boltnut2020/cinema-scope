@@ -682,9 +682,11 @@ class StageTest extends React.Component {
                 <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("cinema-scope")}>シネスコ
                 </a>
               </li>
+              {/*
               <li className="nav-item">
                 <a className="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">帯無し</a>
               </li>
+              */}
               <li className="nav-item">
                 <a className="nav-link" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="false" onClick={() => this.setStageType("frame")}>フレーム</a>
               </li>
@@ -845,9 +847,11 @@ class StageTest extends React.Component {
       
                 </div>
               </div>
+              {/*
               <div className="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
                 <CropCurrentImage state={this.state} images={this.state.images} />
               </div>
+              */}
             </div>
           </div>
           <div className="col-sm-6">
