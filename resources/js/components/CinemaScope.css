@@ -15,7 +15,7 @@ a {
 }
 
 .bg-silver {
-  background-image: linear-gradient(15deg, #000 80%, #ccc 100%);
+  background-image: linear-gradient(15deg, #000 90%, #ccc 100%);
 }
 
 .navbar-light .navbar-brand {
