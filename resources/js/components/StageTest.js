@@ -153,11 +153,11 @@ const downloadCss = {
 }
 const stageTypeCss = {
     fontSize: "0.85em",
-    backgroundImage: "linear-gradient(15deg, #ddcccc 10%, #eeeedd 100%)"
 }
 
 const thumbnailDivHeight = {
   background: "#000000",
+  minHeight: "60px",
 }
 const thumbnailCss = {
   maxWidth: "80px",
@@ -225,7 +225,7 @@ class StageTest extends React.Component {
     this.setStageSize()
     this.setCinemaScope()
     if (window.location.hostname == "localhost") {
-         this.setImages()
+         // this.setImages()
     }
 
     // console.log(this.stageRef)  

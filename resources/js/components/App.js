@@ -36,7 +36,7 @@ const App = () => {
                 </div>
              </div>
             </nav>
-            <main className="py-4">
+            <main className="">
             <Switch>
                 <Route path="/" exact component={StageTest} />
                 <Route path="/stage-test" exact component={StageTest} />

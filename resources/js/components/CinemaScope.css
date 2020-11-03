@@ -1,8 +1,10 @@
 body {
   /*background: #343a40;*/
-  background:#f8f9fa;
+  /*background:#f8f9fa;*/
   /*background-image: linear-gradient(15deg, #000 0%, #9EACB4 100%);*/
 
+
+  background-image: linear-gradient(15deg, #ddcccc 0%, #eeeedd 100%);
   color: #343a40;
 }
 
