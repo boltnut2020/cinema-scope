@@ -139,15 +139,16 @@ const addButtonCss = {
 
 const scaleViewCss = {
     position: "absolute",
-    bottom: "5%",
-    right: "5%",
+    bottom: "4%",
+    right: "20%",
     color: "#909090",
 }
 const downloadCss = {
     position: "absolute",
-    top: 10,
+    bottom: "0%",
     right: "5%",
     color: "#909090",
+    
 }
 const thumbnailDivHeight = {
   background: "#000000",
@@ -828,26 +829,23 @@ class StageTest extends React.Component {
                   </Stage>
                 </div>
 
-                <div className="p-0 m-0" style={scaleViewCss}>
-                  { this.state.stageType == "cinema-scope" &&
-                  <span>imagescale: { (this.state.currentImage.imageSizeSlider - 50) * 6 }</span>
-                  }
-
-                  { this.state.stageType == "frame" &&
-                  <span className="ml-1">framescale: { this.state.frameScale } </span>
-                  }
-                </div>
-                <input className="btn btn-dark text-light mb-2" style={downloadCss} type="button" value="DownLoad" onClick={this.handleExportClick} />
                 <div className="col-sm-12 text-center">
                   <div className="form-group">
 
                     {this.state.stageType == "cinema-scope" &&
                     <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
                     }
+                    { this.state.stageType == "cinema-scope" &&
+                    <span className="ml-2">{ (this.state.currentImage.imageSizeSlider - 50) * 6 }</span>
+                    }
 
                     {this.state.stageType == "frame" &&
                     <input type="range" id="frameScaleSlider" name="frameScale" className="" value={this.state.frameScale} onChange={this.handleChangeState} />
                     }
+                    { this.state.stageType == "frame" &&
+                    <span className="ml-2">{ this.state.frameScale } </span>
+                    }
+                    <input className="btn btn-dark text-light mt-2" style={downloadCss} type="button" value="DownLoad" onClick={this.handleExportClick} />
                   </div>
       
                 </div>
