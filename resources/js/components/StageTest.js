@@ -20,7 +20,7 @@ const defaultTextColor = "#ffffff"
 const defaultMaskColor = "#000000"
 const defaultTextAlign = "center"
 const defaultMaskOpacity = 100
-const defaultImageSizeSlider = 50
+const defaultImageSizeSlider = 55
 const defaultframeScaleSlider = 10
 const limitPixelSize = 2048
 const errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
@@ -450,7 +450,7 @@ class StageTest extends React.Component {
         frameScaleX = 1
         frameScaleY = 1
       }
-      newValue = defaultImageSizeSlider
+      newValue = 50
     } 
 
     if (event.target.name == "imageSizeSlider") {
@@ -465,8 +465,15 @@ class StageTest extends React.Component {
 
     currentImage.width = this.state.currentImage.widthBase * sizeScale * frameScaleX
     currentImage.height = this.state.currentImage.heightBase * sizeScale * frameScaleY
-    currentImage.x = frameScale / 2
-    currentImage.y = frameScale / 2
+
+    var x = 0
+    var y = 0
+    if (this.state.stageType != "frame") {
+      x = (this.state.stageWidth - currentImage.width)
+      y = (this.state.stageHeight - currentImage.height)
+    }
+    currentImage.x = (x + frameScale) / 2
+    currentImage.y = (y + frameScale) / 2
     // console.log(currentImage)
     this.setState({currentImage: currentImage})
   }
@@ -496,7 +503,7 @@ class StageTest extends React.Component {
         currentImage.textLine = []
     }
     if (!currentImage.imageSizeSlider) {
-        currentImage.imageSizeSlider = 50
+        currentImage.imageSizeSlider = defaultImageSizeSlider
     }
     if (!currentImage.textAlign) {
         currentImage.textAlign = "center"
@@ -669,7 +676,7 @@ class StageTest extends React.Component {
             </label>
         </div>
         <div key="current-div" className="row">
-          <div className="col-sm-6 p-0 rounded-bottom" style={{backgroundImage: "linear-gradient(15deg, #111 0%, #333 100%)"}}>
+          <div className="col-sm-6 p-0 rounded-bottom" style={{backgroundImage: "linear-gradient(15deg, #ccc 80%, #fff 100%)"}}>
               <ul className="nav nav-tabs border-0" role="tablist pd-0">
               <li className="nav-item">
                 <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("cinema-scope")}>シネスコ
@@ -960,7 +967,7 @@ const CropCurrentImage = props => {
     <>
     <div 
       style={{height: `${state.csDivHeight}`}}
-      className="col-sm-12 p-2"
+      className="col-sm-12 p-2 pl-lg-4"
     >
       <Stage
         ref={node => {stageRef = node }}
