@@ -870,7 +870,7 @@ class StageTest extends React.Component {
             </div>
           </div>
           <div className="col-sm-6">
-            <div className="card p-3 mt-2">
+            <div className="card p-3 mt-2 bg-silver text-white">
               <div className="input-group mb-2">
                 <div className="input-group-prepend">
                   <span className="input-group-text">Text</span>

@@ -1,10 +1,8 @@
 body {
   /*background: #343a40;*/
-  /*background:#f8f9fa;*/
+  background:#000;
   /*background-image: linear-gradient(15deg, #000 0%, #9EACB4 100%);*/
-
-
-  background-image: linear-gradient(15deg, #ddcccc 0%, #eeeedd 100%);
+  /*background-image: linear-gradient(15deg, #ddcccc 0%, #eeeedd 100%);*/
   color: #343a40;
 }
 
@@ -16,6 +14,7 @@ a {
 
 .bg-silver {
   background-image: linear-gradient(15deg, #000 90%, #ccc 100%);
+  background: #000;
 }
 
 .navbar-light .navbar-brand {
