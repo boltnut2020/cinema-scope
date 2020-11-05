@@ -138,13 +138,13 @@ const addButtonCss = {
 }
 
 const scaleViewCss = {
-    width: "70%",
+    width: "60%",
 }
 
 const downloadCss = {
     color: "#909090",
     fontSize: "0.85em",
-    textAlign: "right"
+    textAlign: "right",
     
 }
 
