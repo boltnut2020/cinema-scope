@@ -149,7 +149,7 @@ const downloadCss = {
 }
 
 const frameScaleCss = {
-    width: "40px",
+    width: "30px",
     display: "inline-block",
 }
 
