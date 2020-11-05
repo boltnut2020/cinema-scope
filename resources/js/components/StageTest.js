@@ -857,7 +857,7 @@ class StageTest extends React.Component {
                     { this.state.stageType == "frame" &&
                     <span className="ml-2 text-light">{ this.state.frameScale } </span>
                     }
-                    <input className="btn btn-dark text-light ml-3" style={downloadCss} type="button" value="Download" onClick={this.handleExportClick} />
+                    <input className="btn btn-dark text-light ml-2" style={downloadCss} type="button" value="Download" onClick={this.handleExportClick} />
                   </div>
       
                 </div>
