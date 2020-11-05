@@ -184,6 +184,7 @@ class StageTest extends React.Component {
         cinemaMaskBottom: true,
         maskHeight: 0,
         csDivHeight: 0,
+        imageDraggable: true,
         frameScale: defaultframeScaleSlider,
     }
     this.setStageSize = this.setStageSize.bind(this);
@@ -283,9 +284,12 @@ class StageTest extends React.Component {
   }
 
   setStageType(type) {
+
     this.setState({
       stageType: type
     });
+    var imageDraggable = (type == "cinema-scope") ? true : false
+    this.setState({imageDraggable: imageDraggable})
     this.setStageSize()
     this.setCurrentImage(this.state.currentImageIndex)
 
@@ -756,7 +760,7 @@ class StageTest extends React.Component {
                         fillPatternScaleX={this.state.currentImage.scaleX}
                         fillPatternScaleY={this.state.currentImage.scaleY}
                         filPatternRepeat = "no-repeat"
-                        draggable={true}
+                        draggable={this.state.imageDraggable}
                         onMouseUp={this.handleDragEnd}
                         onTouchEnd={this.handleDragEnd}
                       />
@@ -848,16 +852,16 @@ class StageTest extends React.Component {
                     <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
                     }
                     { this.state.stageType == "cinema-scope" &&
-                    <span className="ml-2">{ (this.state.currentImage.imageSizeSlider - 50) * 6 }</span>
+                    <span className="ml-2 text-light">{ (this.state.currentImage.imageSizeSlider - 50) * 4 }</span>
                     }
 
                     {this.state.stageType == "frame" &&
                     <input type="range" id="frameScaleSlider" name="frameScale" className="" value={this.state.frameScale} onChange={this.handleChangeState} />
                     }
                     { this.state.stageType == "frame" &&
-                    <span className="ml-2">{ this.state.frameScale } </span>
+                    <span className="ml-2 text-light">{ this.state.frameScale } </span>
                     }
-                    <input className="btn btn-dark text-light mt-2" style={downloadCss} type="button" value="DownLoad" onClick={this.handleExportClick} />
+                    <input className="btn btn-dark text-light" style={downloadCss} type="button" value="Download" onClick={this.handleExportClick} />
                   </div>
       
                 </div>
@@ -915,7 +919,7 @@ class StageTest extends React.Component {
                 </div>
 
                 { this.state.stageType == "cinema-scope" &&
-                <div className="form-group pb-4">
+                <div className="form-group pb-2">
                   <input type="range"  className="" name="maskOpacity" value={this.state.currentImage.maskOpacity} onChange={this.setText} />
                   <span className="ml-2">不透明度:{this.state.currentImage.maskOpacity}</span>
                 </div>
@@ -1006,6 +1010,7 @@ const CropCurrentImage = props => {
             fillPatternScaleX={state.currentImage.scaleX}
             fillPatternScaleY={state.currentImage.scaleY}
             filPatternRepeat = "no-repeat"
+            draggable={false}
         />
         </>
         }
