@@ -138,17 +138,13 @@ const addButtonCss = {
 }
 
 const scaleViewCss = {
-    position: "absolute",
-    bottom: "4%",
-    right: "20%",
-    color: "#909090",
+    width: "70%",
 }
+
 const downloadCss = {
-    position: "absolute",
-    bottom: "0%",
-    right: "5%",
     color: "#909090",
-    fontSize: "0.85em"
+    fontSize: "0.85em",
+    textAlign: "right"
     
 }
 const stageTypeCss = {
@@ -849,7 +845,7 @@ class StageTest extends React.Component {
                   <div className="form-group">
 
                     {this.state.stageType == "cinema-scope" &&
-                    <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="" value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
+                    <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="" style={scaleViewCss} value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
                     }
                     { this.state.stageType == "cinema-scope" &&
                     <span className="ml-2 text-light">{ (this.state.currentImage.imageSizeSlider - 50) * 4 }</span>
@@ -861,7 +857,7 @@ class StageTest extends React.Component {
                     { this.state.stageType == "frame" &&
                     <span className="ml-2 text-light">{ this.state.frameScale } </span>
                     }
-                    <input className="btn btn-dark text-light" style={downloadCss} type="button" value="Download" onClick={this.handleExportClick} />
+                    <input className="btn btn-dark text-light ml-3" style={downloadCss} type="button" value="Download" onClick={this.handleExportClick} />
                   </div>
       
                 </div>
