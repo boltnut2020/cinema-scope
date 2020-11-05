@@ -147,6 +147,12 @@ const downloadCss = {
     textAlign: "right"
     
 }
+
+const frameScaleCss = {
+    width: "40px",
+    display: "inline-block",
+}
+
 const stageTypeCss = {
     fontSize: "0.85em",
     background: "#333"
@@ -156,10 +162,12 @@ const thumbnailDivHeight = {
   background: "#000000",
   minHeight: "60px",
 }
+
 const thumbnailCss = {
   maxWidth: "80px",
   maxHeight: "60px"
 }
+
 class StageTest extends React.Component {
 
   constructor(props) {
@@ -848,14 +856,14 @@ class StageTest extends React.Component {
                     <input type="range" id="imageSizeSlider" name="imageSizeSlider" className="" style={scaleViewCss} value={this.state.currentImage.imageSizeSlider} onChange={this.handleSliderChangeBootstrap} />
                     }
                     { this.state.stageType == "cinema-scope" &&
-                    <span className="ml-2 text-light">{ (this.state.currentImage.imageSizeSlider - 50) * 4 }</span>
+                    <span className="ml-2 text-light" style={frameScaleCss} >{ (this.state.currentImage.imageSizeSlider - 50) * 4 }</span>
                     }
 
                     {this.state.stageType == "frame" &&
-                    <input type="range" id="frameScaleSlider" name="frameScale" className="" value={this.state.frameScale} onChange={this.handleChangeState} />
+                    <input type="range" id="frameScaleSlider" name="frameScale" className="" style={scaleViewCss} value={this.state.frameScale} onChange={this.handleChangeState} />
                     }
                     { this.state.stageType == "frame" &&
-                    <span className="ml-2 text-light">{ this.state.frameScale } </span>
+                    <span className="ml-2 text-light" style={frameScaleCss}>{ this.state.frameScale } </span>
                     }
                     <input className="btn btn-dark text-light ml-2" style={downloadCss} type="button" value="Download" onClick={this.handleExportClick} />
                   </div>
