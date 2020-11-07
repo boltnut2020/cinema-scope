@@ -684,7 +684,7 @@ class StageTest extends React.Component {
             })}
             {this.state.images.length === 0 &&
             <span className="text-center align-middle text-secondary w-100 pt-3">
-              no image
+              Please tap「+」to upload image..
             </span>
             }
             </div>
