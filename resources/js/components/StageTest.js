@@ -8,9 +8,10 @@ const windowWidth = window.screen.width;
 
 let stageWidth = 1280
 let stageHeight = 960
+stageHeight = 720
 //if ( window.screen.width > 768 && window.innerWidth > 768) {
 //  stageWidth = 2048
-//  stageHeight = 1536
+//  // stageHeight = 1536
 //  stageHeight = 1152
 //}
 
@@ -453,7 +454,7 @@ class StageTest extends React.Component {
     var frameScaleX = 1
     var frameScaleY = 1
     var newValue = this.state.currentImage.imageSizeSlider
-    if (this.state.stageType == "frame") {
+    if (this.state.stageType == "frame" || this.state.stageType == "web") {
       frameScale = this.state.currentImage.frameScale * 2
       // 10 /100
       // 20 /100
@@ -703,7 +704,7 @@ class StageTest extends React.Component {
           <div className="col-sm-6 p-0 pt-2 rounded-bottom" style={stageTypeCss}>
               <ul className="nav nav-tabs border-0" role="tablist pd-0">
               <li className="nav-item">
-                <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("web")}>Web用(1280px)
+                <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("web")}>Web用リサイズ<br />(1280px)
                 </a>
               </li>
               <li className="nav-item">
