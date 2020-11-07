@@ -589,6 +589,7 @@ class StageTest extends React.Component {
            url = window.URL.createObjectURL(imageFile)
            var newItem = {
              src: url,
+             name: file.name,
              id: 'rect' + (this.state.images.length + 1),
              width: width.toFixed(),
              height: height.toFixed(),
@@ -653,7 +654,7 @@ class StageTest extends React.Component {
   handleExportClick() {
     var uri = this.stageRef.getStage().toDataURL({mimeType: "image/jpeg", quality: 1});
     var link = document.createElement('a');
-    link.download = "cinema-scope.jpg";
+    link.download = this.state.stageType + "-" + this.state.currentImage.name;
     link.href = uri;
      document.body.appendChild(link);
     link.click();

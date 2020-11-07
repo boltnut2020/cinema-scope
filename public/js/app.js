@@ -114878,6 +114878,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
             url = window.URL.createObjectURL(imageFile);
             var newItem = {
               src: url,
+              name: file.name,
               id: 'rect' + (_this4.state.images.length + 1),
               width: width.toFixed(),
               height: height.toFixed(),
@@ -114955,7 +114956,7 @@ var StageTest = /*#__PURE__*/function (_React$Component) {
         quality: 1
       });
       var link = document.createElement('a');
-      link.download = "cinema-scope.jpg";
+      link.download = this.state.stageType + "-" + this.state.currentImage.name;
       link.href = uri;
       document.body.appendChild(link);
       link.click();
