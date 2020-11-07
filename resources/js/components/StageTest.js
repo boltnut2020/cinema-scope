@@ -8,12 +8,11 @@ const windowWidth = window.screen.width;
 
 let stageWidth = 1280
 let stageHeight = 960
-stageHeight = 720
-if ( window.screen.width > 768 && window.innerWidth > 768) {
-  stageWidth = 2048
-  stageHeight = 1536
-  stageHeight = 1152
-}
+//if ( window.screen.width > 768 && window.innerWidth > 768) {
+//  stageWidth = 2048
+//  stageHeight = 1536
+//  stageHeight = 1152
+//}
 
 const thumbnailWidth = 96
 const defaultFontSize = 30
@@ -232,7 +231,7 @@ class StageTest extends React.Component {
     this.setStageSize()
     this.setCinemaScope()
     if (window.location.hostname == "localhost") {
-        this.setImages()
+        // this.setImages()
     }
 
     // console.log(this.stageRef)  
@@ -398,7 +397,7 @@ class StageTest extends React.Component {
 
   async setCurrentImage(index) {
 
-    if(index == undefined) {
+    if(index == undefined && this.state.currentImage.src != "") {
         return false
     }
     // console.log("set Current Image")
@@ -485,7 +484,7 @@ class StageTest extends React.Component {
 
     var x = 0
     var y = 0
-    if (this.state.stageType != "frame") {
+    if (this.state.stageType != "frame" && this.state.stageType != "web") {
       x = (this.state.stageWidth - currentImage.width)
       y = (this.state.stageHeight - currentImage.height)
     }
@@ -734,7 +733,6 @@ class StageTest extends React.Component {
                         x={this.state.bgRectangle.x}
                         y={this.state.bgRectangle.y}
                         fill={bgRectangleFill}
-                        fillPatternImage={bgImage()}
                         fillPatternScaleX={this.state.bgRectangle.fillPatternScaleX}
                         fillPatternScaleY={this.state.bgRectangle.fillPatternScaleY}
                         width={this.state.bgRectangle.width}
