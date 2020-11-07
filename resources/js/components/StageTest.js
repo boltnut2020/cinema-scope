@@ -22,7 +22,7 @@ const defaultMaskColor = "#000000"
 const defaultTextAlign = "center"
 const defaultMaskOpacity = 100
 const defaultImageSizeSlider = 55
-const defaultframeScaleSlider = 10
+const defaultFrameScaleSlider = 10
 const limitPixelSize = 2048
 const errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 const defaultScale="scale(0.5)"
@@ -74,6 +74,7 @@ const bgImage = () => {
   return image
 }
 
+const noImageMessage = "Please tap「+」to upload image.."
 const appDescription = `
 Hello World!\n
 このページはシネマスクリーンレイアウトの
@@ -182,14 +183,14 @@ class StageTest extends React.Component {
         transform: defaultScale,
         images: [],
         maskRectangles: maskRectangles,
-        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: defaultImageSizeSlider, maskOpacity: 70, textX: null, textY: null },
+        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: defaultImageSizeSlider, frameScale: defaultFrameScaleSlider, maskOpacity: 70, textX: null, textY: null },
         currentImageIndex: 0,
         cinemaMaskTop: true,
         cinemaMaskBottom: true,
         maskHeight: 0,
         csDivHeight: 0,
         imageDraggable: true,
-        frameScale: defaultframeScaleSlider,
+        frameScale: defaultFrameScaleSlider,
     }
     this.setStageSize = this.setStageSize.bind(this);
     this.setStageType = this.setStageType.bind(this);
@@ -220,7 +221,7 @@ class StageTest extends React.Component {
 
     if (target.name == "frameScale") {
         var currentImage = this.state.currentImage
-        currentImage.imageSizeSlider = defaultImageSizeSlider
+        currentImage.frameScale = value
         this.setState({currentImage: currentImage})
         this.handleSliderChangeBootstrap()
     }
@@ -231,7 +232,7 @@ class StageTest extends React.Component {
     this.setStageSize()
     this.setCinemaScope()
     if (window.location.hostname == "localhost") {
-         this.setImages()
+        this.setImages()
     }
 
     // console.log(this.stageRef)  
@@ -262,7 +263,6 @@ class StageTest extends React.Component {
       var bgRectangle = this.state.bgRectangle
       bgRectangle.height = newStageHeight
       this.setState({bgRectangle: bgRectangle})
-      this.setState({frameScale: this.state.frameScale})
 
     }
 
@@ -455,7 +455,7 @@ class StageTest extends React.Component {
     var frameScaleY = 1
     var newValue = this.state.currentImage.imageSizeSlider
     if (this.state.stageType == "frame") {
-      frameScale = this.state.frameScale * 2
+      frameScale = this.state.currentImage.frameScale * 2
       // 10 /100
       // 20 /100
       frameScaleX = 1 - frameScale / this.state.currentImage.widthBase
@@ -521,6 +521,9 @@ class StageTest extends React.Component {
     }
     if (!currentImage.imageSizeSlider) {
         currentImage.imageSizeSlider = defaultImageSizeSlider
+    }
+    if (!currentImage.frameScale) {
+        currentImage.frameScale = defaultFrameScaleSlider
     }
     if (!currentImage.textAlign) {
         currentImage.textAlign = "center"
@@ -684,7 +687,7 @@ class StageTest extends React.Component {
             })}
             {this.state.images.length === 0 &&
             <span className="text-center align-middle text-secondary w-100 pt-3">
-              Please tap「+」to upload image..
+              {noImageMessage}
             </span>
             }
             </div>
