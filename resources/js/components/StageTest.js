@@ -174,7 +174,7 @@ class StageTest extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-        stageType: "cinema-scope",
+        stageType: "web",
         stageWidth: stageWidth,
         stageHeight: stageHeight,
         stageDivWidth: stageWidth,
@@ -256,7 +256,7 @@ class StageTest extends React.Component {
     var bgRectangle = this.state.bgRectangle
     bgRectangle.height = stageHeight
     this.setState({bgRectangle: bgRectangle})
-    if (this.state.stageType == "frame") {
+    if (this.state.stageType == "frame" || this.state.stageType == "web") {
         
       var newStageHeight = this.state.stageWidth * this.state.currentImage.pixelRetio
       this.setState({stageHeight: newStageHeight})
@@ -704,16 +704,15 @@ class StageTest extends React.Component {
           <div className="col-sm-6 p-0 pt-2 rounded-bottom" style={stageTypeCss}>
               <ul className="nav nav-tabs border-0" role="tablist pd-0">
               <li className="nav-item">
-                <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("cinema-scope")}>シネスコ
+                <a className="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("web")}>Web用(1280px)
                 </a>
               </li>
-              {/*
-              <li className="nav-item">
-                <a className="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">帯無し</a>
-              </li>
-              */}
               <li className="nav-item">
                 <a className="nav-link" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="false" onClick={() => this.setStageType("frame")}>フレーム</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" name="stageType" value="cinema-scope" onClick={() => this.setStageType("cinema-scope")}>シネスコ
+                </a>
               </li>
 
             </ul>
