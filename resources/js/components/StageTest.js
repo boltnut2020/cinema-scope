@@ -24,6 +24,7 @@ const defaultMaskOpacity = 100
 const defaultImageSizeSlider = 55
 const defaultFrameScaleSlider = 10
 const limitPixelSize = 2048
+const defaultPixelRetio = stageHeight / stageWidth
 const errorLimitPixelSize = "画像の寸法が" + limitPixelSize + "px を超えています。LightRoomの書き出しサイズ(小)などで調整してみてください。"
 const defaultScale="scale(0.5)"
 
@@ -77,27 +78,29 @@ const bgImage = () => {
 const noImageMessage = "Please tap「+」to upload image.."
 const appDescription = `
 Hello World!\n
-このページはシネマスクリーンレイアウトの
-簡易的な画像加工アプリです。
-
-『出来る事』
+このページはWeb上で完結する簡単な画像加工アプリです。
 
 
-「+」ボタンで画像ファイルを選択しステージに設置
+■ Web用リサイズ
 
-(複数可能)
+画像を「+」ボタンから選択すると横幅1280pxの比率でステージに配置されます。
+ブログなどWEBでの利用用途を想定しています。
+(複数画像可能)
+⇩
 
-タップでステージ内の画像移動、ズームバーで拡大、縮小
+■ フレーム、シネスコ
 
-下帯に表示させるテキストを設定
-（移動できます）
+画像にフレームを付けたり、シネマスクリーン比率の帯を設定します。
+それぞれフレームの幅指定、画像のズームに対応しています。
+⇩
 
-DownLoadボタンで画像をダウンロード
-
+また画像にテキストの設定が可能でドラッグで移動できます。
+画像はDownLoadボタンからダウンロード可能です。
+⇩
 
 ※動作確認
-今のところAndroid, PCでのChromeブラウザのみで確認済みです。
-
+現在のところメインはAndroid, PCでのChromeブラウザで動作確認していますが、
+iPhone safariでも一部確認済みです。
 
 `
 
@@ -183,7 +186,22 @@ class StageTest extends React.Component {
         transform: defaultScale,
         images: [],
         maskRectangles: maskRectangles,
-        currentImage:{src:"", textLine: "", textColor: defaultTextColor, maskColor: defaultMaskColor,  fontSize: defaultFontSize, width: 0, height: 0, textAlign: defaultTextAlign, imageSizeSlider: defaultImageSizeSlider, frameScale: defaultFrameScaleSlider, maskOpacity: 70, textX: null, textY: null },
+        currentImage:{
+            src:"",
+            textLine: "",
+            textColor: defaultTextColor,
+            maskColor: defaultMaskColor,
+            fontSize: defaultFontSize,
+            width: 0,
+            height: 0,
+            textAlign: defaultTextAlign,
+            imageSizeSlider: defaultImageSizeSlider,
+            frameScale: defaultFrameScaleSlider,
+            maskOpacity: 70,
+            textX: null,
+            textY: null, 
+            pixelRetio: defaultPixelRetio
+        },
         currentImageIndex: 0,
         cinemaMaskTop: true,
         cinemaMaskBottom: true,
@@ -242,9 +260,6 @@ class StageTest extends React.Component {
     // console.log("Did Update")
     if( this.state.images.length > 0 && this.state.currentImage.src == "") {
        this.setCurrentImage(0)
-
-       // this.handleSliderChangeBootstrap()
-       // this.setStageSize()
     }
     // console.log(this.state.images)
   }
@@ -314,7 +329,7 @@ class StageTest extends React.Component {
           width = limitPixelSize;
         }
 
-        var pixelRetio = Number(height) / Number(width)
+        var pixelRetio = height / width
         testImage.width = width
         testImage.height = height
         testImage.x = 0,
@@ -663,10 +678,12 @@ class StageTest extends React.Component {
   }
 
   render() {
-
+    console.log("bgRectangle")
+    console.log(this.state.bgRectangle)
+    console.log("bgRectangleText")
+    console.log(bgRectangleText)
     let maskRectangleTop = false
     let maskRectangleBottom = false
-    // console.log(this.state.currentImage)
     if (this.state.stageType == "cinema-scope") {
       maskRectangleTop = this.state.maskRectangles[0]
       maskRectangleBottom = this.state.maskRectangles[1]
