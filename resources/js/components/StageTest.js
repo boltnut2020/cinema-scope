@@ -106,7 +106,7 @@ iPhone safariでも一部確認済みです。
 
 const bgRectangleText = {
     x: 0,
-    y: 200,
+    y: 100,
     width: stageWidth,
     height: stageHeight * 3,
     fill: '#ffffff',
