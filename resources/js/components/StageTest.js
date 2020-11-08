@@ -250,7 +250,7 @@ class StageTest extends React.Component {
     this.setStageSize()
     this.setCinemaScope()
     if (window.location.hostname == "localhost") {
-        // this.setImages()
+        this.setImages()
     }
 
     // console.log(this.stageRef)  
@@ -469,6 +469,11 @@ class StageTest extends React.Component {
     var frameScaleX = 1
     var frameScaleY = 1
     var newValue = this.state.currentImage.imageSizeSlider
+
+    if (this.state.stageType == "web") {
+      newValue = 50
+    }
+
     if (this.state.stageType == "frame") {
       frameScale = this.state.currentImage.frameScale * 2
       // 10 /100
