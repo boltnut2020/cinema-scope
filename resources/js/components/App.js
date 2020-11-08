@@ -13,7 +13,7 @@ const App = () => {
           <nav className="navbar navbar-expand-md navbar-light bg-silver shadow-sm">
             <div className="container">
               <a className="navbar-brand" href="/">
-                  CinemaScope
+                  シネスコツール
               </a>
 {/*
               <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
