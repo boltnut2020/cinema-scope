@@ -5,6 +5,7 @@ import {Link, BrowserRouter, Route, Switch} from 'react-router-dom'
 // import CinemaScope from './CinemaScope'
 import About from './About'
 import StageTest from './StageTest'
+import Card from './Card'
 
 const App = () => {
     return (
@@ -24,12 +25,12 @@ const App = () => {
                   <ul className="navbar-nav mr-auto">
                       <li className="nav-item">
                         <Link to="/" className="nav-link">
-                            Top
+                            フレーム
                         </Link>
                       </li>
                       <li className="nav-item">
-                        <Link to="/about" className="nav-link">
-                            About
+                        <Link to="/card" className="nav-link">
+                            カード
                         </Link>
                       </li>
                   </ul>
@@ -40,6 +41,7 @@ const App = () => {
             <Switch>
                 <Route path="/" exact component={StageTest} />
                 <Route path="/stage-test" exact component={StageTest} />
+                <Route path="/card" exact component={Card} />
             </Switch>
             </main>
         </React.Fragment>
