@@ -113966,26 +113966,17 @@ var App = function App() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "navbar navbar-expand-md navbar-light bg-silver shadow-sm"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "container"
+    className: "container justify-content-start"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "navbar-brand",
     href: "/"
-  }, "\u30B7\u30CD\u30B9\u30B3\u30C4\u30FC\u30EB"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "collapse navbar-collapse",
-    id: "navbarSupportedContent"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "navbar-nav mr-auto"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+  }, "\u30B7\u30CD\u30B9\u30B3\u30C4\u30FC\u30EB"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     to: "/",
-    className: "nav-link"
-  }, "\u30D5\u30EC\u30FC\u30E0")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+    className: "btn btn-dark"
+  }, "\u30D5\u30EC\u30FC\u30E0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     to: "/card",
-    className: "nav-link"
-  }, "\u30AB\u30FC\u30C9")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
+    className: "btn btn-dark"
+  }, "\u30AB\u30FC\u30C9")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
     className: ""
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: "/",
@@ -114132,18 +114123,20 @@ var bgRectangleText = {
   id: 'backgroundText',
   line: appDescription
 };
+var maskTopPercentage = 0.12;
+var maskBottomPercentage = 0.16;
 var maskRectangles = [{
   x: 0,
   y: 0,
   width: windowWidth,
-  height: stageHeight * 0.12,
+  height: stageHeight * maskTopPercentage,
   fill: '#000000',
   id: 'topmask'
 }, {
   x: 0,
   y: 0,
   width: windowWidth,
-  height: stageHeight * 0.16,
+  height: stageHeight * maskBottomPercentage,
   fill: '#000000',
   id: 'bottommask'
 }];
@@ -114269,15 +114262,6 @@ var Card = /*#__PURE__*/function (_React$Component) {
       var value = target.type === "checkbox" ? target.checked : target.value;
       var name = target.name;
       this.setState(_defineProperty({}, name, value));
-
-      if (target.name == "frameScale") {
-        var currentImage = this.state.currentImage;
-        currentImage.frameScale = value;
-        this.setState({
-          currentImage: currentImage
-        });
-        this.handleSliderChangeBootstrap();
-      }
     }
   }, {
     key: "componentDidMount",
@@ -114312,19 +114296,6 @@ var Card = /*#__PURE__*/function (_React$Component) {
       this.setState({
         bgRectangle: bgRectangle
       });
-
-      if (this.state.stageType == "frame" || this.state.stageType == "web") {
-        var newStageHeight = this.state.stageWidth * this.state.currentImage.pixelRetio;
-        this.setState({
-          stageHeight: newStageHeight
-        });
-        var bgRectangle = this.state.bgRectangle;
-        bgRectangle.height = newStageHeight;
-        this.setState({
-          bgRectangle: bgRectangle
-        });
-      }
-
       var scaleX = 1;
 
       if (window.screen.width > 768 && window.innerWidth > 768) {
@@ -114432,23 +114403,12 @@ var Card = /*#__PURE__*/function (_React$Component) {
 
       if (event.target.name == "textAlign") {
         // console.log( event.target.value)
-        var textX = 0;
-
         switch (event.target.value) {
-          case "left":
-            textX = "10";
-            break;
-
-          case "right":
-            textX = this.state.stageWidth - this.countTextFirstLine() * this.state.currentImage.fontSize - 10;
-            break;
-
           case "center":
-            textX = this.state.stageWidth / 2 - this.countTextFirstLine() * this.state.currentImage.fontSize / 2;
+            currentImage.textX = 0;
+            currentImage.textTitleX = 0;
             break;
         }
-
-        currentImage.textX = textX;
       }
 
       if (event.target.name == "maskColor") {
@@ -114590,27 +114550,6 @@ var Card = /*#__PURE__*/function (_React$Component) {
       var frameScaleY = 1;
       var newValue = this.state.currentImage.imageSizeSlider;
 
-      if (this.state.stageType == "web") {
-        newValue = 50;
-      }
-
-      if (this.state.stageType == "frame") {
-        frameScale = this.state.currentImage.frameScale * 2; // 10 /100
-        // 20 /100
-
-        frameScaleX = 1 - frameScale / this.state.currentImage.widthBase;
-        frameScaleY = 1 - frameScale / this.state.currentImage.heightBase; // console.log("fX" + frameScaleX)
-        // console.log("fY" + frameScaleY)
-        // console.log("fS" + frameScale)
-
-        if (frameScale === 1) {
-          frameScaleX = 1;
-          frameScaleY = 1;
-        }
-
-        newValue = 50;
-      }
-
       if (event.target.name == "imageSizeSlider") {
         newValue = event.target.value || this.state.currentImage.imageSizeSlider;
       }
@@ -114622,16 +114561,10 @@ var Card = /*#__PURE__*/function (_React$Component) {
       currentImage.scaleY = this.state.currentImage.scaleYBase * sizeScale * frameScaleY;
       currentImage.width = this.state.currentImage.widthBase * sizeScale * frameScaleX;
       currentImage.height = this.state.currentImage.heightBase * sizeScale * frameScaleY;
-      var x = 0;
-      var y = 0;
-
-      if (this.state.stageType != "frame" && this.state.stageType != "web") {
-        x = this.state.stageWidth - currentImage.width;
-        y = this.state.stageHeight - currentImage.height;
-      }
-
-      currentImage.x = (x + frameScale) / 2;
-      currentImage.y = (y + frameScale) / 2; // console.log(currentImage)
+      var x = this.state.stageWidth - currentImage.width;
+      var y = this.state.stageHeight * maskTopPercentage;
+      currentImage.x = x / 2;
+      currentImage.y = y; // console.log(currentImage)
 
       this.setState({
         currentImage: currentImage
@@ -114654,6 +114587,22 @@ var Card = /*#__PURE__*/function (_React$Component) {
 
       if (!currentImage.textTitle) {
         currentImage.textTitle = "";
+      }
+
+      if (!currentImage.textTitleY) {
+        if (currentImage.pixelRetio < 1) {
+          currentImage.textTitleY = currentImage.height + this.state.stageHeight * maskTopPercentage + 60;
+        } else {
+          currentImage.textTitleY = this.state.stageHeight - this.state.stageHeight * maskBottomPercentage + 30;
+        }
+      }
+
+      if (!currentImage.textY) {
+        if (currentImage.pixelRetio < 1) {
+          currentImage.textY = currentImage.height + this.state.stageHeight * maskTopPercentage + 160;
+        } else {
+          currentImage.textY = this.state.stageHeight - this.state.stageHeight * maskBottomPercentage + 120;
+        }
       }
 
       if (!currentImage.imageSizeSlider) {
@@ -114859,10 +114808,6 @@ var Card = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this6 = this;
 
-      console.log("bgRectangle");
-      console.log(this.state.bgRectangle);
-      console.log("bgRectangleText");
-      console.log(bgRectangleText);
       var maskRectangleTop = false;
       var maskRectangleBottom = false;
 
@@ -115014,8 +114959,10 @@ var Card = /*#__PURE__*/function (_React$Component) {
         wrap: "char",
         lineHeight: 1.4,
         letterSpacing: 2,
+        width: this.state.stageWidth,
         height: Number(stageHeight),
-        x: this.state.currentImage.textTitleX || this.state.stageWidth / 2 - this.countTextFirstLine("title") * this.state.currentImage.fontSize / 2,
+        align: "center",
+        x: this.state.currentImage.textTitleX,
         y: this.state.currentImage.textTitleY || this.state.stageHeight - maskRectangleBottom.height + 30,
         fill: this.state.currentImage.textColor,
         draggable: true,
@@ -115033,7 +114980,9 @@ var Card = /*#__PURE__*/function (_React$Component) {
         wrap: "char",
         lineHeight: 1.4,
         letterSpacing: 2,
-        x: this.state.currentImage.textX || this.state.stageWidth / 2 - this.countTextFirstLine() * this.state.currentImage.fontSize / 2,
+        align: "center",
+        width: this.state.stageWidth,
+        x: this.state.currentImage.textX,
         y: this.state.currentImage.textY || this.state.stageHeight - maskRectangleBottom.height + 105,
         fill: this.state.currentImage.textColor,
         draggable: true,
@@ -115054,21 +115003,10 @@ var Card = /*#__PURE__*/function (_React$Component) {
         style: scaleViewCss,
         value: this.state.currentImage.imageSizeSlider,
         onChange: this.handleSliderChangeBootstrap
-      }), this.state.stageType == "cinema-scope" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      }), this.state.stageType == "card4x5" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "ml-2 text-light",
         style: frameScaleCss
-      }, (this.state.currentImage.imageSizeSlider - 50) * 4), this.state.stageType == "frame" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        type: "range",
-        id: "frameScaleSlider",
-        name: "frameScale",
-        className: "",
-        style: scaleViewCss,
-        value: this.state.frameScale,
-        onChange: this.handleChangeState
-      }), this.state.stageType == "frame" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "ml-2 text-light",
-        style: frameScaleCss
-      }, this.state.frameScale, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+      }, (this.state.currentImage.imageSizeSlider - 50) * 4), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         className: "btn btn-dark text-light ml-2",
         style: downloadCss,
         type: "button",
@@ -115109,35 +115047,11 @@ var Card = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "btn btn-light"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fas fa-align-left"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        type: "button",
-        name: "textAlign",
-        value: "left",
-        onClick: this.setText,
-        style: {
-          display: "none"
-        }
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "btn btn-light"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "fas fa-align-center"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "button",
         name: "textAlign",
         value: "center",
-        onClick: this.setText,
-        style: {
-          display: "none"
-        }
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "btn btn-light"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
-        className: "fas fa-align-right"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-        type: "button",
-        name: "textAlign",
-        value: "right",
         onClick: this.setText,
         style: {
           display: "none"
@@ -115175,7 +115089,7 @@ var Card = /*#__PURE__*/function (_React$Component) {
         placeholder: "\u5E2F\u8272"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "ml-2"
-      }, "\u5E2F\u8272")), this.state.stageType == "cinema-scope" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, "\u5E2F\u8272")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group pb-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "range",
@@ -115185,7 +115099,7 @@ var Card = /*#__PURE__*/function (_React$Component) {
         onChange: this.setText
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: "ml-2"
-      }, "\u4E0D\u900F\u660E\u5EA6:", this.state.currentImage.maskOpacity)), this.state.stageType == "cinema-scope" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, "\u4E0D\u900F\u660E\u5EA6:", this.state.currentImage.maskOpacity)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "custom-control custom-switch ml-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         id: "cinemaMaskTop",
@@ -115198,7 +115112,7 @@ var Card = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         className: "custom-control-label",
         htmlFor: "cinemaMaskTop"
-      }, "\u4E0A\u5E2F")), this.state.stageType == "cinema-scope" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, "\u4E0A\u5E2F")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "custom-control custom-switch ml-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         id: "cinemaMaskBottom",
@@ -115217,68 +115131,6 @@ var Card = /*#__PURE__*/function (_React$Component) {
 
   return Card;
 }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
-
-var CropCurrentImage = function CropCurrentImage(props) {
-  var state = props.state;
-  var scale = state.transform;
-  var csWidth = state.stageWidth;
-  var csHeight = Number(state.stageWidth / 2.39).toFixed();
-  var csstHeightScale = csHeight / state.stageHeight;
-  var maskHeightT = Number(state.maskHeight * csstHeightScale);
-  var stageRef = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])(null); // console.log("CropCurrentImage")
-  // console.log(csWidth/csHeight)
-
-  var imageThird = state.images[2];
-  var imageSecond = state.images[1];
-  var imageFirst = state.images[0]; // console.log("maskHeight" + state.maskHeight)
-
-  var handleExportClick = function handleExportClick() {
-    var uri = stageRef.getStage().toDataURL({
-      mimeType: "image/jpeg",
-      quality: 1
-    });
-    var link = document.createElement('a');
-    link.download = "cinema-scope.jpg";
-    link.href = uri;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link); // delete link;
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    style: {
-      height: "".concat(state.csDivHeight)
-    },
-    className: "col-sm-12 p-2 pl-lg-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Stage"], {
-    ref: function ref(node) {
-      stageRef = node;
-    },
-    width: state.stageWidth,
-    height: csHeight,
-    style: {
-      transformOrigin: "top left",
-      transform: "".concat(state.transform),
-      textAlign: "center"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Layer"], null, state.currentImage.image != undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_konva__WEBPACK_IMPORTED_MODULE_3__["Rect"], {
-    width: state.currentImage.width,
-    height: state.currentImage.height,
-    x: state.currentImage.x,
-    y: state.currentImage.y - state.maskHeight,
-    fillPatternImage: state.currentImage.image,
-    fillPatternScaleX: state.currentImage.scaleX,
-    fillPatternScaleY: state.currentImage.scaleY,
-    filPatternRepeat: "no-repeat",
-    draggable: false
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-    className: "btn btn-dark text-light mb-2 ",
-    style: downloadCss,
-    type: "button",
-    value: "DownLoad",
-    onClick: handleExportClick
-  }));
-};
 
 /* harmony default export */ __webpack_exports__["default"] = (Card);
 
