@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import {Link, BrowserRouter, Route, Switch} from 'react-router-dom'
 
 // import CinemaScope from './CinemaScope'
-import About from './About'
-import StageTest from './StageTest'
+import Frame from './Frame'
 import Card from './Card'
+import About from './About'
 
 const App = () => {
     return (
@@ -22,39 +22,19 @@ const App = () => {
                     フレーム
                 </Link>
 
-                <Link to="/card" className="btn btn-dark">
+                <Link to="/card" className="btn btn-dark ml-2">
                     カード
                 </Link>
               </div>
-{/*
-              <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                  <span className="navbar-toggler-icon"></span>
-              </button>
-
-              <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul className="navbar-nav mr-auto">
-                      <li className="nav-item">
-                        <Link to="/" className="nav-link">
-                            フレーム
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link to="/card" className="nav-link">
-                            カード
-                        </Link>
-                      </li>
-                  </ul>
-                </div>
-*/}
               </div>
-            </nav>
-            <main className="">
+          </nav>
+          <main className="">
             <Switch>
-                <Route path="/" exact component={StageTest} />
-                <Route path="/stage-test" exact component={StageTest} />
+                <Route path="/" exact component={Frame} />
+                <Route path="/frame" exact component={Frame} />
                 <Route path="/card" exact component={Card} />
             </Switch>
-            </main>
+          </main>
         </React.Fragment>
         </BrowserRouter>
     )
